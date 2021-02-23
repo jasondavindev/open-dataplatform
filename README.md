@@ -78,3 +78,7 @@ Ferramenta para armazenagem de dados em memória, tolerante a falhas utilizando-
 ### Apache Calcite
 
 Ferramenta para SQL Parser e API para construir expressões com Álgebra relacional para consultas em base de dados NoSQL.
+
+### Apache Parquet
+
+Formato colunar de armazenamento de dados.
