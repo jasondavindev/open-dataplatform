@@ -4,14 +4,14 @@
 
 ## Problema
 
-- Grande quantidades de dados
+- Grande volume de dados
 - Plataforma de dados
 - Custos
 
 ## Motivação
 
 - Aumento do fluxo e troca de informações
-- Grande quantidade de dados
+- Grande volume de dados
 - Decisões de negócio
 - Experiência personalizada para cada usuário
 - Problemas de arquitetura no mundo de hoje
@@ -27,29 +27,13 @@ Criar uma plataforma de dados com tecnologias preferencialmente open-source. Obj
 
 ## Tecnologias
 
-### Go
-
-Linguagem para soluções que envolvem programação concorrente, ferramente de linha de comaando.
-
-### Java
-
-Linguagem para soluções que envolvem integrações com Apache Kafka (facilidade e compatibilidade).
-
-### Docker
-
-Ferramenta para dockerização e computação em nuvem.
-
-### Kubernetes
-
-Ferramenta para orquestração de containers em nuvem.
-
 ### Amazon S3
 
 Serviço Object Storage para armazenagem de dados do Datalake.
 
 ### Apache Presto / Trino
 
-Ferramenta Query Engine para consulta em base de dados NoSQL.
+Ferramenta Query Engine para consulta em diferentes fontes de dados em uma única query.
 
 ### Apache Alluxio
 
@@ -77,7 +61,7 @@ Ferramenta para armazenagem de dados em memória, tolerante a falhas utilizando-
 
 ### Apache Calcite
 
-Ferramenta para SQL Parser e API para construir expressões com Álgebra relacional para consultas em base de dados NoSQL.
+Ferramenta para SQL Parser e API para construir expressões com Álgebra relacional para consultas em base de dados.
 
 ### Apache Parquet
 
