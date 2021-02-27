@@ -24,6 +24,10 @@
 
 Criar uma plataforma de dados com tecnologias preferencialmente open-source. Objetivo final é criar uma plataforma clickstream para análise de dados em tempo real para produtos de dados.
 
+## Arquitetura
+
+![Initial archtecture](./doc/images/architecture.png)
+
 ## Tecnologias
 
 ### Apache Spark
@@ -49,7 +53,3 @@ Ferramenta para análises em tempo real e histórica.
 ### HDFS
 
 Sistema de arquivos distribuído para volumes massivos de dados.
-
-## Arquitetura
-
-![Initial archtecture](./doc/images/architecture.png)
