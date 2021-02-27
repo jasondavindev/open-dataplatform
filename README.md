@@ -24,19 +24,11 @@
 
 Criar uma plataforma de dados com tecnologias preferencialmente open-source. Objetivo final é criar uma plataforma clickstream para análise de dados em tempo real para produtos de dados.
 
+## Arquitetura
+
+![Initial archtecture](./doc/images/architecture.png)
+
 ## Tecnologias
-
-### Apache HBase
-
-Data store não relacional, distribuído, orientado à coluna baseado na arquitetura BigTable da Google.
-
-### Apache Presto / Trino
-
-Ferramenta Query Engine para consulta em diferentes fontes de dados em uma única query.
-
-### Apache Alluxio
-
-Ferramenta para cacheamento de dados (redução significativa de custos).
 
 ### Apache Spark
 
@@ -54,6 +46,10 @@ Ferramenta para stream de dados com alta disponibilidade, distribuído, tolerant
 
 Formato colunar de armazenamento de dados.
 
-## Arquitetura
+### Apache Druid
 
-![Initial archtecture](./doc/images/architecture.png)
+Ferramenta para análises em tempo real e histórica.
+
+### HDFS
+
+Sistema de arquivos distribuído para volumes massivos de dados.
