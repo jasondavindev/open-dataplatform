@@ -5,7 +5,6 @@
 ## Problema
 
 - Grande volume de dados
-- Plataforma de dados
 - Custos
 
 ## Motivação
@@ -27,9 +26,9 @@ Criar uma plataforma de dados com tecnologias preferencialmente open-source. Obj
 
 ## Tecnologias
 
-### Amazon S3
+### Apache HBase
 
-Serviço Object Storage para armazenagem de dados do Datalake.
+Data store não relacional, distribuído, orientado à coluna baseado na arquitetura BigTable da Google.
 
 ### Apache Presto / Trino
 
@@ -47,22 +46,14 @@ Ferramenta para processamento massivo de dados em batch e stream.
 
 Ferramenta para gerenciamento de tarefas no sistema de DAGs (Direct Acyclic Graph).
 
-### Apache HBase
-
-Banco de dados não relacional, distribuído e versionado para armazenamento de dados massivos.
-
 ### Apache Kafka
 
 Ferramenta para stream de dados com alta disponibilidade, distribuído, tolerante a falhas.
 
-### Apache Arrow
-
-Ferramenta para armazenagem de dados em memória, tolerante a falhas utilizando-se de tecnicas modernas de transporte de dados.
-
-### Apache Calcite
-
-Ferramenta para SQL Parser e API para construir expressões com Álgebra relacional para consultas em base de dados.
-
 ### Apache Parquet
 
 Formato colunar de armazenamento de dados.
+
+## Arquitetura
+
+![Initial archtecture](./doc/images/architecture.png)
