@@ -11,3 +11,7 @@ https://www.xplenty.com/blog/presto-vs-hive/
 ## Hive vs Presto vs Spark
 
 https://www.janbasktraining.com/blog/how-to-compare-hive-spark-impala-and-presto/
+
+## HDFS
+
+https://medium.com/@dhammikasamankumara/what-is-hadoop-distributed-file-system-hdfs-36a3503f9c60
