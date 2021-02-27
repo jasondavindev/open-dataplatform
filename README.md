@@ -26,18 +26,6 @@ Criar uma plataforma de dados com tecnologias preferencialmente open-source. Obj
 
 ## Tecnologias
 
-### Apache HBase
-
-Data store não relacional, distribuído, orientado à coluna baseado na arquitetura BigTable da Google.
-
-### Apache Presto / Trino
-
-Ferramenta Query Engine para consulta em diferentes fontes de dados em uma única query.
-
-### Apache Alluxio
-
-Ferramenta para cacheamento de dados (redução significativa de custos).
-
 ### Apache Spark
 
 Ferramenta para processamento massivo de dados em batch e stream.
@@ -53,6 +41,14 @@ Ferramenta para stream de dados com alta disponibilidade, distribuído, tolerant
 ### Apache Parquet
 
 Formato colunar de armazenamento de dados.
+
+### Apache Druid
+
+Ferramenta para análises em tempo real e histórica.
+
+### HDFS
+
+Sistema de arquivos distribuído para volumes massivos de dados.
 
 ## Arquitetura
 
