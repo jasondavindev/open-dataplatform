@@ -1,6 +1,4 @@
-# Open Clickstream
-
-**Projeto de cunho acadêmico científico**
+# Open Data Platform
 
 ## Problema
 
@@ -22,7 +20,7 @@
 
 ## Solução
 
-Criar uma plataforma de dados com tecnologias preferencialmente open-source. Objetivo final é criar uma plataforma clickstream para análise de dados em tempo real para produtos de dados.
+Criar uma plataforma de dados com tecnologias preferencialmente open-source. Objetivo final é criar uma plataforma de dados capaz de suportar uma quantidade massiva de dados e ferramental para análises em tempo real e histórica.
 
 ## Arquitetura
 
