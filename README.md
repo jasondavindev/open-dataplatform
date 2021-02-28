@@ -53,3 +53,7 @@ Ferramenta para análises em tempo real e histórica.
 ### HDFS
 
 Sistema de arquivos distribuído para volumes massivos de dados.
+
+### Apache Superset / Metabase
+
+Plataforma moderna de exploração e visualização de dados.
