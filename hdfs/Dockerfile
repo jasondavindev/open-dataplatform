@@ -10,8 +10,8 @@ ENV HADOOP_VERSION=$version \
     PATH=$PATH:/opt/hadoop/bin \
     MULTIHOMED_NETWORK=1 \
     CLUSTER_NAME=hadoop \
-    HDFS_CONF_dfs_namenode_name_dir=file:///dfs/name \
-    HDFS_CONF_dfs_datanode_data_dir=file:///dfs/data \
+    HDFS_NAMENODE_NAME_DIR=file:///dfs/name \
+    HDFS_DATANODE_DATA_DIR=file:///dfs/data \
     USER=hdfs
 
 RUN apt-get update && apt-get install -y curl procps; \

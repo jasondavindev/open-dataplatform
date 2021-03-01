@@ -22,7 +22,7 @@ function check_directory() {
 case "$node_type" in
     (namenode)
         shift
-        namedir=${HDFS_CONF_dfs_namenode_name_dir#"file://"}
+        namedir=${HDFS_NAMENODE_NAME_DIR#"file://"}
         check_directory $namedir namenode
 
         if [ "`ls -A $namedir`" == "" ]; then
@@ -35,7 +35,7 @@ case "$node_type" in
 
     (datanode)
       shift
-        namedir=${HDFS_CONF_dfs_datanode_data_dir#"file://"}
+        namedir=${HDFS_DATANODE_DATA_DIR#"file://"}
         check_directory $namedir datanode
 
         $HADOOP_HOME/bin/hdfs --config $HADOOP_CONF_DIR datanode $@
