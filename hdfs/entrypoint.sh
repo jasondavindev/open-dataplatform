@@ -1,4 +1,10 @@
-export CORE_CONF_fs_defaultFS=${CORE_CONF_fs_defaultFS:-${HDFS_NAMENODE_URL:-hdfs://`hostname -I`:8020}}
+#!/bin/bash
+DK_HOSTNAME=$(hostname -A)
+export CORE_DEFAULT_FS_VALUE=${HDFS_NAMENODE_URL:-`printf "hdfs://%s:8020" $DK_HOSTNAME`}
+
+echo "Replacing core-site defaultFS=$CORE_DEFAULT_FS_VALUE"
+
+sed "s~CORE_DEFAULT_FS_VALUE~${CORE_DEFAULT_FS_VALUE}~g" /tmp/core-site.temp.xml > $HADOOP_CONF_DIR/core-site.xml
 
 node_type=$1
 
@@ -11,14 +17,13 @@ function check_directory() {
         echo "Creating not existing $node_type directory: $namedir"
         mkdir -p $namedir
     fi
-
-    echo $namedir
 }
 
 case "$node_type" in
     (namenode)
         shift
-        namedir=$(check_directory $HDFS_CONF_dfs_namenode_name_dir namenode)
+        namedir=${HDFS_CONF_dfs_namenode_name_dir#"file://"}
+        check_directory $namedir namenode
 
         if [ "`ls -A $namedir`" == "" ]; then
           echo "Formatting namenode name directory: $namedir"
@@ -30,7 +35,8 @@ case "$node_type" in
 
     (datanode)
       shift
-        check_directory $HDFS_CONF_dfs_datanode_data_dir namenode
+        namedir=${HDFS_CONF_dfs_datanode_data_dir#"file://"}
+        check_directory $namedir datanode
 
         $HADOOP_HOME/bin/hdfs --config $HADOOP_CONF_DIR datanode $@
       ;;

@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  namenode:
+    image: open-dataplatform-hdfs:latest
+    build:
+      context: .
+    volumes:
+      - datanode_vol:/dfs
+      - ./config/core-site.xml:/tmp/core-site.temp.xml
+      - ./config/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml
+      - ./config/yarn-site.xml:/opt/hadoop/etc/hadoop/yarn-site.xml
+      - ./config/mapred-site.xml:/opt/hadoop/etc/hadoop/mapred-site.xml
+    command:
+      - namenode
+    ports:
+      - 8020:8020
+      - 50070:50070
+      - 9870:9870
+    networks:
+      - hdfs
+  datanode:
+    image: open-dataplatform-hdfs:latest
+    build:
+      context: .
+    environment:
+      - HDFS_NAMENODE_URL=hdfs://namenode:8020
+    volumes:
+      - datanode_vol:/dfs
+      - ./config/core-site.xml:/tmp/core-site.temp.xml
+      - ./config/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml
+      - ./config/yarn-site.xml:/opt/hadoop/etc/hadoop/yarn-site.xml
+      - ./config/mapred-site.xml:/opt/hadoop/etc/hadoop/mapred-site.xml
+    command:
+      - datanode
+    networks:
+      - hdfs
+volumes:
+  datanode_vol:
+  namenode_vol:
+
+networks:
+  hdfs:
