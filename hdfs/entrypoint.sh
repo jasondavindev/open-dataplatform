@@ -4,7 +4,7 @@ export CORE_DEFAULT_FS_VALUE=${HDFS_NAMENODE_URL:-`printf "hdfs://%s:8020" $DK_H
 
 echo "Replacing core-site defaultFS=$CORE_DEFAULT_FS_VALUE"
 
-sed "s~CORE_DEFAULT_FS_VALUE~${CORE_DEFAULT_FS_VALUE}~g" /tmp/core-site.temp.xml > $HADOOP_CONF_DIR/core-site.xml
+sed -i "s~CORE_DEFAULT_FS_VALUE~${CORE_DEFAULT_FS_VALUE}~g" $HADOOP_CONF_DIR/core-site.xml
 
 node_type=$1
 

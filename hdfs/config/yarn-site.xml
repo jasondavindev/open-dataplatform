@@ -10,10 +10,6 @@
       <value>0.0.0.0</value>
    </property>
    <property>
-      <name>yarn.nodemanager.bind-host</name>
-      <value>0.0.0.0</value>
-   </property>
-   <property>
       <name>yarn.timeline-service.bind-host</name>
       <value>0.0.0.0</value>
    </property>

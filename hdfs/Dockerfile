@@ -32,6 +32,8 @@ RUN ln -s /opt/hadoop-$HADOOP_VERSION /opt/hadoop; \
 
 COPY entrypoint.sh /entrypoint.sh
 
+COPY config/* ${HADOOP_CONF_DIR}/
+
 RUN chmod +x /entrypoint.sh
 
 USER hdfs

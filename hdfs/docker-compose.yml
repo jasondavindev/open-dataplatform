@@ -7,10 +7,6 @@ services:
       context: .
     volumes:
       - datanode_vol:/dfs
-      - ./config/core-site.xml:/tmp/core-site.temp.xml
-      - ./config/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml
-      - ./config/yarn-site.xml:/opt/hadoop/etc/hadoop/yarn-site.xml
-      - ./config/mapred-site.xml:/opt/hadoop/etc/hadoop/mapred-site.xml
     command:
       - namenode
     ports:
@@ -27,10 +23,6 @@ services:
       - HDFS_NAMENODE_URL=hdfs://namenode:8020
     volumes:
       - datanode_vol:/dfs
-      - ./config/core-site.xml:/tmp/core-site.temp.xml
-      - ./config/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml
-      - ./config/yarn-site.xml:/opt/hadoop/etc/hadoop/yarn-site.xml
-      - ./config/mapred-site.xml:/opt/hadoop/etc/hadoop/mapred-site.xml
     command:
       - datanode
     networks:
