@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+   <!-- Site specific YARN configuration properties -->
+   <property>
+      <name>yarn.resourcemanager.bind-host</name>
+      <value>0.0.0.0</value>
+   </property>
+   <property>
+      <name>yarn.nodemanager.bind-host</name>
+      <value>0.0.0.0</value>
+   </property>
+   <property>
+      <name>yarn.timeline-service.bind-host</name>
+      <value>0.0.0.0</value>
+   </property>
+</configuration>

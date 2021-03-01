@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  namenode:
+    image: open-dataplatform-hdfs:latest
+    build:
+      context: .
+    volumes:
+      - datanode_vol:/dfs
+    command:
+      - namenode
+    ports:
+      - 8020:8020
+      - 50070:50070
+      - 9870:9870
+    networks:
+      - hdfs
+  datanode:
+    image: open-dataplatform-hdfs:latest
+    build:
+      context: .
+    environment:
+      - HDFS_NAMENODE_URL=hdfs://namenode:8020
+    volumes:
+      - datanode_vol:/dfs
+    command:
+      - datanode
+    networks:
+      - hdfs
+volumes:
+  datanode_vol:
+  namenode_vol:
+
+networks:
+  hdfs:
