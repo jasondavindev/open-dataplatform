@@ -26,6 +26,16 @@ RUN tar -xzvf ${TAR_FILE} -C /opt; \
 WORKDIR /opt/spark
 
 ENV SPARK_HOME=/opt/spark
+ENV PATH="${PATH}:${SPARK_HOME}/bin"
+
+# hadoop setup
+
+ENV HADOOP_HOME=/opt/hadoop
+ENV HADOOP_CONF_DIR=${HADOOP_HOME}/conf
+
+RUN mkdir -p ${HADOOP_CONF_DIR}
+
+COPY config/* ${HADOOP_CONF_DIR}/
 
 COPY entrypoint.sh /entrypoint.sh
 

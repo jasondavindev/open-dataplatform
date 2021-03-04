@@ -27,3 +27,8 @@ services:
     environment:
       SPARK_WORKER_WEBUI_PORT: 8081
       SPARK_MASTER_URL: spark-master:7077
+
+networks:
+  default:
+    external:
+      name: dataplatform_default
