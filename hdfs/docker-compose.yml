@@ -16,8 +16,6 @@ services:
       - 8020:8020
       - 50070:50070
       - 9870:9870
-    # networks:
-      # - dataplatform
 
   datanode:
     image: open-dataplatform-hdfs:latest
@@ -30,8 +28,6 @@ services:
       - datanode_vol:/dfs
     command:
       - datanode
-    # networks:
-    #   - dataplatform
 volumes:
   datanode_vol:
   namenode_vol:
