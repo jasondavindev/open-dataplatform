@@ -39,7 +39,12 @@ COPY config/* ${HADOOP_CONF_DIR}/
 
 COPY entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh; \
+    groupadd -g 114 -r hadoop; \
+    useradd -u 201 --shell /bin/bash -Mr --groups hadoop -d /opt/spark spark; \
+    chown -LR spark:hadoop /opt/spark
+
+USER spark
 
 EXPOSE 7077 6066
 

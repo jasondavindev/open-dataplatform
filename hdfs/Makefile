@@ -11,3 +11,6 @@ rm:
 
 cat:
 	${dk_prefix} -cat ${dir}
+
+chown:
+	${dk_prefix} -chown ${user} ${dir}
