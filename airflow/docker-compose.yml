@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: airflow_db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_USER: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - ./tmp/postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  airflow:
+    container_name: airflow
+    build:
+      context: .
+      args:
+        SPARK_IMAGE: open-dataplatform-spark
+    image: open-dataplatform-airflow
+    command: bash -c "airflow scheduler & airflow webserver -p 9090 --debug"
+    depends_on:
+      - db
+    ports:
+      - "8793:8793"
+      - "9090:9090"
+    volumes:
+      - ./airflow.cfg:/opt/airflow/airflow.cfg
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+
+networks:
+  default:
+    external:
+      name: dataplatform_default
