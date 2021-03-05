@@ -53,7 +53,7 @@ RUN pip install -r ${AIRFLOW_HOME}/requirements.txt; \
 
 COPY entrypoint.sh /entrypoint.sh
 
-COPY airflow.cfg ${AIRFLOW_HOME}
+COPY config/airflow.cfg ${AIRFLOW_HOME}
 
 COPY bootstrap ${AIRFLOW_HOME}/bootstrap
 

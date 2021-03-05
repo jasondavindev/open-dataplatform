@@ -28,7 +28,7 @@ services:
       - "8793:8793"
       - "9090:9090"
     volumes:
-      - ./airflow.cfg:/opt/airflow/airflow.cfg
+      - ./config/airflow.cfg:/opt/airflow/airflow.cfg
     environment:
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
