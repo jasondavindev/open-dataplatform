@@ -18,9 +18,16 @@ wait_for_port "Postgres" ${POSTGRES_HOST} ${POSTGRES_PORT}
 
 airflow db init
 
+# variables
 echo "{
     }" > variables.json
 
 airflow variables import variables.json
+
+# connections
+airflow connections add spark --conn-type=spark --conn-host=spark-master --conn-port=7077 --conn-extra='{"queue": "root.default","master":"spark://spark-master:7077","spark_binary": "spark-submit"}' &
+wait
+
+airflow db upgrade
 
 echo "Environment is ready"

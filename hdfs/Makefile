@@ -13,4 +13,7 @@ cat:
 	${dk_prefix} -cat ${dir}
 
 chown:
-	${dk_prefix} -chown ${user} ${dir}
+	${dk_prefix} -chown ${flags} ${user} ${dir}
+
+cpFromLocal:
+	${dk_prefix} -copyFromLocal ${source} ${target}

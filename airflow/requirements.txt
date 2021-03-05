@@ -1,2 +1,2 @@
-psycopg2-binary
-psycopg2
+apache-airflow-providers-apache-spark==1.0.1
+kubernetes==12.0.1
