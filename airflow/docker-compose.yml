@@ -30,6 +30,7 @@ services:
     volumes:
       - ./config/airflow.cfg:/opt/airflow/airflow.cfg
       - ./dags:/opt/airflow/dags
+      - ./plugins:/opt/airflow/plugins
     environment:
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432

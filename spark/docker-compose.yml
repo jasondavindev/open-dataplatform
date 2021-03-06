@@ -16,6 +16,7 @@ services:
       SPARK_MASTER_WEBUI_PORT: 8080
     volumes:
       - ./example/scripts:/scripts
+      - ./scripts:/opt/spark/scripts
 
   spark-worker-1:
     container_name: spark-worker-1
