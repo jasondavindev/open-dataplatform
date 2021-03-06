@@ -8,6 +8,7 @@ services:
       context: .
     volumes:
       - datanode_vol:/dfs
+      - ./config/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml
     command:
       - namenode
     environment:

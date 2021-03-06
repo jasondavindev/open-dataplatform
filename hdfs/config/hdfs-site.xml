@@ -33,4 +33,8 @@
       <name>dfs.datanode.use.datanode.hostname</name>
       <value>true</value>
    </property>
+   <property> 
+      <name>dfs.webhdfs.enabled</name> 
+      <value>true</value> 
+   </property> 
 </configuration>

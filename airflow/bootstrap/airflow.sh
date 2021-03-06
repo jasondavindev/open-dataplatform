@@ -25,7 +25,9 @@ echo "{
 airflow variables import variables.json
 
 # connections
-airflow connections add spark --conn-type=spark --conn-host=spark-master --conn-port=7077 --conn-extra='{"queue": "root.default","master":"spark://spark-master:7077","spark_binary": "spark-submit"}' &
+airflow connections add spark --conn-type=spark --conn-host=spark://spark-master:7077 --conn-extra='{"queue": "root.default","master":"spark://spark-master:7077","spark_binary": "spark-submit"}' &
+airflow connections add hdfs_http --conn-type=http --conn-host=namenode --conn-port=9870 &
+airflow connections add hdfs --conn-type=hdfs --conn-host=namenode:8020 &
 wait
 
 airflow db upgrade
