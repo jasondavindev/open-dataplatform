@@ -4,7 +4,7 @@ ls:
 	${dk_prefix} -ls ${dir}
 
 mkdir:
-	${dk_prefix} -mkdir ${dir}
+	${dk_prefix} -mkdir ${flags} ${dir}
 
 rm:
 	${dk_prefix} -rm ${dir}
