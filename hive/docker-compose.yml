@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:9.4
+    container_name: hive-postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./tmp/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: hive
+      POSTGRES_USER: hive
+      POSTGRES_DB: metastore
+
+  hive:
+    build: .
+    image: open-dataplatform-hive
+    container_name: hive
+    command: hiveserver2 --hiveconf hive.server2.enable.doAs=false
+    depends_on:
+      - postgres
+    volumes:
+      - ./config/core-site.xml:/opt/hive/conf/core-site.xml
+      - ./config/hive-site.xml:/opt/hive/conf/hive-site.xml
+      - ./config/hive-log4j2.properties:/opt/hive/conf/hive-log4j2.properties
+      - ./config/hive-exec-log4j2.properties:/opt/hive/conf/hive-exec-log4j2.properties
+    ports:
+      - 10000:10000
+
+  hive-metastore:
+    build: .
+    image: open-dataplatform-hive
+    container_name: hive-metastore
+    command: hive --service metastore
+    depends_on:
+      - postgres
+    volumes:
+      - ./config/core-site.xml:/opt/hive/conf/core-site.xml
+      - ./config/hive-site.xml:/opt/hive/conf/hive-site.xml
+      - ./config/hive-log4j2.properties:/opt/hive/conf/hive-log4j2.properties
+      - ./config/hive-exec-log4j2.properties:/opt/hive/conf/hive-exec-log4j2.properties
+    ports:
+      - 9083:9083
+
+networks:
+  default:
+    external:
+      name: dataplatform_default
