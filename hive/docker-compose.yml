@@ -2,31 +2,33 @@ version: "3.8"
 
 services:
   postgres:
-    image: postgres:9.4
+    # image: bde2020/hive-metastore-postgresql:3.1.0
+    image: bde2020/hive-metastore-postgresql:2.3.0
     container_name: hive-postgres
     ports:
       - 5432:5432
     volumes:
       - ./tmp/postgres:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: hive
-      POSTGRES_USER: hive
-      POSTGRES_DB: metastore
 
   hive:
     build: .
     image: open-dataplatform-hive
     container_name: hive
-    command: hiveserver2 --hiveconf hive.server2.enable.doAs=false
+    command: hiveserver2
     depends_on:
       - postgres
     volumes:
-      - ./config/core-site.xml:/opt/hive/conf/core-site.xml
       - ./config/hive-site.xml:/opt/hive/conf/hive-site.xml
       - ./config/hive-log4j2.properties:/opt/hive/conf/hive-log4j2.properties
       - ./config/hive-exec-log4j2.properties:/opt/hive/conf/hive-exec-log4j2.properties
+      - ./config/beeline-log4j2.properties:/opt/hive/conf/beeline-log4j2.properties
+      - ./config/ivysettings.xml:/opt/hive/conf/ivysettings.xml
+      - ./config/llap-daemon-log4j2.properties:/opt/hive/conf/llap-daemon-log4j2.properties
+      - ./config/core-site.xml:/opt/hive/conf/core-site.xml
     ports:
       - 10000:10000
+    environment:
+      SERVICE_PRECONDITION: 'hive-metastore:9083'
 
   hive-metastore:
     build: .
@@ -36,12 +38,17 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./config/core-site.xml:/opt/hive/conf/core-site.xml
       - ./config/hive-site.xml:/opt/hive/conf/hive-site.xml
       - ./config/hive-log4j2.properties:/opt/hive/conf/hive-log4j2.properties
       - ./config/hive-exec-log4j2.properties:/opt/hive/conf/hive-exec-log4j2.properties
+      - ./config/beeline-log4j2.properties:/opt/hive/conf/beeline-log4j2.properties
+      - ./config/ivysettings.xml:/opt/hive/conf/ivysettings.xml
+      - ./config/llap-daemon-log4j2.properties:/opt/hive/conf/llap-daemon-log4j2.properties
+      - ./config/core-site.xml:/opt/hive/conf/core-site.xml
     ports:
       - 9083:9083
+    environment:
+      SERVICE_PRECONDITION: 'postgres:5432 namenode:50070 datanode:50075'
 
 networks:
   default:

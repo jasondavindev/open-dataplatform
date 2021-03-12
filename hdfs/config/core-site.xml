@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
-<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <!--
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,16 +17,16 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
-    <property>
-        <name>fs.defaultFS</name>
-        <value>CORE_DEFAULT_FS_VALUE</value>
-    </property>
-    <property>
-        <name>hadoop.proxyuser.hue.groups</name>
-        <value>*</value>
-    </property>
-    <property>
-        <name>hadoop.proxyuser.hue.hosts</name>
-        <value>*</value>
-    </property>
+  <property>
+    <name>fs.defaultFS</name>
+    <value>CORE_DEFAULT_FS_VALUE</value>
+  </property>
+  <property>
+    <name>hadoop.proxyuser.hue.groups</name>
+    <value>*</value>
+  </property>
+  <property>
+    <name>hadoop.proxyuser.hue.hosts</name>
+    <value>*</value>
+  </property>
 </configuration>
