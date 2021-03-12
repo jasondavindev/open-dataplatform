@@ -14,9 +14,7 @@ services:
     environment:
       - HDFS_NAMENODE_URL=hdfs://namenode:8020
     ports:
-      - 8020:8020
       - 50070:50070
-      - 9870:9870
 
   datanode:
     image: open-dataplatform-hdfs:latest
@@ -27,8 +25,11 @@ services:
       - HDFS_NAMENODE_URL=hdfs://namenode:8020
     volumes:
       - datanode_vol:/dfs
+      - ./config/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml
     command:
       - datanode
+    ports:
+      - 50075:50075
 volumes:
   datanode_vol:
   namenode_vol:

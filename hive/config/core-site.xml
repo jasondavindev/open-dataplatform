@@ -19,7 +19,7 @@
 <configuration>
   <property>
     <name>fs.defaultFS</name>
-    <value>CORE_DEFAULT_FS_VALUE</value>
+    <value>hdfs://namenode:8020</value>
   </property>
   <property>
     <name>hadoop.proxyuser.hue.groups</name>

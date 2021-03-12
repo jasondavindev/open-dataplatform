@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  postgres:
+    # image: bde2020/hive-metastore-postgresql:3.1.0
+    image: bde2020/hive-metastore-postgresql:2.3.0
+    container_name: hive-postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./tmp/postgres:/var/lib/postgresql/data
+
+  hive:
+    build: .
+    image: open-dataplatform-hive
+    container_name: hive
+    command: hiveserver2
+    depends_on:
+      - postgres
+    volumes:
+      - ./config/hive-site.xml:/opt/hive/conf/hive-site.xml
+      - ./config/hive-log4j2.properties:/opt/hive/conf/hive-log4j2.properties
+      - ./config/hive-exec-log4j2.properties:/opt/hive/conf/hive-exec-log4j2.properties
+      - ./config/beeline-log4j2.properties:/opt/hive/conf/beeline-log4j2.properties
+      - ./config/ivysettings.xml:/opt/hive/conf/ivysettings.xml
+      - ./config/llap-daemon-log4j2.properties:/opt/hive/conf/llap-daemon-log4j2.properties
+      - ./config/core-site.xml:/opt/hive/conf/core-site.xml
+    ports:
+      - 10000:10000
+    environment:
+      SERVICE_PRECONDITION: 'hive-metastore:9083'
+
+  hive-metastore:
+    build: .
+    image: open-dataplatform-hive
+    container_name: hive-metastore
+    command: hive --service metastore
+    depends_on:
+      - postgres
+    volumes:
+      - ./config/hive-site.xml:/opt/hive/conf/hive-site.xml
+      - ./config/hive-log4j2.properties:/opt/hive/conf/hive-log4j2.properties
+      - ./config/hive-exec-log4j2.properties:/opt/hive/conf/hive-exec-log4j2.properties
+      - ./config/beeline-log4j2.properties:/opt/hive/conf/beeline-log4j2.properties
+      - ./config/ivysettings.xml:/opt/hive/conf/ivysettings.xml
+      - ./config/llap-daemon-log4j2.properties:/opt/hive/conf/llap-daemon-log4j2.properties
+      - ./config/core-site.xml:/opt/hive/conf/core-site.xml
+    ports:
+      - 9083:9083
+    environment:
+      SERVICE_PRECONDITION: 'postgres:5432 namenode:50070 datanode:50075'
+
+networks:
+  default:
+    external:
+      name: dataplatform_default
