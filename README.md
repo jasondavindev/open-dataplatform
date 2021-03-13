@@ -55,3 +55,11 @@ Sistema de arquivos distribuído para volumes massivos de dados.
 ### Apache Superset / Metabase
 
 Plataforma moderna de exploração e visualização de dados.
+
+### Apache Trino
+
+TO DO
+
+### Apache Hive
+
+TO DO
