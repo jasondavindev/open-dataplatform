@@ -23,3 +23,11 @@ https://medium.com/swlh/apache-druid-the-sine-qua-non-of-contemporary-big-data-a
 https://medium.com/superawesome-engineering/how-we-use-apache-druids-real-time-analytics-to-power-kidtech-at-superawesome-8da6a0fb28b1
 
 https://medium.com/gumgum-tech/optimized-real-time-analytics-using-spark-streaming-and-apache-druid-d872a86ed99d
+
+## Hive vs HBase
+
+https://www.xplenty.com/blog/hive-vs-hbase/#:~:text=Hive%20and%20HBase%20are%20two,HBase%20for%20real%2Dtime%20querying.
+
+## Streaming Data loading
+
+https://blogs.oracle.com/datawarehousing/data-loading-into-hdfs-part3-streaming-data-loading
