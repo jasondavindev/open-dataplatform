@@ -18,7 +18,7 @@ O objetivo geral deste trabalho é desenvolver uma plataforma capaz de extrair, 
 Para a realização deste trabalho foram estabelecidos alguns objetivos específicos:
 
 - Utilizar técnicas modernas de processamento e armazenamento de dados
-- Aproveitar ferramentas open-source que auxiliam na construção de uma plataforma de dados
+- Aproveitar-se de ferramentas open-source que auxiliam na construção de uma plataforma de dados e a minimização de custos
 - Prover uma plataforma extensível e personalizável
 - Disponibilizar uma plataforma base que proporcione ao usuário a construção de um produto de dados
 
