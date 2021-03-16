@@ -21,5 +21,7 @@ Para a realização deste trabalho foram estabelecidos alguns objetivos específ
 - Aproveitar-se de ferramentas open-source que auxiliam na construção de uma plataforma de dados e a minimização de custos
 - Prover uma plataforma extensível e personalizável
 - Disponibilizar uma plataforma base que proporcione ao usuário a construção de um produto de dados
+- Prover uma plataforma de dados capaz de fazer análises históricos e em tempo real
+- Criar uma ferramenta de ingestão capaz de coletar dados em tempo real
 
 ## Fundamentação técnica
