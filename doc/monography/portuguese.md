@@ -11,4 +11,15 @@ O processamento de quantidades massivas de dados lida com alguns aspectos não t
 
 Hoje no mercado existem ferramentas e serviços disponíveis capazes de proporcionar ambientes auto-gerenciáveis que disponibilizam uma plataforma com alta disponibilidade, segura, normalmente tolerante a falhas entre outros aspectos. Porém, tais soluções envolvem altos custos de gerenciamento e suporte e, que também limita a capacidade do usuário em extender ou personalizar uma solução, permitindo somente integrar ferramentas gerenciadas pela própria provedora do serviço ou plataforma.
 
+### Objetivos do trabalho
+
+O objetivo geral deste trabalho é desenvolver uma plataforma capaz de extrair, transformar e armazenar dados de forma moderna e robusta.
+
+Para a realização deste trabalho foram estabelecidos alguns objetivos específicos:
+
+- Utilizar técnicas modernas de processamento e armazenamento de dados
+- Aproveitar ferramentas open-source que auxiliam na construção de uma plataforma de dados
+- Prover uma plataforma extensível e personalizável
+- Disponibilizar uma plataforma base que proporcione ao usuário a construção de um produto de dados
+
 ## Fundamentação técnica
