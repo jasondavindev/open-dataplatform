@@ -24,6 +24,12 @@ curl -X POST localhost:7777/event/topic-example -d  \
 -H 'Content-Type: application/json'
 ```
 
+To view the topic events, go to the [Kafka Makefile](../kafka/Makefile) and calls
+
+```bash
+make consume_topic topic=topic-example
+```
+
 ## Development mode
 
 Using the [Nodemon](https://www.npmjs.com/package/nodemon)
