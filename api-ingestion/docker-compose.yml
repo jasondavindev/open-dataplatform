@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: open-dataplatform-api
+    container_name: api-ingestion
+    environment:
+      PORT: 7777
+      BROKERS: broker:29092
+      SCHEMA_REGISTRY_ADDRESSES: http://schema-registry:8081
+      ENV: release
+    volumes:
+      - $PWD:/app
+    ports:
+      - 7777:7777
+
+networks:
+  default:
+    external:
+      name: dataplatform_default
