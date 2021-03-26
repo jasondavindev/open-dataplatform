@@ -1,3 +1,5 @@
+#!/bin/bash
+
 curl -i -X PUT http://localhost:8083/connectors/SINK_HDFS/config \
     -H "Content-Type: application/json" \
     -d '{

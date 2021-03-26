@@ -11,9 +11,7 @@ Primally, must be register the schema on schema registry. For this, starts the [
 Calls schema registry subject registration endpoint
 
 ```bash
-curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" \
-    --data '{"schema":"{\"type\":\"record\",\"name\":\"Example\",\"fields\":[{\"name\":\"key\",\"type\":\"string\"},{\"name\":\"value\",\"type\":\"string\"}]}"}' \
-    http://localhost:8081/subjects/topic-example-value/versions
+sh create_topic_example_schema.sh
 ```
 
 And then calls the api to send events to Kafka
@@ -30,10 +28,16 @@ To view the topic events, go to the [Kafka Makefile](../kafka/Makefile) and call
 make consume_topic topic=topic-example
 ```
 
-## Development mode
+## Data stream to HDFS
 
-Using the [Nodemon](https://www.npmjs.com/package/nodemon)
+In the Kafka modules, has been created a Kafka Connect to transfer data from Kafka topics to HDFS. The format used in the flow is Apache Avro (from Kafka) to Apache Parquet (to HDFS).
+
+To create complete setup, it's required run the scripts below
 
 ```bash
-nodemon -w . -e go --exec "sh start.sh"
+sh create_topic_example_schema.sh # creates the schema on schmea registry
+sh create_kafka_folders.sh # creates the necessary folders on HDFS
+sh create_hdfs_connector.sh # instantiate the HDFS connector to stream kafka data to HDFS
 ```
+
+And then, calls the API to send events.

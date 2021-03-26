@@ -63,7 +63,10 @@ services:
       KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
 
   connect:
-    image: confluentinc/cp-kafka-connect:6.1.1
+    image: open-dataplatform-kafka-connect
+    build:
+      context: .
+      dockerfile: connect.Dockerfile
     hostname: connect
     container_name: connect
     depends_on:
@@ -88,16 +91,6 @@ services:
       CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
-    command:
-      - /bin/bash
-      - -c
-      - |
-        mkdir -p /usr/share/java/kafka-connect-hdfs-10.0.1
-        curl https://packages.confluent.io/maven/io/confluent/kafka-connect-hdfs/10.0.1/kafka-connect-hdfs-10.0.1.jar -o /usr/share/java/kafka-connect-hdfs-10.0.1/kafka-connect-hdfs-10.0.1.jar
-        /etc/confluent/docker/run
-
-    volumes:
-      - ./connectors/confluentinc-kafka-connect-hdfs-10.0.2:/usr/share/java/confluentinc-kafka-connect-hdfs-10.0.2
 
 networks:
   default:
