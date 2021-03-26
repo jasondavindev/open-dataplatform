@@ -24,7 +24,7 @@ Criar uma plataforma de dados com tecnologias preferencialmente open-source. Obj
 
 ## Arquitetura
 
-![Initial archtecture](./doc/images/architecture.png)
+![Initial archtecture](./doc/images/architecture.jpeg)
 
 ## Tecnologias
 
