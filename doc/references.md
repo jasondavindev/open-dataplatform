@@ -31,3 +31,7 @@ https://www.xplenty.com/blog/hive-vs-hbase/#:~:text=Hive%20and%20HBase%20are%20t
 ## Streaming Data loading
 
 https://blogs.oracle.com/datawarehousing/data-loading-into-hdfs-part3-streaming-data-loading
+
+## Kafka Connectors
+
+https://towardsdatascience.com/kafka-for-your-data-pipeline-why-not-5a14b50efe7f
