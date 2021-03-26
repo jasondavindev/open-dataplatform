@@ -3,7 +3,6 @@ package main
 import (
 	"io/ioutil"
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jasondavindev/open-dataplatform/cmd/common"
@@ -11,24 +10,24 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var kafkaServers = []string{"localhost:9092"}
-var schemaRegistryServers = []string{"http://localhost:8081"}
+var kafkaServers = []string{"broker:29092"}
+var schemaRegistryServers = []string{"http://schema-registry:8081"}
 
 func main() {
 	godotenv.Load()
 
+	config := common.CreateConfig()
+
 	router := gin.Default()
 
-	router.POST("/event/:event", sendEventHandler())
+	router.POST("/event/:event", sendEventHandler(config))
 
-	PORT := os.Getenv("PORT")
-
-	router.Run(":" + PORT)
+	router.Run(":" + config.Port)
 }
 
-func sendEventHandler() func(c *gin.Context) {
-	schemaRegistryModule := common.NewSchemaRegistryModule()
-	producer := mkafka.CreateProducer(kafkaServers, schemaRegistryServers)
+func sendEventHandler(cfg *common.Config) func(c *gin.Context) {
+	schemaRegistryModule := common.NewSchemaRegistryModule(cfg)
+	producer := mkafka.CreateProducer(cfg.Brokers, cfg.SchemaRegistryAddresses)
 
 	return func(c *gin.Context) {
 		body, _ := ioutil.ReadAll(c.Request.Body)

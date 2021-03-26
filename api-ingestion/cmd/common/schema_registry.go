@@ -12,7 +12,8 @@ type SchemaRegistrySubjectResponse struct {
 }
 
 type SchemaRegistryModule struct {
-	schemas map[string]string
+	schemas   map[string]string
+	addresses []string
 }
 
 func (t *SchemaRegistryModule) GetSchema(topicName string) string {
@@ -22,7 +23,10 @@ func (t *SchemaRegistryModule) GetSchema(topicName string) string {
 
 	fmt.Printf("[REQUEST] Finding the schema for subject %s\n", topicName)
 
-	url := fmt.Sprintf("http://localhost:8081/subjects/%s-value/versions/latest", topicName)
+	url := fmt.Sprintf("%s/subjects/%s-value/versions/latest",
+		t.addresses[0],
+		topicName)
+
 	response, err := http.Get(url)
 
 	if err != nil {
@@ -42,6 +46,9 @@ func (t *SchemaRegistryModule) GetSchema(topicName string) string {
 	return t.schemas[topicName]
 }
 
-func NewSchemaRegistryModule() SchemaRegistryModule {
-	return SchemaRegistryModule{schemas: map[string]string{}}
+func NewSchemaRegistryModule(cfg *Config) SchemaRegistryModule {
+	return SchemaRegistryModule{
+		schemas:   map[string]string{},
+		addresses: cfg.SchemaRegistryAddresses,
+	}
 }
