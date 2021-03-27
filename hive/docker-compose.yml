@@ -13,9 +13,10 @@ services:
     build: .
     image: open-dataplatform-hive
     container_name: hive
-    command: hiveserver2
+    command:
+      - sh /start_server.sh
     depends_on:
-      - postgres
+      - hive-metastore
     volumes:
       - ./config/hive-site.xml:/opt/hive/conf/hive-site.xml
       - ./config/hive-log4j2.properties:/opt/hive/conf/hive-log4j2.properties
@@ -24,6 +25,7 @@ services:
       - ./config/ivysettings.xml:/opt/hive/conf/ivysettings.xml
       - ./config/llap-daemon-log4j2.properties:/opt/hive/conf/llap-daemon-log4j2.properties
       - ./config/core-site.xml:/opt/hive/conf/core-site.xml
+      - ./scripts/start_server.sh:/start_server.sh
     ports:
       - 10000:10000
       - 10002:10002
