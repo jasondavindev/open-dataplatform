@@ -30,36 +30,29 @@ Criar uma plataforma de dados com tecnologias preferencialmente open-source. Obj
 
 ### Apache Spark
 
-Ferramenta para processamento massivo de dados em batch e stream.
+Ferramenta para processamento de dados em batch e stream.
 
 ### Apache Airflow
 
-Ferramenta para gerenciamento de tarefas no sistema de DAGs (Direct Acyclic Graph).
+Ferramenta para gerenciamento de tarefas ETL usando DAGs (Direct Acyclic Graph).
 
 ### Apache Kafka
 
-Ferramenta para stream de dados com alta disponibilidade, distribuído, tolerante a falhas.
+Ferramenta message broker para transmissão de eventos/mensagens de modo distribuído.
 
 ### Apache Parquet
 
 Formato colunar de armazenamento de dados.
 
-### Apache Druid
-
-Ferramenta para análises em tempo real e histórica.
-
 ### HDFS
 
-Sistema de arquivos distribuído para volumes massivos de dados.
+Sistema de arquivos distribuído do eco sistema Hadoop.
 
-### Apache Superset / Metabase
 
-Plataforma moderna de exploração e visualização de dados.
+### Apache Trino (ou PrestoDB)
 
-### Apache Trino
+Ferramenta Query Engina - para operações DML em bases não SQL.
 
-TO DO
+### Apache Hive Metastore
 
-### Apache Hive
-
-TO DO
+Ferramenta para armazenamento de metadados de arquivos no HDFS. Para armazenamento do schema, partições etc.
