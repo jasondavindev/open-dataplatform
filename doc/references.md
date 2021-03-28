@@ -35,3 +35,11 @@ https://blogs.oracle.com/datawarehousing/data-loading-into-hdfs-part3-streaming-
 ## Kafka Connectors
 
 https://towardsdatascience.com/kafka-for-your-data-pipeline-why-not-5a14b50efe7f
+
+## Snowflake Data platform
+
+https://www.analytics.today/blog/what-is-the-snowflake-cloud-data-platform
+
+## Lakehouse
+
+http://cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf
