@@ -36,12 +36,14 @@ To create complete setup, it's required run the scripts below
 
 ```bash
 sh ../hive/scripts/create_folders.sh # create hive folders
-sh scripts/create_hive_table.sh # creates hive table
 sh scripts/create_topic_example_schema.sh # creates the schema on schmea registry
 sh scripts/create_kafka_folders.sh # creates the necessary folders on HDFS
 sh scripts/create_hdfs_connector.sh # instantiate the HDFS connector to stream kafka data to HDFS
 ```
 
-**Give permissions if needed**
+To stream new topics to HDFS
+
+- Creates the schema on schema registry
+- Appends topic name to `topics` field on connector config file
 
 And then, calls the API to send the events.

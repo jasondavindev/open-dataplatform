@@ -1,4 +1,8 @@
-# What is
+# Hive and Hive metastore
+
+The Hive metastore is used to store the metadata (e.g. table schema and partitions). The data stored by Kafka connector and Spark scripts are in Parquet format.
+
+## What is
 
 Hive module is the module contain
 
@@ -6,18 +10,12 @@ Hive module is the module contain
 - Hive metastore to store metadata of tables and databases
 - Hue for friendly user interface to manage hive
 
-# How to run
+## How to run
 
-Creates the necessary folders on HDFS
-
-```bash
-sh scripts/create_folders.sh
-```
-
-And start docker containers
+Start up the containers
 
 ```bash
 docker-compose up
 ```
 
-**Obs**: if you need only hive metastore, then starts with `docker-compose up hive-metastore`. For the Kafka connector and Trino read the entities of Hive, only the Hive metastore is necessary.
+**Obs**: For the project workflow, starts only the hive metastore container. The Hive it is a data warehouse component and not is necessary. To query the data, Trino is used.
