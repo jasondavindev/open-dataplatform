@@ -43,3 +43,7 @@ https://www.analytics.today/blog/what-is-the-snowflake-cloud-data-platform
 ## Lakehouse
 
 http://cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf
+
+## Data Lakehouse and Apache Hudi explanation
+
+https://medium.com/slalom-build/data-lakehouse-building-the-next-generation-of-data-lakes-using-apache-hudi-41550f62f5f
