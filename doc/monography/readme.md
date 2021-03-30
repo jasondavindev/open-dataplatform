@@ -45,6 +45,12 @@ Referência: https://www.redhat.com/en/topics/data-storage/what-is-a-data-lake
 
 ### Big Data
 
+Big Data refere-se à manipulação ou gerenciamento de uma larga quantidade de dados ou de dados muito complexos. Big Data tornou-se conhecido pelos "3 Vs" de variedade, velocidade e volume. Volume refere-se à quantidade massiva de dados, variedade à ampla gama de formatos não padronizados, volume refere-se à necessidade de processar com rapidez e eficiência.
+
+O principal objetivo de Big Data é ofecer informações em tempo real que podem ser usadas para alavancar a estratégia da organização. O processamento de informações em tempo real é o principal objetivo das organizações que buscam agregar valor aos seus clientes de forma consistente e contínua, o que se encaixa em um dos pilares de computação de ponta.
+
+Referência: https://www.redhat.com/en/topics/big-data
+
 ### ETL
 
 ### Análise de Dados
