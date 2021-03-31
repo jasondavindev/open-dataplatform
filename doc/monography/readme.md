@@ -53,4 +53,11 @@ Referência: https://www.redhat.com/en/topics/big-data
 
 ### ETL
 
-### Análise de Dados
+### Airflow
+
+### Spark
+
+### HDFS
+
+### Kafka
+
