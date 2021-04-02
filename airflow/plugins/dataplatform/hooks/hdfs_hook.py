@@ -11,5 +11,17 @@ class HDFSHook(BaseHook):
         conn_uri = conn.get_uri()
         self.client = InsecureClient(conn_uri, user=user)
 
-    def get_client(self):
+    def __get_client(self):
         return self.client
+
+    def put(
+            self,
+            path='',
+            data={},
+            overwrite=True,
+            encoding='utf-8'):
+        return self.__get_client().write(
+            hdfs_path=path,
+            data=data,
+            overwrite=overwrite,
+            encoding=encoding)
