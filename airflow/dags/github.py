@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import requests
 from hdfs import InsecureClient
 from json import dump, dumps
-from dataplatform.operators.github_operator import GitHubToHDFSOperator
+from dataplatform.operators.github.github_operator import GitHubToHDFSOperator
 from airflow.contrib.operators.spark_submit_operator import SparkSubmitOperator
 
 HDFS_URI = 'hdfs://namenode:8020'
@@ -34,7 +34,7 @@ with DAG(
         name="read_github_from_hdfs",
         application_args=[
             '--namenode', f"{HDFS_URI}",
-            '--file', '/spark/2021-03-06'
+            '--file', '/spark/2021-04-02'
         ])
 
     git_to_hdfs >> spark_operator
