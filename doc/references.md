@@ -47,3 +47,7 @@ http://cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf
 ## Data Lakehouse and Apache Hudi explanation
 
 https://medium.com/slalom-build/data-lakehouse-building-the-next-generation-of-data-lakes-using-apache-hudi-41550f62f5f
+
+## Stream processing platforms
+
+https://www.gta.ufrj.br/ftp/gta/TechReports/ALD16b.pdf
