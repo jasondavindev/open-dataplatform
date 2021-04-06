@@ -85,7 +85,23 @@ HDFS é um sistema de arquivos distribuído que lida com grandes conjuntos de da
 
 Com HDFS os dados podem ser particionados e armazenados em diferentes nós/servidores. O particionamento em diversos nós gera a replicação de dados, o que implica na redundância também. A redundância pode ser aumentada ou diminuída, conforme o caso de uso da aplicação. Portanto a redundância oferece múltiplos benefícios, o mais óbvio é a alta disponibilidade - um dos principais pilares de computação distribuída.
 
+Referência: https://www.ibm.com/analytics/hadoop/hdfs
+
 ### Apache Hive
+
+Apache Hive é uma ferramenta de data warehouse que facilita a leitura, escrita e gerenciamento de grandes conjuntos de dados que residem em armazenamento distribuído e consultados usando a sintaxe SQL.
+
+Hive disponibiliza algumas ferramentas como:
+
+- Acesso a dados via instruções SQL, portanto permite tarefas de extração, transformação e armazenamento
+- Mecanismo de armazenamento de dados estruturados em uma variedade de formatos
+- Acesso à arquivos armazenados diretamente no Apache HDFS ou HBase
+- Execução de consultas via Apache Spark ou MapReduce
+- Componente para armazenamento de metadados, ou descritores de arquivos
+
+Apache Hive foi projetado para maximizar a escalabilidade (escalar horizontalmente com mais máquinas adicionadas dinamicamente ao cluster Hadoop), desempenho, extensibilidade, tolerância a falhas e acoplamento fraco com seus formatos de entrada.
+
+Referência: https://cwiki.apache.org/confluence/display/Hive/Home
 
 ### Apache Kafka
 
