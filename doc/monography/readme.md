@@ -65,11 +65,23 @@ Algumas ferramentas conhecidas na comunidade de engenharia de dados são Airflow
 
 Referência: https://www.ibm.com/cloud/learn/etl
 
-### Airflow
+### Apache Airflow
 
-### Spark
+Apache Airflow é uma plataforma open-source para criar, agendar e monitorar programaticamente fluxos de trabalho. Airflow é uma ferramenta principalmente utilizada para fluxos de trabalho ETL seguindo o conceito de DAGs (Directed Acyclic Graphs). Assim, as tarefas atribuídas ao fluxos são executadas por workers seguindo uma dependência especificada.
 
-### HDFS
+A ferramenta Airflow permite a integração com diversas outras ferramentas que auxiliam no processo de ETL, como por exemplo, Apache Spark para transformação de dados de forma distribuída.
 
-### Kafka
+Referência: https://airflow.apache.org/docs/apache-airflow/stable/index.html
+
+### Apache Spark
+
+Apache Spark é um mecanismo de análise unificado para processamento de dados em grande escala. Spark utiliza caching em memória, a grande diferença do seu concorrente Hadoop, e execução de consulta otimizada para consultas rápidas em dados de qualquer tamanho. Alguns componentes disponibilizados pelo Spark, como por exemplo Spark Streaming e Spark Core, possibilitam processamento de dados em lotes e stream.
+
+Referência: http://spark.apache.org/
+
+### Apache HDFS
+
+### Apache Hive
+
+### Apache Kafka
 
