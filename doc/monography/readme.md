@@ -79,7 +79,11 @@ Apache Spark é um mecanismo de análise unificado para processamento de dados e
 
 Referência: http://spark.apache.org/
 
-### Apache HDFS
+### Hadoop Distributed File System
+
+HDFS é um sistema de arquivos distribuído que lida com grandes conjuntos de dados executados em hardware comum. Ele é usado para dimensionar um único cluster Apache Hadoop para centenas(e até milhares) de nós. HDFS é um dos principais componentes do Apache Hadoop.
+
+Com HDFS os dados podem ser particionados e armazenados em diferentes nós/servidores. O particionamento em diversos nós gera a replicação de dados, o que implica na redundância também. A redundância pode ser aumentada ou diminuída, conforme o caso de uso da aplicação. Portanto a redundância oferece múltiplos benefícios, o mais óbvio é a alta disponibilidade - um dos principais pilares de computação distribuída.
 
 ### Apache Hive
 
