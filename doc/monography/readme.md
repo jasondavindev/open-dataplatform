@@ -118,3 +118,15 @@ Apache Kafka é uma plataforma de streaming de eventos distribuídos de código 
 Kafka é comumente utilizado no processo ETL na etapa de extração via transmissão de eventos de diversas fontes para uma área intermediária, conhecida como staging area.
 
 Referência: https://kafka.apache.org/
+
+### Trino
+
+Trino é um mecanismo de consulta SQL distribuído projetado para consultar grandes conjuntos de dados distribuídos em uma ou mais fontes de dados heterogêneas. Trino é utilizado principalmente para trabalhar com terabytes or petabytes de dados armazenados em fontes diversas, como por exemplo, Apache HDFS, bancos de dados transacionais como MySQL, Oracle e também outras fontes de dados como Cassandra.
+
+Trino foi projetado para manipular análises e data warehousing: análises de dados, agregrações de quantidades massivas de dados. Essas cargas de trabalho são sempre classificadas como Online Analytical Processing (OLAP).
+
+Referências:
+
+- https://trino.io/docs/current/overview.html
+- https://trino.io/docs/current/overview/use-cases.html
+
