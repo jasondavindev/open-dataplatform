@@ -56,3 +56,7 @@ https://www.gta.ufrj.br/ftp/gta/TechReports/ALD16b.pdf
 
 - https://www.educba.com/hadoop-vs-cassandra/
 - https://www.datastax.com/products/compare/hadoop-vs-cassandra
+
+## Flink vs Spark
+
+https://www.dezyre.com/article/apache-flink-vs-spark-will-one-overtake-the-other/282
