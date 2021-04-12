@@ -51,3 +51,8 @@ https://medium.com/slalom-build/data-lakehouse-building-the-next-generation-of-d
 ## Stream processing platforms
 
 https://www.gta.ufrj.br/ftp/gta/TechReports/ALD16b.pdf
+
+## Cassandra vs HDFS
+
+- https://www.educba.com/hadoop-vs-cassandra/
+- https://www.datastax.com/products/compare/hadoop-vs-cassandra
