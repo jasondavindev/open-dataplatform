@@ -60,3 +60,7 @@ https://www.gta.ufrj.br/ftp/gta/TechReports/ALD16b.pdf
 ## Flink vs Spark
 
 https://www.dezyre.com/article/apache-flink-vs-spark-will-one-overtake-the-other/282
+
+## Apache Parquet
+
+https://stackoverflow.com/questions/36822224/what-are-the-pros-and-cons-of-parquet-format-compared-to-other-formats
