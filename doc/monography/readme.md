@@ -1,10 +1,27 @@
 # Plataforma de Dados
 
+- [Introdução](#introdução)
+- [Objetivos do trabalho](#objetivos-do-trabalho)
+- [Fundamentação técnica](#fundamentação-técnica)
+  - [Plataforma de dados](#plataforma-de-dados-1)
+  - [Data Lake](#data-lake)
+  - [Big Data](#big-data)
+  - [ETL](#etl)
+  - [Apache Airflow](#apache-airflow)
+  - [Apache Spark](#apache-spark)
+  - [Hadoop Distributed File System](#hadoop-distributed-file-system)
+  - [Apache Hive](#apache-hive)
+  - [Event Streaming](#event-streaming)
+  - [Apache Kafka](#apache-kafka)
+  - [Trino](#trino)
+  - [Apache Parquet](#apache-parquet)
+  - [Apache Avro](#apache-avro)
+
 ## Introdução
 
 Nos dias atuais é cada vez mais comum empresas coletarem quantidades imensas de dados, que são gerados por usuários, ferramentas de auditoria que geram logs ou soluções que envolvem IoT. Porém, para lidar com essa quantidade imensa de dados não é uma tarefa trivial. Dependendo da área de negócio, dados devem ser armazenados em lugares de alta disponibilidade, consistente e seguro.
 
-Além da preocupação em armazenar os dados, é entendível que estes servirão para algum 
+Além da preocupação em armazenar os dados, é entendível que estes servirão para algum
 propósito, como por exemplo, entregar uma experiência personalizada para usuários, analisar e monitorar técnicas anti-fraude entre outras coisas. Neste momento que a área de processamento massivo de dados entra em questão.
 
 O processamento de quantidades massivas de dados lida com alguns aspectos não tão triviais, por exemplo, alta capacidade computacional, computação distribuída e tolerante a falhas, o que caracteriza lidar com técnicas e ferramentas, conhecidas hoje como Big Data.
@@ -144,7 +161,6 @@ Referências:
 
 - https://parquet.apache.org/
 - https://blog.openbridge.com/how-to-be-a-hero-with-powerful-parquet-google-and-amazon-f2ae0f35ee04
-
 
 ### Apache Avro
 
