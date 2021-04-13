@@ -130,3 +130,17 @@ Referências:
 - https://trino.io/docs/current/overview.html
 - https://trino.io/docs/current/overview/use-cases.html
 
+### Apache Parquet
+
+Apache Parquet é um formato de armazenamento colunar disponível no ecossistema Hadoop, independentemente da escolha da estrutura de processamento de dados, modelo de dados ou linguagem de programação.
+
+Apache Parquet permite armazenar arquivos contendo a definição do schema no próprio arquivo com alguns metadados. Além disso, é possível armazenar a declaração do particionamento de dados. Com o benefício de armazenamento colunar do Apache Parquet, os custos de armazenamento, leitura e processamentto dos dados reduzem significativamente, pois os dados são compactados e a leitura é feita apenas nas colunas necessárias para retornar uma consulta.
+
+A figura abaixo ilustra a comparação na leitura de 1 TB de dados em um arquivo CSV e no formato Parquet.
+
+![Apache Parquet vs CSV](../images/parquet_vs_csv.png)
+
+Referências:
+
+- https://parquet.apache.org/
+- https://blog.openbridge.com/how-to-be-a-hero-with-powerful-parquet-google-and-amazon-f2ae0f35ee04
