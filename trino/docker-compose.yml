@@ -8,6 +8,8 @@ services:
       - 8089:8080
     volumes:
       - ./config/catalog:/etc/trino/catalog
+      - ./config/jvm.config:/etc/trino/jvm.config
+      - ./config/config.properties:/etc/trino/config.properties
 
   sqlpad:
     image: sqlpad/sqlpad:latest
