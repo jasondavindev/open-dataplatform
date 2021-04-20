@@ -31,6 +31,7 @@ RUN set -ex \
         apt-utils \
         curl \
         rsync \
+        unzip \
         netcat; \
     useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow; \
     ln -Ls $(which pip3) /usr/bin/pip; \
