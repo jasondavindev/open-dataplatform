@@ -2,31 +2,31 @@ version: "3.8"
 
 services:
   namenode:
-    image: open-dataplatform-hdfs:latest
+    image: open-dataplatform-hadoop
     container_name: namenode
     build:
       context: .
     volumes:
       - datanode_vol:/dfs
-      - ./config/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml
+      - ./config:/etc/hadoop
     command:
+      - hdfs
       - namenode
     environment:
-      - HDFS_NAMENODE_URL=hdfs://namenode:8020
+      IS_MASTER: "1"
     ports:
       - 50070:50070
 
   datanode:
-    image: open-dataplatform-hdfs:latest
+    image: open-dataplatform-hadoop
     container_name: datanode
     build:
       context: .
-    environment:
-      - HDFS_NAMENODE_URL=hdfs://namenode:8020
     volumes:
       - datanode_vol:/dfs
-      - ./config/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml
+      - ./config:/etc/hadoop
     command:
+      - hdfs
       - datanode
     ports:
       - 50075:50075

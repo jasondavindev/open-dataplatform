@@ -1,46 +1,29 @@
 FROM openjdk:8-jre-slim
 
-LABEL MAINTAINER="jasondavin.dev@gmail.com"
+ENV APP_HOME /opt
+ENV HADOOP_VERSION 3.3.0
+ENV HADOOP_HOME ${APP_HOME}/hadoop
+ENV HADOOP_CONF_DIR /etc/hadoop
 
-ARG version=3.3.0
-
-ENV HADOOP_VERSION=$version \
-    HADOOP_HOME=/opt/hadoop \
-    HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop \
-    PATH=$PATH:/opt/hadoop/bin \
-    MULTIHOMED_NETWORK=1 \
-    CLUSTER_NAME=hadoop \
-    HDFS_NAMENODE_NAME_DIR=file:///dfs/name \
-    HDFS_DATANODE_DATA_DIR=file:///dfs/data \
-    USER=hdfs
-
-RUN apt-get update && apt-get install -y curl procps; \
+RUN apt-get update && apt-get install -y wget netcat curl procps; \
     rm -rf /var/lib/apt/lists/*; \
-    curl -SL https://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz | tar xvz -C /opt
-    
-RUN ln -s /opt/hadoop-$HADOOP_VERSION /opt/hadoop; \
-    if [ ! -f $HADOOP_CONF_DIR/mapred-site.xml ]; then \
-    cp $HADOOP_CONF_DIR/mapred-site.xml.template $HADOOP_CONF_DIR/mapred-site.xml; \
-    fi; \
-    mkdir -p /var/lib/hadoop/hdfs; \
-    groupadd -g 114 -r hadoop; \
-    useradd -u 201 --shell /bin/bash -Mr --groups hadoop -d /var/lib/hadoop/hdfs hdfs; \
-    mkdir -p /dfs; \
-    mkdir -p /opt/hadoop/logs; \
-    chown -R hdfs:hadoop /dfs; \
-    chown -LR hdfs:hadoop /opt/hadoop
+    wget http://www.eu.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz; \
+    tar -xzvf hadoop-$HADOOP_VERSION.tar.gz; \
+    mv hadoop-$HADOOP_VERSION ${HADOOP_HOME}; \
+    rm hadoop-$HADOOP_VERSION.tar.gz
+
+RUN mkdir -p /hadoop/hdfs/name; \
+    mkdir -p /hadoop/hdfs/data; \
+    mkdir -p ${HADOOP_CONF_DIR}
+
+ENV PATH $PATH:${HADOOP_HOME}/bin
+ENV USER root
 
 COPY entrypoint.sh /entrypoint.sh
 
-COPY config/* ${HADOOP_CONF_DIR}/
-
 RUN chmod +x /entrypoint.sh
 
-USER hdfs
-
 WORKDIR ${HADOOP_HOME}
-
-VOLUME /dfs
 
 EXPOSE 8020 50070 50075
 
