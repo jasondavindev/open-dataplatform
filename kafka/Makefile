@@ -1,7 +1,7 @@
 .PHONY: consume_topic
 consume_topic:
 	docker run --rm -ti\
-		--network=dataplatform_default\
+		--network=dataplatform-network\
 		confluentinc/cp-kafkacat bash -c "kafkacat -C -t ${topic} -b broker:29092 -s avro -r schema-registry:8081"
 
 .PHONY: create_example_schema

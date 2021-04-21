@@ -19,7 +19,9 @@ RUN mkdir -p /hadoop/hdfs/name; \
 ENV PATH $PATH:${HADOOP_HOME}/bin
 ENV USER root
 
-COPY entrypoint.sh /entrypoint.sh
+ADD entrypoint.sh /entrypoint.sh
+ADD config/core-site.xml ${HADOOP_CONF_DIR}
+ADD config/hdfs-site.xml ${HADOOP_CONF_DIR}
 
 RUN chmod +x /entrypoint.sh
 

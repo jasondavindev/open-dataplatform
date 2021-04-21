@@ -95,4 +95,4 @@ services:
 networks:
   default:
     external:
-      name: dataplatform_default
+      name: dataplatform-network
