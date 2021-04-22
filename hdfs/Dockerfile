@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-slim
+FROM openjdk:8
 
 ENV APP_HOME /opt
 ENV HADOOP_VERSION 3.3.0
