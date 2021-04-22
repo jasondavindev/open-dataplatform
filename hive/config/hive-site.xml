@@ -53,4 +53,8 @@
       <name>hive.server2.webui.port</name>
       <value>10002</value>
    </property>
+   <property>
+      <name>hive.server2.sleep.interval.between.start.attempts</name>
+      <value>1s</value>
+   </property>
 </configuration>
