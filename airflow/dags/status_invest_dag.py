@@ -3,6 +3,7 @@ from airflow.models import DAG
 from airflow.contrib.operators.spark_submit_operator import SparkSubmitOperator
 from dataplatform.operators.status_invest.stocks_to_hdfs_operator import StocksToHDFSOperator
 from dataplatform.operators.spark.json_to_parquet_operator import JsonToParquetOperator
+from dataplatform.operators.spark.docker_spark_submit_operator import DockerSparkSubmitOperator
 
 default_args = {
     "retries": 4,
@@ -29,9 +30,9 @@ with DAG(
         hive_database='status_invest',
         hive_table='stocks')
 
-    best_stocks = SparkSubmitOperator(
+    best_stocks = DockerSparkSubmitOperator(
         task_id="best_stocks",
-        application="hdfs://namenode:8020/spark/scripts/best_stocks.py",
+        application="/scripts/spark/best_stocks.py",
         conn_id='spark',
         application_args=[
             '--from-database', 'status_invest',
@@ -39,7 +40,7 @@ with DAG(
             '--to-database', 'status_invest',
             '--to-table', 'best_stocks',
             '--hdfs-uri', 'hdfs://namenode:8020',
-        ]
+        ],
     )
 
     stocks >> json_to_parquet >> best_stocks
