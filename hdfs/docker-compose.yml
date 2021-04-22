@@ -7,7 +7,7 @@ services:
     build:
       context: .
     volumes:
-      - datanode_vol:/hadoop/hdfs/name
+      - namenode_vol:/hadoop/hdfs/name
       - ./config:/etc/hadoop
     command:
       - hdfs
