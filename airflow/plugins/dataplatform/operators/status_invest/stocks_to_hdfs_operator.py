@@ -1,10 +1,11 @@
 import json
 
-from dataplatform.operators.json_to_hdfs_operator import JsonToHDFSOperator
+from airflow.models.baseoperator import BaseOperator
 from dataplatform.hooks.status_invest_hook import StatusInvestHook
+from dataplatform.hooks.hdfs_hook import HDFSHook
 
 
-class StocksToHDFSOperator(JsonToHDFSOperator):
+class StocksToHDFSOperator(BaseOperator):
     def __init__(
             self,
             status_invest_conn_id='status_invest_conn',
@@ -13,12 +14,14 @@ class StocksToHDFSOperator(JsonToHDFSOperator):
             **kwargs):
         self.status_invest_client = StatusInvestHook(
             conn_id=status_invest_conn_id)
-        super().__init__(conn_id=hdfs_conn_id, *args, **kwargs)
+        self.hdfs_hook = HDFSHook(hdfs_conn_id, 'airflow')
+
+        super().__init__(*args, **kwargs)
 
     def execute(self, context):
         ds = context['ds']
         stocks = self.status_invest_client.get_all_stocks()
-        return self.put(
+        return self.hdfs_hook.put(
             path=f"/airflow/status_invest/dt={ds}/{ds}.json",
             data=json.dumps(stocks),
             overwrite=True)
