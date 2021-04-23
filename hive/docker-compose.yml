@@ -66,8 +66,6 @@ services:
       MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_DATABASE: hue
-      MYSQL_USER: root
-      MYSQL_PASSWORD: secret
 
 networks:
   default:
