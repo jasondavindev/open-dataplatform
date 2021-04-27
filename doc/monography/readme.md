@@ -16,6 +16,9 @@
   - [Trino](#trino)
   - [Apache Parquet](#apache-parquet)
   - [Apache Avro](#apache-avro)
+- [Metodologia](#metodologia)
+  - [Arquitetura](#arquitetura)
+  - [Fluxo ETL - Batch](#fluxo-etl---batch)
 
 ## Introdução
 
@@ -170,3 +173,21 @@ Referências:
 
 - https://www.ibm.com/analytics/hadoop/avro
 - https://catherine-shen.medium.com/why-you-should-use-avro-and-schema-registry-for-your-streaming-application-2f24dcf017c8
+
+## Metodologia
+
+### Arquitetura
+
+![Arquitetura](../images/architecture.jpeg)
+
+### Fluxo ETL - Batch
+
+Com o intuito de prover uma plataforma de processamento de dados em lote, por exemplo, extrair dados de um banco de dados transacional relacional, aplicar lógicas de transformações e por fim salvar a saída em uma camada de dados diferente, criou-se a interligação entre os componentes Apache Spark, Apache Airflow, Apache Hive Metastore e Apache HDFS.
+
+O fluxo de extração de dados é criado a partir de scripts na linguagem Python, que são agrupados de uma forma lógica formando grafos acíclicos. Assim que os dados são extraídos da fonte terceira, o mesmo pode ser armazenado diretamente na camada de armazenamento, HDFS, para assim servir de entrada para o próximo script a ser executado. Assim, conclui-se a etapa de Extração do conceito ETL ou ELT.
+
+Na etapa de transformação, os dados já armazenados são reutilizados por outro script, também escrito na linguagem Python porém utilizando-se de uma biblioteca chamada PySpark. Tal biblioteca faz a interface com o componente Apache Spark, que efetivamente realiza o processamento das transformações dos dados.
+
+Concluindo o processo ETL, o script da etapa de transformação deve armazenar os dados em um formato válido e intuitivo para posteriormente servir de análise.
+
+O componente responsável por armazenar a estrutura dos dados, por exemplo, em qual base de dados e em qual tabela o dado será salvo, qual serão os campos ou colunas que esse dado terá e se será particionado. Tais informações são armazenados em formato de metadados, que são gerenciados pelo componente Apache Hive Metastore.
