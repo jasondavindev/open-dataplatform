@@ -190,4 +190,4 @@ Na etapa de transformação, os dados já armazenados são reutilizados por outr
 
 Concluindo o processo ETL, o script da etapa de transformação deve armazenar os dados em um formato válido e intuitivo para posteriormente servir de análise.
 
-O componente responsável por armazenar a estrutura dos dados, por exemplo, em qual base de dados e em qual tabela o dado será salvo, qual serão os campos ou colunas que esse dado terá e se será particionado. Tais informações são armazenados em formato de metadados, que são gerenciados pelo componente Apache Hive Metastore.
+O componente responsável por armazenar a estrutura dos dados, por exemplo, em qual base de dados e em qual tabela o dado será salvo, qual serão os campos ou colunas que esse dado terá, se será particionado e o local onde será armazenado. Tais informações são armazenados no formato Apache Parquet via metadados, que são gerenciados pelo componente Apache Hive Metastore.
