@@ -43,4 +43,4 @@ services:
 networks:
   default:
     external:
-      name: dataplatform-network
+      name: open-dataplatform-network

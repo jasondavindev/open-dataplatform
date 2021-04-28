@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta, date
 from airflow.models import DAG
+from airflow.hooks.base_hook import BaseHook
 from airflow.contrib.operators.spark_submit_operator import SparkSubmitOperator
 from dataplatform.operators.status_invest.stocks_to_hdfs_operator import StocksToHDFSOperator
-from dataplatform.operators.spark.json_to_parquet_operator import JsonToParquetOperator
 from dataplatform.operators.spark.docker_spark_submit_operator import DockerSparkSubmitOperator
 
 default_args = {
@@ -11,6 +11,12 @@ default_args = {
     "start_date": datetime(2021, 4, 21),
     "retry_delay": timedelta(seconds=10),
 }
+
+
+def hdfs_uri():
+    hook = BaseHook().get_connection('hdfs')
+    return f"hdfs://{hook.host}:{hook.port}"
+
 
 with DAG(
     dag_id="status_invest",
@@ -22,13 +28,17 @@ with DAG(
 
     stocks = StocksToHDFSOperator(task_id='stocks_to_hdfs')
 
-    json_to_parquet = JsonToParquetOperator(
+    json_to_parquet = DockerSparkSubmitOperator(
         task_id='json_to_parquet',
+        application="/scripts/spark/utils/json_to_parquet.py",
         conn_id='spark',
-        name='json_to_parquet',
-        json_files_path=f"/airflow/status_invest/dt={date}/{date}.json",
-        hive_database='status_invest',
-        hive_table='stocks')
+        application_args=[
+            '--json-files-path', f"/airflow/status_invest/dt={date}",
+            '--database', 'status_invest',
+            '--table', 'stocks',
+            '--hdfs-uri', hdfs_uri()
+        ]
+    )
 
     best_stocks = DockerSparkSubmitOperator(
         task_id="best_stocks",
@@ -39,7 +49,7 @@ with DAG(
             '--from-table', 'stocks',
             '--to-database', 'status_invest',
             '--to-table', 'best_stocks',
-            '--hdfs-uri', 'hdfs://namenode:8020',
+            '--hdfs-uri', hdfs_uri(),
         ],
     )
 

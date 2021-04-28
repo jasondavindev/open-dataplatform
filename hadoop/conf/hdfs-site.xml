@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>file:///hadoop/dfs/namenode</value>
+    </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>file:///hadoop/dfs/datanode</value>
+    </property>
+    <property>
+        <name>dfs.namenode.rpc-address</name>
+        <value>namenode:8020</value>
+    </property>
+    <property>
+        <name>dfs.namenode.http-address</name>
+        <value>namenode:50070</value>
+    </property>
+    <property>
+        <name>dfs.datanode.http.address</name>
+        <value>datanode:50075</value>
+    </property>
+    <property>
+        <name>dfs.permissions.enabled</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>dfs.webhdfs.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+</configuration>

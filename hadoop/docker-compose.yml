@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  namenode:
+    container_name: namenode
+    hostname: namenode
+    image: open-dataplatform-hadoop-hdfs:3.2.1
+    environment:
+      NODE_TYPE: namenode
+      HDFS_NAMENODE_USER: root
+      CLUSTER_NAME: hadoop-cluster
+    volumes:
+      - namenode:/hadoop/dfs/namenode
+      - ./conf:/etc/hadoop
+    ports:
+      - 50070:50070
+
+  datanode:
+    container_name: datanode
+    hostname: datanode
+    image: open-dataplatform-hadoop-hdfs:3.2.1
+    environment:
+      NODE_TYPE: datanode
+      HDFS_DATANODE_USER: root
+    volumes:
+      - datanode:/hadoop/dfs/datanode
+      - ./conf:/etc/hadoop
+    ports:
+      - 50075:50075
+    depends_on:
+      - namenode
+
+  hive-postgres:
+    image: postgres:9.4
+    container_name: hive-postgres
+    hostname: hive-postgres
+    ports:
+      - 5433:5432
+    volumes:
+      - ./tmp/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: hive
+      POSTGRES_USER: hive
+      POSTGRES_DB: metastore
+
+  hive-metastore:
+    hostname: hive-metastore
+    image: open-dataplatform-hadoop-hive:3.1.2
+    container_name: hive-metastore
+    depends_on:
+      - hive-postgres
+      - datanode
+    volumes:
+      - ./conf:/etc/hadoop
+      - ./conf/hive-site.xml:/opt/hive/conf/hive-site.xml
+    command: "hive --service metastore"
+    ports:
+      - 9083:9083
+
+volumes:
+  namenode:
+  datanode:
+
+networks:
+  default:
+    name: open-open-dataplatform-network
