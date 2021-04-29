@@ -26,7 +26,10 @@ with DAG(
 ) as dag:
     date = str(date.today())
 
-    stocks = StocksToHDFSOperator(task_id='stocks_to_hdfs')
+    stocks = StocksToHDFSOperator(
+        task_id='stocks_to_hdfs',
+        dt=date
+    )
 
     json_to_parquet = DockerSparkSubmitOperator(
         task_id='json_to_parquet',

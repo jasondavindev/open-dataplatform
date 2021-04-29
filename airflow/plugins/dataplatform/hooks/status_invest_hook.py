@@ -10,9 +10,13 @@ class StatusInvestHook(HttpHook):
         self.conn_id = conn_id
         super().__init__(method='GET', http_conn_id=conn_id)
 
-    def __get(self, endpoint='', query=None):
-        return self.run(endpoint=endpoint, data=query).json()
+    def __get(self, endpoint='', query=None, headers={}):
+        return self.run(endpoint=endpoint, data=query, headers=headers).json()
 
     def get_all_stocks(self):
         params = urlencode({'CategoryType': 1, 'search': {}})
-        return self.__get(endpoint='/category/advancedsearchresult', query=params)
+        headers = {'User-Agent': 'PostmanRuntime/7.26.10'}
+        return self.__get(
+            endpoint='/category/advancedsearchresult',
+            query=params,
+            headers=headers)

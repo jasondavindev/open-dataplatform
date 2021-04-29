@@ -1,0 +1,176 @@
+version: "3.8"
+
+services:
+  # Hadoop
+  namenode:
+    container_name: namenode
+    hostname: namenode
+    image: open-dataplatform-hadoop-hdfs:3.2.1
+    environment:
+      NODE_TYPE: namenode
+      HDFS_NAMENODE_USER: root
+      CLUSTER_NAME: hadoop-cluster
+    volumes:
+      - namenode:/hadoop/dfs/namenode
+      - ./hadoop/conf:/etc/hadoop
+    ports:
+      - 50070:50070
+
+  datanode:
+    container_name: datanode
+    hostname: datanode
+    image: open-dataplatform-hadoop-hdfs:3.2.1
+    environment:
+      NODE_TYPE: datanode
+      HDFS_DATANODE_USER: root
+    volumes:
+      - datanode:/hadoop/dfs/datanode
+      - ./hadoop/conf:/etc/hadoop
+    ports:
+      - 50075:50075
+    depends_on:
+      - namenode
+
+  hive-postgres:
+    image: postgres:9.4
+    container_name: hive-postgres
+    hostname: hive-postgres
+    ports:
+      - 5433:5432
+    volumes:
+      - ./tmp/postgres-hive:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: hive
+      POSTGRES_USER: hive
+      POSTGRES_DB: metastore
+
+  hive-metastore:
+    hostname: hive-metastore
+    image: open-dataplatform-hadoop-hive:3.1.2
+    container_name: hive-metastore
+    depends_on:
+      - hive-postgres
+      - datanode
+    volumes:
+      - ./hadoop/conf:/etc/hadoop
+      - ./hadoop/conf/hive-site.xml:/opt/hive/conf/hive-site.xml
+    command: "hive --service metastore"
+    ports:
+      - 9083:9083
+
+  # Airflow
+  airflow-db:
+    hostname: airflow-db
+    container_name: airflow_db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_USER: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - ./tmp/postgres-airflow:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  airflow:
+    hostname: airflow
+    container_name: airflow
+    build:
+      context: ./airflow
+      args:
+        SPARK_IMAGE: open-dataplatform-spark
+      dockerfile: airflow/Dockerfile
+    image: open-dataplatform-airflow
+    command: bash -c "airflow scheduler & airflow webserver -p 9090 --debug"
+    depends_on:
+      - airflow-db
+    ports:
+      - "8793:8793"
+      - "9090:9090"
+    volumes:
+      - ./airflow/config/airflow.cfg:/opt/airflow/airflow.cfg
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./airflow/spark:/scripts/spark
+    environment:
+      POSTGRES_HOST: airflow-db
+      POSTGRES_PORT: 5432
+
+  # Spark
+  spark-master:
+    container_name: spark-master
+    image: open-dataplatform-spark
+    build:
+      context: spark
+      dockerfile: spark/Dockerfile
+    ports:
+      - 8080:8080
+    command:
+      - master
+    environment:
+      SPARK_MASTER_HOST: spark-master
+      SPARK_MASTER_PORT: 7077
+      SPARK_MASTER_WEBUI_PORT: 8080
+    volumes:
+      - ./spark/scripts:/scripts
+      - ./hadoop/conf:/opt/hadoop/conf
+      - ./spark/config/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+
+  spark-worker:
+    hostname: spark-worker
+    container_name: spark-worker
+    image: open-dataplatform-spark
+    build:
+      context: spark
+      dockerfile: spark/Dockerfile
+    ports:
+      - 8081:8081
+    command:
+      - worker
+    depends_on:
+      - spark-master
+    environment:
+      SPARK_WORKER_WEBUI_PORT: 8081
+      SPARK_MASTER_URL: spark-master:7077
+    volumes:
+      - ./spark/scripts:/scripts
+      - ./hadoop/conf:/opt/hadoop/conf
+      - ./spark/config/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+
+  # trino
+  trino:
+    image: trinodb/trino:353
+    container_name: trino
+    ports:
+      - 8089:8080
+    volumes:
+      - ./trino/config/catalog:/etc/trino/catalog
+      - ./trino/config/jvm.config:/etc/trino/jvm.config
+      - ./trino/config/config.properties:/etc/trino/config.properties
+
+  sqlpad:
+    image: sqlpad/sqlpad:latest
+    ports:
+      - "3000:3000"
+    environment:
+      SQLPAD_CONNECTIONS__datawarehouse__name: Data Warehouse
+      SQLPAD_CONNECTIONS__datawarehouse__driver: trino
+      SQLPAD_CONNECTIONS__datawarehouse__host: trino
+      SQLPAD_CONNECTIONS__datawarehouse__username: sqlpad
+      SQLPAD_CONNECTIONS__datawarehouse__catalog: hive
+      SQLPAD_AUTH_DISABLED: "true"
+      SQLPAD_AUTH_DISABLED_DEFAULT_ROLE: "admin"
+    volumes:
+      - sqlpad:/etc/sqlpad/seed-data
+    depends_on:
+      - trino
+
+volumes:
+  namenode:
+  datanode:
+  sqlpad:
+
+networks:
+  default:
+    name: open-open-dataplatform-network
