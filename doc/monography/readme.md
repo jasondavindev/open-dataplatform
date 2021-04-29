@@ -16,9 +16,9 @@
   - [Trino](#trino)
   - [Apache Parquet](#apache-parquet)
   - [Apache Avro](#apache-avro)
-- [Metodologia](#metodologia)
-  - [Arquitetura](#arquitetura)
-  - [Fluxo ETL - Batch](#fluxo-etl---batch)
+- [3. Desenvolvimento](#3-desenvolvimento)
+  - [3.1 Arquitetura](#3-1-arquitetura)
+  - [3.2 Fluxo ETL - Batch](#3-2-fluxo-etl---batch)
 
 ## Introdução
 
@@ -174,13 +174,13 @@ Referências:
 - https://www.ibm.com/analytics/hadoop/avro
 - https://catherine-shen.medium.com/why-you-should-use-avro-and-schema-registry-for-your-streaming-application-2f24dcf017c8
 
-## Metodologia
+## 3 Desenvolvimento
 
-### Arquitetura
+### 3-1 Arquitetura
 
 ![Arquitetura](../images/architecture.jpeg)
 
-### Fluxo ETL - Batch
+### 3-2 Fluxo ETL - Batch
 
 Com o intuito de prover uma plataforma de processamento de dados em lote, por exemplo, extrair dados de um banco de dados transacional relacional, aplicar lógicas de transformações e por fim salvar a saída em uma camada de dados diferente, criou-se a interligação entre os componentes Apache Spark, Apache Airflow, Apache Hive Metastore e Apache HDFS.
 
