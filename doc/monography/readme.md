@@ -1,26 +1,26 @@
 # Plataforma de Dados
 
-- [Introdução](#introdução)
-- [Objetivos do trabalho](#objetivos-do-trabalho)
-- [Fundamentação técnica](#fundamentação-técnica)
-  - [Plataforma de dados](#plataforma-de-dados-1)
-  - [Data Lake](#data-lake)
-  - [Big Data](#big-data)
-  - [ETL](#etl)
-  - [Apache Airflow](#apache-airflow)
-  - [Apache Spark](#apache-spark)
-  - [Hadoop Distributed File System](#hadoop-distributed-file-system)
-  - [Apache Hive](#apache-hive)
-  - [Event Streaming](#event-streaming)
-  - [Apache Kafka](#apache-kafka)
-  - [Trino](#trino)
-  - [Apache Parquet](#apache-parquet)
-  - [Apache Avro](#apache-avro)
+- [1. Introdução](#1-introdução)
+- [1.1. Objetivos do trabalho](#1-1-objetivos-do-trabalho)
+- [2. Fundamentação técnica](#2-fundamentação-técnica)
+  - [2.1 Plataforma de dados](#2-1-plataforma-de-dados)
+  - [2.2 Data Lake](#2-2-data-lake)
+  - [2.3 Big Data](#2-3-big-data)
+  - [2.4 ETL](#2-4-etl)
+  - [2.5 Apache Airflow](#2-5-apache-airflow)
+  - [2.6 Apache Spark](#2-6-apache-spark)
+  - [2.7 Hadoop Distributed File System](#2-7-hadoop-distributed-file-system)
+  - [2.8 Apache Hive](#2-8-apache-hive)
+  - [2.9 Event Streaming](#2-9-event-streaming)
+  - [2.10 Apache Kafka](#2-10-apache-kafka)
+  - [2.11 Trino](#2-11-trino)
+  - [2.12 Apache Parquet](#2-12-apache-parquet)
+  - [2.13 Apache Avro](#2-13-apache-avro)
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
   - [3.2 Fluxo ETL - Batch](#3-2-fluxo-etl---batch)
 
-## Introdução
+## 1 Introdução
 
 Nos dias atuais é cada vez mais comum empresas coletarem quantidades imensas de dados, que são gerados por usuários, ferramentas de auditoria que geram logs ou soluções que envolvem IoT. Porém, para lidar com essa quantidade imensa de dados não é uma tarefa trivial. Dependendo da área de negócio, dados devem ser armazenados em lugares de alta disponibilidade, consistente e seguro.
 
@@ -31,7 +31,7 @@ O processamento de quantidades massivas de dados lida com alguns aspectos não t
 
 Hoje no mercado existem ferramentas e serviços disponíveis capazes de proporcionar ambientes auto-gerenciáveis que disponibilizam uma plataforma com alta disponibilidade, segura, normalmente tolerante a falhas entre outros aspectos. Porém, tais soluções envolvem altos custos de gerenciamento e suporte e, que também limitam a capacidade do usuário em extender ou personalizar uma solução, permitindo somente integrar ferramentas gerenciadas pela própria provedora do serviço ou plataforma.
 
-### Objetivos do trabalho
+### 1-1  Objetivos do trabalho
 
 O objetivo geral deste trabalho é desenvolver uma plataforma capaz de extrair, transformar e armazenar dados.
 
@@ -45,9 +45,9 @@ Para a realização deste trabalho foram estabelecidos alguns objetivos específ
 - Capaz de coletar dados em tempo real
 - Capaz de fazer processamentos de dados em lote e stream
 
-## Fundamentação técnica
+## 2 Fundamentação técnica
 
-### Plataforma de dados
+### 2-1 Plataforma de dados
 
 Plataforma de Dados é um conjunto ferramental e de técnicas que busca extrair dados de diversas fontes, alimentar e enriquecer tais dados, que por fim são armazenados em uma outra base de dados. A finalidade principal de uma plataforma de dados é centralizar os dados de uma organização, de modo que esteja em conformidade com leis de proteção de dados, aplicando inteligência para alavancar a sua estratégia.
 
@@ -55,7 +55,7 @@ Comumente, plataformas de dados incluem ferramentas de extração e transformaç
 
 Referência: https://blog.tail.digital/o-que-e-customer-data-platform-e-porque-voce-precisa-de-um/
 
-### Data Lake
+### 2-2 Data Lake
 
 Data Lake é um tipo de repositório de dados que armazena quantidades massivas de dados estruturados e não estruturados. Comumente armazena-se dados brutos, ou dados não tratados, que no momento em que são coletados não há uma finalidade para tal, e sim, definida posteriormente. Este dado pode ser utilizado por cientístas e analístas de dados ou aplicações que envolvem aprendizado de máquinas por diversas vezes e para diversos propósitos, o que facilita a sua reutilização.
 
@@ -63,7 +63,7 @@ Algumas das principais diferenças entre Data Lake e Data Warehouse, que é outr
 
 Referência: https://www.redhat.com/en/topics/data-storage/what-is-a-data-lake
 
-### Big Data
+### 2-3 Big Data
 
 Big Data refere-se à manipulação ou gerenciamento de uma larga quantidade de dados ou de dados muito complexos. Big Data tornou-se conhecido pelos "3 Vs" de variedade, velocidade e volume. Volume refere-se à quantidade massiva de dados, variedade à ampla gama de formatos não padronizados, volume refere-se à necessidade de processar com rapidez e eficiência.
 
@@ -71,7 +71,7 @@ O principal objetivo de Big Data é ofecer informações em tempo real que podem
 
 Referência: https://www.redhat.com/en/topics/big-data
 
-### ETL
+### 2-4 ETL
 
 ETL, ou extrair (Extract), transformar (Transform) e armazenar (Load) é um processo que extrai, transforma e armazena dados de multiplas fontes para um data warehouse ou outro repositório unificado de dados.
 
@@ -85,7 +85,7 @@ Algumas ferramentas conhecidas na comunidade de engenharia de dados são Airflow
 
 Referência: https://www.ibm.com/cloud/learn/etl
 
-### Apache Airflow
+### 2-5 Apache Airflow
 
 Apache Airflow é uma plataforma open-source para criar, agendar e monitorar programaticamente fluxos de trabalho. Airflow é uma ferramenta principalmente utilizada para fluxos de trabalho ETL seguindo o conceito de DAGs (Directed Acyclic Graphs). Assim, as tarefas atribuídas ao fluxos são executadas por workers seguindo uma dependência especificada.
 
@@ -93,13 +93,13 @@ A ferramenta Airflow permite a integração com diversas outras ferramentas que 
 
 Referência: https://airflow.apache.org/docs/apache-airflow/stable/index.html
 
-### Apache Spark
+### 2-6 Apache Spark
 
 Apache Spark é um mecanismo de análise unificado para processamento de dados em grande escala. Spark utiliza caching em memória, a grande diferença do seu concorrente Hadoop, e execução de consulta otimizada para consultas rápidas em dados de qualquer tamanho. Alguns componentes disponibilizados pelo Spark, como por exemplo Spark Streaming e Spark Core, possibilitam processamento de dados em lotes e stream.
 
 Referência: http://spark.apache.org/
 
-### Hadoop Distributed File System
+### 2-7 Hadoop Distributed File System
 
 HDFS é um sistema de arquivos distribuído que lida com grandes conjuntos de dados executados em hardware comum. Ele é usado para dimensionar um único cluster Apache Hadoop para centenas(e até milhares) de nós. HDFS é um dos principais componentes do Apache Hadoop.
 
@@ -107,7 +107,7 @@ Com HDFS os dados podem ser particionados e armazenados em diferentes nós/servi
 
 Referência: https://www.ibm.com/analytics/hadoop/hdfs
 
-### Apache Hive
+### 2-8 Apache Hive
 
 Apache Hive é uma ferramenta de data warehouse que facilita a leitura, escrita e gerenciamento de grandes conjuntos de dados que residem em armazenamento distribuído e consultados usando a sintaxe SQL.
 
@@ -123,7 +123,7 @@ Apache Hive foi projetado para maximizar a escalabilidade (escalar horizontalmen
 
 Referência: https://cwiki.apache.org/confluence/display/Hive/Home
 
-### Event Streaming
+### 2-9 Event Streaming
 
 O event streaming é a prática de capturar dados em tempo real de fontes de eventos como bancos de dados, sensores, dispositivos móveis, serviços em nuvem e aplicativos de software na forma de fluxos de eventos; armazenar esses fluxos de eventos de forma duradoura para recuperação posterior; manipular, processar e reagir aos fluxos de eventos em tempo real e também retrospectivamente; e encaminhar os fluxos de eventos para diferentes tecnologias de destino, conforme necessário. O streaming de eventos, portanto, garante um fluxo contínuo e interpretação dos dados para que as informações certas estejam no lugar certo, na hora certa.
 
@@ -131,7 +131,7 @@ Algumas das principais ferramentas de event streaming no mercado nos dias de hoj
 
 Referência: https://kafka.apache.org/documentation/
 
-### Apache Kafka
+### 2-10 Apache Kafka
 
 Apache Kafka é uma plataforma de streaming de eventos distribuídos de código aberto usada por milhares de empresas para pipelines de dados de alto desempenho, análise de streaming, integração de dados e aplicativos de missão crítica.
 
@@ -139,7 +139,7 @@ Kafka é comumente utilizado no processo ETL na etapa de extração via transmis
 
 Referência: https://kafka.apache.org/
 
-### Trino
+### 2-11 Trino
 
 Trino é um mecanismo de consulta SQL distribuído projetado para consultar grandes conjuntos de dados distribuídos em uma ou mais fontes de dados heterogêneas. Trino é utilizado principalmente para trabalhar com terabytes or petabytes de dados armazenados em fontes diversas, como por exemplo, Apache HDFS, bancos de dados transacionais como MySQL, Oracle e também outras fontes de dados como Cassandra.
 
@@ -150,7 +150,7 @@ Referências:
 - https://trino.io/docs/current/overview.html
 - https://trino.io/docs/current/overview/use-cases.html
 
-### Apache Parquet
+### 2-12 Apache Parquet
 
 Apache Parquet é um formato de armazenamento colunar disponível no ecossistema Hadoop, independentemente da escolha da estrutura de processamento de dados, modelo de dados ou linguagem de programação.
 
@@ -165,7 +165,7 @@ Referências:
 - https://parquet.apache.org/
 - https://blog.openbridge.com/how-to-be-a-hero-with-powerful-parquet-google-and-amazon-f2ae0f35ee04
 
-### Apache Avro
+### 2-13 Apache Avro
 
 Apache Avro é formato binário de armazenameno de arquivos e mensagens. Apache Avro resolves alguns dos principais problemas quando trata-se de evolução de schemas de dados estruturados. Avro armazena no próprio arquivo ou mensagem a definição dos schemas, então aplicações antigas conseguem ler schemas novos e, aplicações novas conseguem ler schemas antigos. Além disso Avro é armazenado em formato binário, o que o torna compacto e eficiente.
 
