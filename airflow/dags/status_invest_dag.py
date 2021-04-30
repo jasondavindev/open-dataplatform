@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, date
 from airflow.models import DAG
 from airflow.hooks.base_hook import BaseHook
 from airflow.contrib.operators.spark_submit_operator import SparkSubmitOperator
-from dataplatform.operators.status_invest.stocks_to_hdfs_operator import StocksToHDFSOperator
+from dataplatform.operators.status_invest.status_invest_to_hdfs_operator import StatusInvestToHDFSOperator
 from dataplatform.operators.spark.docker_spark_submit_operator import DockerSparkSubmitOperator
 
 default_args = {
@@ -26,17 +26,18 @@ with DAG(
 ) as dag:
     date = str(date.today())
 
-    stocks = StocksToHDFSOperator(
+    stocks = StatusInvestToHDFSOperator(
         task_id='stocks_to_hdfs',
-        dt=date
+        dt=date,
+        category_type='stocks'
     )
 
-    json_to_parquet = DockerSparkSubmitOperator(
-        task_id='json_to_parquet',
+    stocks_json_to_parquet = DockerSparkSubmitOperator(
+        task_id='stocks_json_to_parquet',
         application="/scripts/spark/utils/json_to_parquet.py",
         conn_id='spark',
         application_args=[
-            '--json-files-path', f"/airflow/status_invest/dt={date}",
+            '--json-files-path', f"/airflow/staging/status_invest/stocks/dt={date}",
             '--database', 'status_invest',
             '--table', 'stocks',
             '--hdfs-uri', hdfs_uri()
@@ -56,4 +57,23 @@ with DAG(
         ],
     )
 
-    stocks >> json_to_parquet >> best_stocks
+    fiis = StatusInvestToHDFSOperator(
+        task_id='fiis_to_hdfs',
+        dt=date,
+        category_type='fiis'
+    )
+
+    fiis_json_to_parquet = DockerSparkSubmitOperator(
+        task_id='fiis_json_to_parquet',
+        application="/scripts/spark/utils/json_to_parquet.py",
+        conn_id='spark',
+        application_args=[
+            '--json-files-path', f"/airflow/staging/status_invest/fiis/dt={date}",
+            '--database', 'status_invest',
+            '--table', 'fiis',
+            '--hdfs-uri', hdfs_uri()
+        ]
+    )
+
+    stocks >> stocks_json_to_parquet >> best_stocks
+    fiis >> fiis_json_to_parquet
