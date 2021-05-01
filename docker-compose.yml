@@ -105,13 +105,13 @@ services:
       context: spark
       dockerfile: spark/Dockerfile
     ports:
-      - 8080:8080
+      - 4040:4040
     command:
       - master
     environment:
       SPARK_MASTER_HOST: spark-master
       SPARK_MASTER_PORT: 7077
-      SPARK_MASTER_WEBUI_PORT: 8080
+      SPARK_MASTER_WEBUI_PORT: 4040
     volumes:
       - ./hadoop/conf:/opt/hadoop/conf
       - ./spark/config/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
@@ -124,13 +124,13 @@ services:
       context: spark
       dockerfile: spark/Dockerfile
     ports:
-      - 8081:8081
+      - 4041:4040
     command:
       - worker
     depends_on:
       - spark-master
     environment:
-      SPARK_WORKER_WEBUI_PORT: 8081
+      SPARK_WORKER_WEBUI_PORT: 4040
       SPARK_MASTER_URL: spark-master:7077
     volumes:
       - ./hadoop/conf:/opt/hadoop/conf

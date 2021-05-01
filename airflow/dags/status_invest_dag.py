@@ -41,7 +41,8 @@ with DAG(
             '--database', 'status_invest',
             '--table', 'stocks',
             '--hdfs-uri', hdfs_uri()
-        ]
+        ],
+        executor_memory="8GB"
     )
 
     best_stocks = DockerSparkSubmitOperator(
@@ -55,6 +56,7 @@ with DAG(
             '--to-table', 'best_stocks',
             '--hdfs-uri', hdfs_uri(),
         ],
+        executor_memory="8GB"
     )
 
     fiis = StatusInvestToHDFSOperator(
@@ -72,7 +74,8 @@ with DAG(
             '--database', 'status_invest',
             '--table', 'fiis',
             '--hdfs-uri', hdfs_uri()
-        ]
+        ],
+        executor_memory="8GB"
     )
 
     stocks >> stocks_json_to_parquet >> best_stocks
