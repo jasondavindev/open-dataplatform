@@ -100,7 +100,7 @@ services:
   # Spark
   spark-master:
     container_name: spark-master
-    image: open-dataplatform-spark
+    image: open-dataplatform-spark:3.1.1
     build:
       context: spark
       dockerfile: spark/Dockerfile
@@ -113,14 +113,13 @@ services:
       SPARK_MASTER_PORT: 7077
       SPARK_MASTER_WEBUI_PORT: 8080
     volumes:
-      - ./spark/scripts:/scripts
       - ./hadoop/conf:/opt/hadoop/conf
       - ./spark/config/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
 
   spark-worker:
     hostname: spark-worker
     container_name: spark-worker
-    image: open-dataplatform-spark
+    image: open-dataplatform-spark:3.1.1
     build:
       context: spark
       dockerfile: spark/Dockerfile
@@ -134,7 +133,6 @@ services:
       SPARK_WORKER_WEBUI_PORT: 8081
       SPARK_MASTER_URL: spark-master:7077
     volumes:
-      - ./spark/scripts:/scripts
       - ./hadoop/conf:/opt/hadoop/conf
       - ./spark/config/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
 
