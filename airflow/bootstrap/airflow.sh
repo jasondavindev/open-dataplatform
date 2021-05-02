@@ -28,7 +28,7 @@ airflow variables import variables.json
 airflow connections add spark --conn-type=spark --conn-host=spark://spark-master:7077 --conn-extra='{"queue": "root.default","master":"spark://spark-master:7077","spark_binary": "spark-submit"}' &
 airflow connections add hdfs_http --conn-type=http --conn-host=namenode --conn-port=50070 &
 airflow connections add hdfs --conn-type=hdfs --conn-host=namenode --conn-port=8020 &
-airflow connections add status_invest_conn --conn-type=http --conn-host=https://statusinvest.com.br/
+airflow connections add status_invest_conn --conn-type=http --conn-host=https://statusinvest.com.br
 wait
 
 airflow db upgrade
