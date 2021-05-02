@@ -42,7 +42,7 @@ with DAG(
             '--table', 'stocks',
             '--hdfs-uri', hdfs_uri()
         ],
-        executor_memory="8GB"
+        executor_memory="4GB"
     )
 
     best_stocks = DockerSparkSubmitOperator(
@@ -56,7 +56,21 @@ with DAG(
             '--to-table', 'best_stocks',
             '--hdfs-uri', hdfs_uri(),
         ],
-        executor_memory="8GB"
+        executor_memory="4GB"
+    )
+
+    stocks_historical = DockerSparkSubmitOperator(
+        task_id="stocks_historical",
+        application="/scripts/spark/stocks_historical.py",
+        conn_id='spark',
+        application_args=[
+            '--stocks-database', 'status_invest',
+            '--stocks-table', 'stocks',
+            '--historical-database', 'status_invest',
+            '--historical-table', 'stocks_historical',
+            '--hdfs-uri', hdfs_uri(),
+        ],
+        executor_memory="4GB"
     )
 
     fiis = StatusInvestToHDFSOperator(
@@ -75,8 +89,8 @@ with DAG(
             '--table', 'fiis',
             '--hdfs-uri', hdfs_uri()
         ],
-        executor_memory="8GB"
+        executor_memory="4GB"
     )
 
-    stocks >> stocks_json_to_parquet >> best_stocks
+    stocks >> stocks_json_to_parquet >> [best_stocks, stocks_historical]
     fiis >> fiis_json_to_parquet

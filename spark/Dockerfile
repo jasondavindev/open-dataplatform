@@ -16,7 +16,8 @@ RUN apt update; \
     curl; \
     # download spark
     wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${TAR_FILE}; \
-    ln -sL $(which python3) /usr/bin/python
+    ln -sL $(which python3) /usr/bin/python; \
+    python3 -m pip install requests
 
 RUN tar -xzvf ${TAR_FILE} -C /opt; \
     ln -sL /opt/${TAR_FILE%.tgz} ${SPARK_HOME}; \
