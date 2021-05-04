@@ -185,13 +185,13 @@ Referências:
 
 Com o intuito de prover uma plataforma de processamento de dados em lote, por exemplo, extrair dados de um banco de dados transacional relacional, aplicar lógicas de transformações e por fim salvar a saída em uma camada de dados diferente, criou-se a interligação entre os componentes Apache Spark, Apache Airflow, Apache Hive Metastore e Apache HDFS.
 
-O fluxo de extração de dados é criado a partir de scripts na linguagem Python, que são agrupados de uma forma lógica formando grafos acíclicos. Assim que os dados são extraídos da fonte terceira, o mesmo pode ser armazenado diretamente na camada de armazenamento, HDFS, para assim servir de entrada para o próximo script a ser executado. Assim, conclui-se a etapa de Extração do conceito ETL ou ELT.
+O fluxo de extração de dados foi criado a partir de scripts na linguagem Python, que agrupou-se de uma forma lógica formando-se grafos acíclicos. Assim que os dados são extraídos da fonte terceira, o mesmo pode ser armazenado diretamente na camada de armazenamento, HDFS, para assim servir de entrada para o próximo script a ser executado. Assim, conclui-se a etapa de Extração do conceito ETL ou ELT.
 
-Na etapa de transformação, os dados já armazenados são reutilizados por outro script, também escrito na linguagem Python porém utilizando-se de uma biblioteca chamada PySpark. Tal biblioteca faz a interface com o componente Apache Spark, que efetivamente realiza o processamento das transformações dos dados.
+Na etapa de transformação os dados armazenados em uma camada intermediária são reutilizados por outro script, também escrito na linguagem Python porém utilizando-se de uma biblioteca chamada PySpark. Com PySpark tornou-se possível criar a interface com o componente Apache Spark, que efetivamente realiza o processamento das transformações dos dados.
 
-Concluindo o processo ETL, o script da etapa de transformação deve armazenar os dados em um formato válido e intuitivo para posteriormente servir de análise.
+Concluindo o processo ETL, o script da etapa de transformação armazena os dados em um formato válido e intuitivo para posteriormente servir de análise.
 
-O componente responsável por armazenar a estrutura dos dados, por exemplo, em qual base de dados e em qual tabela o dado será salvo, qual serão os campos ou colunas que esse dado terá, se será particionado e o local onde será armazenado. Tais informações são armazenados no formato Apache Parquet via metadados, que são gerenciados pelo componente Apache Hive Metastore.
+Para armazenar a estrutura dos dados, por exemplo, em qual base de dados e em qual tabela o dado será salvo, qual os campos ou colunas que esse dado possúi, se é particionado e o local onde é armazenado, utilizou-se o formato Apache Parquet via metadados, que são gerenciados pelo componente Apache Hive Metastore.
 
 ### 3-3 Ingestão de dados em tempo real
 
