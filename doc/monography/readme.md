@@ -20,6 +20,7 @@
   - [3.1 Arquitetura](#3-1-arquitetura)
   - [3.2 Fluxo ETL - Batch](#3-2-fluxo-etl---batch)
   - [3.3 Ingestão de dados em tempo real](#3-3-ingestão-de-dados-em-tempo-real)
+  - [3.4 Análise dos dados](#3-4-análise-dos-dados)
 
 ## 1 Introdução
 
