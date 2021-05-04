@@ -204,3 +204,15 @@ Para fazer a conversão do dado no formato Apache Avro e realizar a verificaçã
 Com a consulta do schema realizada e todos os campos validados, enviou-se o payload convertido no formato Apache Avro para tópicos no componente Apache Kafka. Com os eventos presentes no Apache Kafka, a transmissão de dados realizou-se por meio de um componente a parte, nomeado como HDFS Sink Kafka Connector. 
 
 No Kafka Connector, criou-se tarefas com algumas definições como quais tópicos seriam persistidos, com qual frequência, em qual formato, em qual banco de dados entre outras configurações.
+
+### 3-4 Análise dos dados
+
+Para tornar possível a consulta e análise dos dados armazenados na camadada de armazenamento HDFS com instruções SQL, utilizou-se a ferramenta PrestoSQL também conhecida como Trino.
+
+No Trino, criou-se um catálogo de dados utilizando-se um conector disponibilizado pelo Trino que tornou capaz a comunicação entre o Trino e os metadados armazenados no Hive Metastore. Neste catálogo, criou-se de forma automática todo o mapeamento dos banco de dados, tabelas, partições e formato dos dados persistidos na camada de armazenamento.
+
+Com Trino, tornou-se possível criar uma arquitetura distribuída constituída de um coordinator e diversos workers, tal qual o coordinator responsabiliza-se pela recepção das instruções SQL , mapeamento e criação de tarefas de processamento e pela distribuição aos workers para realização do processamento dessas tarefas.
+
+Em conjunto com Trino, utilizou-se a ferramenta SQL Pad para disponibilizar uma interface intuitiva para a escrita das consultas SQL e pela disponibilização de gráficos analíticos.
+
+![Figura 1 - SQL Pad consultas](../images/figura_sqlpad.png)
