@@ -19,6 +19,7 @@
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
   - [3.2 Fluxo ETL - Batch](#3-2-fluxo-etl---batch)
+  - [3.3 Ingestão de dados em tempo real](#3-3-ingestão-de-dados-em-tempo-real)
 
 ## 1 Introdução
 
@@ -191,3 +192,15 @@ Na etapa de transformação, os dados já armazenados são reutilizados por outr
 Concluindo o processo ETL, o script da etapa de transformação deve armazenar os dados em um formato válido e intuitivo para posteriormente servir de análise.
 
 O componente responsável por armazenar a estrutura dos dados, por exemplo, em qual base de dados e em qual tabela o dado será salvo, qual serão os campos ou colunas que esse dado terá, se será particionado e o local onde será armazenado. Tais informações são armazenados no formato Apache Parquet via metadados, que são gerenciados pelo componente Apache Hive Metastore.
+
+### 3-3 Ingestão de dados em tempo real
+
+Com o intuito de prover um fluxo de processamento de dados em tempo real, criou-se uma aplicação escrita em Go. Tal aplicação foi responsável por receber chamadas HTTP com o método POST, obedecendo-se alguns critérios na rota http.
+
+Para tornar a ingestão de dados dinâmica, chamadas à api incluiam o nome do tópico Kafka na rota, fazendo-se possível consultar o formato do payload enviado na request. Nesta etapa do fluxo converte-se o payload em um formato binário conhecido, Apache Avro.
+
+Para fazer a conversão do dado no formato Apache Avro e realizar a verificação do schema, foi-se necessário que o schema existisse em um repositório de schemas, o então Confluent Schema Registry.
+
+Com a consulta do schema realizada e todos os campos validados, enviou-se o payload convertido no formato Apache Avro para tópicos no componente Apache Kafka. Com os eventos presentes no Apache Kafka, a transmissão de dados realizou-se por meio de um componente a parte, nomeado como HDFS Sink Kafka Connector. 
+
+No Kafka Connector, criou-se tarefas com algumas definições como quais tópicos seriam persistidos, com qual frequência, em qual formato, em qual banco de dados entre outras configurações.
