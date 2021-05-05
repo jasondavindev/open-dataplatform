@@ -176,6 +176,12 @@ Referências:
 - https://www.ibm.com/analytics/hadoop/avro
 - https://catherine-shen.medium.com/why-you-should-use-avro-and-schema-registry-for-your-streaming-application-2f24dcf017c8
 
+### Confluent Schema Registry TO DO
+
+### 2-15 Computação distribuída TO DO
+
+### 2-16 Teorema de CAP TO DO
+
 ## 3 Desenvolvimento
 
 ### 3-1 Arquitetura
