@@ -208,7 +208,7 @@ No Kafka Connector, criou-se tarefas com algumas definições como quais tópico
 
 ### 3-4 Análise dos dados
 
-Para tornar possível a consulta e análise dos dados armazenados na camadada de armazenamento HDFS com instruções SQL, utilizou-se a ferramenta PrestoSQL também conhecida como Trino.
+Para tornar possível a consulta e análise dos dados armazenados na camada de armazenamento HDFS com instruções SQL, utilizou-se a ferramenta PrestoSQL também conhecida como Trino.
 
 No Trino, criou-se um catálogo de dados utilizando-se um conector disponibilizado pelo Trino que tornou capaz a comunicação entre o Trino e os metadados armazenados no Hive Metastore. Neste catálogo, criou-se de forma automática todo o mapeamento dos banco de dados, tabelas, partições e formato dos dados persistidos na camada de armazenamento.
 
