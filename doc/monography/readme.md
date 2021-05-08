@@ -190,6 +190,10 @@ Referências:
 
 Computação distribuída é termo para referir-se a sistemas que possuem múltiplos componentes de softwares executando em múltiplos computadores, mas executando apenas um sistema. Sistemas distribuídos podem constituir-se de múltiplos computadores localizados geograficamente no mesmo local conectados por uma rede local ou podem estar geograficamente distribuídos conectados por um rede ampla. O objetivo da computação distribuída é fazer com que esse múltiplos computadores se comportem como apenas um. Alguns benefícios da computação distribuída inclue escalabilidade, podendo adicionar mais computadores a rede e também a redundância, ao qual se um computador parar de funcionar, o sistema continuará executando.
 
+Referências:
+
+- https://www.ibm.com/docs/ko/txseries/8.1.0?topic=overview-what-is-distributed-computing
+
 ### 2-16 Teorema de CAP TO DO
 
 ## 3 Desenvolvimento
