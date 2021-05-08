@@ -176,7 +176,13 @@ Referências:
 - https://www.ibm.com/analytics/hadoop/avro
 - https://catherine-shen.medium.com/why-you-should-use-avro-and-schema-registry-for-your-streaming-application-2f24dcf017c8
 
-### Confluent Schema Registry TO DO
+### 2-14 Confluent Schema Registry
+
+Confluent Schema Registry é uma camada provedora de metadados. Disponibiliza uma API RESTFul para armazenar a definição de schemas no formato Avro, JSON ou Protobuf. Com Schema Registry torna-se capaz armazenar versões de cada schema, o que permite visualizar o histórico de versões dos schemas. Atua como um componente intermediário separado dos brokers do Apache Kafka, porém permite a comunicação com consumers para recuperar schemas e assim fazer a leitura de tópicos, como também se comunica com producers para validarem schemas e postarem mensagens em tópicos.
+
+Referências:
+
+- https://docs.confluent.io/platform/current/schema-registry/index.html
 
 ### 2-15 Computação distribuída TO DO
 
