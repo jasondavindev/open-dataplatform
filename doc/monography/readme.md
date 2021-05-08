@@ -16,6 +16,7 @@
   - [2.11 Trino](#2-11-trino)
   - [2.12 Apache Parquet](#2-12-apache-parquet)
   - [2.13 Apache Avro](#2-13-apache-avro)
+  - [2.14 Confluent Schema Registry](#2-14-confluent-schema-registry)
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
   - [3.2 Fluxo ETL - Batch](#3-2-fluxo-etl---batch)
