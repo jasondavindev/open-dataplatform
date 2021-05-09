@@ -16,6 +16,8 @@
   - [2.11 Trino](#2-11-trino)
   - [2.12 Apache Parquet](#2-12-apache-parquet)
   - [2.13 Apache Avro](#2-13-apache-avro)
+  - [2.14 Confluent Schema Registry](#2-14-confluent-schema-registry)
+  - [2.15 Computação distribuída](#2-15-computação-distribuída)
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
   - [3.2 Fluxo ETL - Batch](#3-2-fluxo-etl---batch)
@@ -176,6 +178,22 @@ Referências:
 - https://www.ibm.com/analytics/hadoop/avro
 - https://catherine-shen.medium.com/why-you-should-use-avro-and-schema-registry-for-your-streaming-application-2f24dcf017c8
 
+### 2-14 Confluent Schema Registry
+
+Confluent Schema Registry é uma camada provedora de metadados. Disponibiliza uma API RESTFul para armazenar a definição de schemas no formato Avro, JSON ou Protobuf. Com Schema Registry torna-se capaz armazenar versões de cada schema, o que permite visualizar o histórico de versões dos schemas. Atua como um componente intermediário separado dos brokers do Apache Kafka, porém permite a comunicação com consumers para recuperar schemas e assim fazer a leitura de tópicos, como também se comunica com producers para validarem schemas e postarem mensagens em tópicos.
+
+Referências:
+
+- https://docs.confluent.io/platform/current/schema-registry/index.html
+
+### 2-15 Computação distribuída
+
+Computação distribuída é termo para referir-se a sistemas que possuem múltiplos componentes de softwares executando em múltiplos computadores, mas executando apenas um sistema. Sistemas distribuídos podem constituir-se de múltiplos computadores localizados geograficamente no mesmo local conectados por uma rede local ou podem estar geograficamente distribuídos conectados por um rede ampla. O objetivo da computação distribuída é fazer com que esse múltiplos computadores se comportem como apenas um. Alguns benefícios da computação distribuída inclue escalabilidade, podendo adicionar mais computadores a rede e também a redundância, ao qual se um computador parar de funcionar, o sistema continuará executando.
+
+Referências:
+
+- https://www.ibm.com/docs/ko/txseries/8.1.0?topic=overview-what-is-distributed-computing
+
 ## 3 Desenvolvimento
 
 ### 3-1 Arquitetura
@@ -208,7 +226,7 @@ No Kafka Connector, criou-se tarefas com algumas definições como quais tópico
 
 ### 3-4 Análise dos dados
 
-Para tornar possível a consulta e análise dos dados armazenados na camadada de armazenamento HDFS com instruções SQL, utilizou-se a ferramenta PrestoSQL também conhecida como Trino.
+Para tornar possível a consulta e análise dos dados armazenados na camada de armazenamento HDFS com instruções SQL, utilizou-se a ferramenta PrestoSQL também conhecida como Trino.
 
 No Trino, criou-se um catálogo de dados utilizando-se um conector disponibilizado pelo Trino que tornou capaz a comunicação entre o Trino e os metadados armazenados no Hive Metastore. Neste catálogo, criou-se de forma automática todo o mapeamento dos banco de dados, tabelas, partições e formato dos dados persistidos na camada de armazenamento.
 
