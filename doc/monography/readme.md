@@ -194,8 +194,6 @@ Referências:
 
 - https://www.ibm.com/docs/ko/txseries/8.1.0?topic=overview-what-is-distributed-computing
 
-### 2-16 Teorema de CAP TO DO
-
 ## 3 Desenvolvimento
 
 ### 3-1 Arquitetura
