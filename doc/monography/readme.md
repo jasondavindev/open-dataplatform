@@ -198,6 +198,8 @@ Referências:
 
 ### 3-1 Arquitetura
 
+A figura X mostra a arquitetura ao qual a plataforma de dados foi implementada. Na arquitetura, foi-se possível criar 3 pontos de interação com a plataforma - Airflow para gerenciamento de pipelines ETL, Trino para análise de dados e uma API HTTP, que é o ponto inicial para o fluxo de processamento de dados em tempo real.
+
 ![Arquitetura](../images/architecture.jpeg)
 
 ### 3-2 Fluxo ETL - Batch
