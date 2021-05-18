@@ -198,31 +198,31 @@ Referências:
 
 ### 3-1 Arquitetura
 
-A figura X mostra a arquitetura ao qual a plataforma de dados foi implementada. Na arquitetura, foi-se possível criar 3 pontos de interação com a plataforma - Airflow para gerenciamento de pipelines ETL, Trino para análise de dados e uma API HTTP, que é o ponto inicial para o fluxo de processamento de dados em tempo real.
+A figura X mostra a arquitetura ao qual a plataforma de dados foi implementada. Na arquitetura, foi-se possível criar 3 pontos de interação com a plataforma - Airflow para gerenciamento de pipelines ETL em lote, Trino para análise de dados e uma API HTTP, que é o ponto inicial para pipelines de transformação e carregamento em tempo real.
 
 ![Arquitetura](../images/architecture.jpeg)
 
-### 3-2 Fluxo ETL - Batch
+### 3-2 Pipelines ETL em lote
 
-Com o intuito de prover uma plataforma de processamento de dados em lote, por exemplo, extrair dados de um banco de dados transacional relacional, aplicar lógicas de transformações e por fim salvar a saída em uma camada de dados diferente, criou-se a interligação entre os componentes Apache Spark, Apache Airflow, Apache Hive Metastore e Apache HDFS.
+Com o intuito de prover uma plataforma de processamento de dados em lote, por exemplo, extrair dados de um banco de dados transacional relacional, aplicar lógicas de transformações e por fim persistir o resultado em uma camada de dados diferente, criou-se a interligação entre os componentes Apache Spark, Apache Airflow, Apache Hive Metastore e Apache HDFS.
 
-O fluxo de extração de dados foi criado a partir de scripts na linguagem Python, que agrupou-se de uma forma lógica formando-se grafos acíclicos. Assim que os dados são extraídos da fonte terceira, o mesmo pode ser armazenado diretamente na camada de armazenamento, HDFS, para assim servir de entrada para o próximo script a ser executado. Assim, conclui-se a etapa de Extração do conceito ETL ou ELT.
+O pipeline de extração de dados foi criado a partir de scripts escritos na linguagem Python e gerenciados pela ferramenta Airflow, que agrupa de uma forma lógica formando-se grafos acíclicos. Assim que os dados são extraídos da fonte terceira, o mesmo pode ser armazenado diretamente na camada de armazenamento, HDFS, para assim servir de entrada para o próximo passo do pipeline a ser executado. Assim, conclui-se a etapa de Extração do conceito ETL ou ELT.
 
-Na etapa de transformação os dados armazenados em uma camada intermediária são reutilizados por outro script, também escrito na linguagem Python porém utilizando-se de uma biblioteca chamada PySpark. Com PySpark tornou-se possível criar a interface com o componente Apache Spark, que efetivamente realiza o processamento das transformações dos dados.
+Na etapa de transformação os dados armazenados em uma camada intermediária são reutilizados por outro script, também escrito na linguagem Python porém utilizando-se a biblioteca PySpark, ao qual provê uma API que traduz o código Python em stages e tasks para o Spark executar. Estes scripts são as transformações aplicadas no dados da etapa anterior no fluxo ETL.
 
-Concluindo o processo ETL, o script da etapa de transformação armazena os dados em um formato válido e intuitivo para posteriormente servir de análise.
+Concluindo o processo ETL, o script da etapa de transformação armazena os dados em um formato válido e intuitivo para posterior análise.
 
-Para armazenar a estrutura dos dados, por exemplo, em qual base de dados e em qual tabela o dado será salvo, qual os campos ou colunas que esse dado possúi, se é particionado e o local onde é armazenado, utilizou-se o formato Apache Parquet via metadados, que são gerenciados pelo componente Apache Hive Metastore.
+Para armazenar a estrutura dos dados, por exemplo, em qual base de dados e em qual tabela o dado será salvo, qual os campos ou colunas que esse dado possui, se é particionado e o local onde é armazenado, utilizou-se o formato Apache Parquet via metadados, que são gerenciados pelo componente Apache Hive Metastore.
 
-### 3-3 Ingestão de dados em tempo real
+### 3-3 Pipelines ETL em tempo real
 
-Com o intuito de prover um fluxo de processamento de dados em tempo real, criou-se uma aplicação escrita em Go. Tal aplicação foi responsável por receber chamadas HTTP com o método POST, obedecendo-se alguns critérios na rota http.
+Com o intuito de prover um pipeline ETL em tempo real, criou-se uma aplicação escrita em Go. Tal aplicação foi responsável por receber chamadas HTTP com o método POST, obedecendo-se alguns critérios na rota HTTP.
 
-Para tornar a ingestão de dados dinâmica, chamadas à api incluiam o nome do tópico Kafka na rota, fazendo-se possível consultar o formato do payload enviado na request. Nesta etapa do fluxo converte-se o payload em um formato binário conhecido, Apache Avro.
+Para tornar a ingestão de dados dinâmica, chamadas à api incluem o nome do tópico Kafka na rota, fazendo-se possível consultar o formato do payload enviado na request. Nesta etapa do fluxo converte-se o payload em um formato binário conhecido, Apache Avro.
 
 Para fazer a conversão do dado no formato Apache Avro e realizar a verificação do schema, foi-se necessário que o schema existisse em um repositório de schemas, o então Confluent Schema Registry.
 
-Com a consulta do schema realizada e todos os campos validados, enviou-se o payload convertido no formato Apache Avro para tópicos no componente Apache Kafka. Com os eventos presentes no Apache Kafka, a transmissão de dados realizou-se por meio de um componente a parte, nomeado como HDFS Sink Kafka Connector. 
+Com a consulta do schema realizada e todos os campos validados, envia-se o payload convertido no formato Apache Avro para tópicos no Apache Kafka. Com os eventos presentes no Apache Kafka, a transmissão de dados é realizada por meio de um componente a parte, nomeado como HDFS Sink Kafka Connector. 
 
 No Kafka Connector, criou-se tarefas com algumas definições como quais tópicos seriam persistidos, com qual frequência, em qual formato, em qual banco de dados entre outras configurações.
 
