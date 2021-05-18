@@ -116,6 +116,7 @@ services:
     volumes:
       - ./hadoop/conf:/opt/hadoop/conf
       - ./spark/config/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+      - ./spark/applications:/scripts
 
   spark-worker:
     hostname: spark-worker
@@ -172,4 +173,4 @@ volumes:
 
 networks:
   default:
-    name: open-open-dataplatform-network
+    name: open-dataplatform-network
