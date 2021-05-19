@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.avro.functions import from_avro, to_avro
+from pyspark.sql.avro.functions import from_avro
+from pyspark.sql.functions import window
 
 # `from_avro` requires Avro schema in JSON string format.
 jsonFormatSchema = """
@@ -29,7 +30,8 @@ df = spark \
 output = df \
     .select(
         from_avro("value", jsonFormatSchema).alias("teste")) \
-    .select("teste.value")
+    .select("teste.value").alias("timestamp")
+    # .groupBy(window("timestamp", "5 seconds"))
 
 
 query = output\

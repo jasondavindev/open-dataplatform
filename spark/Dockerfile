@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-slim
+FROM openjdk:8-jdk-slim
 
 ENV HADOOP_VERSION 3.2
 ENV SPARK_VERSION 3.1.1
@@ -24,6 +24,18 @@ RUN tar -xzvf ${TAR_FILE} -C /opt; \
     rm /${TAR_FILE}
 
 WORKDIR ${SPARK_HOME}
+
+# install jars
+RUN wget https://repo1.maven.org/maven2/org/apache/spark/spark-avro_2.12/3.1.1/spark-avro_2.12-3.1.1.jar; \
+    wget https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.1.1/spark-sql-kafka-0-10_2.12-3.1.1.jar; \
+    wget https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/2.6.0/kafka-clients-2.6.0.jar; \
+    wget https://repo1.maven.org/maven2/org/apache/spark/spark-token-provider-kafka-0-10_2.12/3.1.1/spark-token-provider-kafka-0-10_2.12-3.1.1.jar; \
+    wget https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/2.6.2/commons-pool2-2.6.2.jar; \
+    mv spark-avro_2.12-3.1.1.jar ${SPARK_HOME}/jars/spark-avro_2.12-3.1.1.jar; \
+    mv spark-sql-kafka-0-10_2.12-3.1.1.jar ${SPARK_HOME}/jars/spark-sql-kafka-0-10_2.12-3.1.1.jar; \
+    mv kafka-clients-2.6.0.jar ${SPARK_HOME}/jars/kafka-clients-2.6.0.jar; \
+    mv spark-token-provider-kafka-0-10_2.12-3.1.1.jar ${SPARK_HOME}/jars/spark-token-provider-kafka-0-10_2.12-3.1.1.jar; \
+    mv commons-pool2-2.6.2.jar ${SPARK_HOME}/jars/commons-pool2-2.6.2.jar
 
 ADD entrypoint.sh /entrypoint.sh
 
