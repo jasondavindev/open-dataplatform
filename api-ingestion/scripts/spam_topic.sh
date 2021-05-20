@@ -4,7 +4,7 @@ DELAY=$2
 
 [ -z "$TOPIC" -o -z "$DELAY" ] && echo "Usage: spam_topic.sh topic-name delay-time" && exit 1
 
-
+# Using Kafka REST Proxy API
 while true
 do
     PAYLOAD="{ \"key_schema_id\": 2, \"value_schema_id\": \"1\", \"records\": [{\"key\":\"`uuidgen`\",\"value\":{\"name\":\"`uuidgen`\",\"favorite_color\":\"blue\"}}]}"
