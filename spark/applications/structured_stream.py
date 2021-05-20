@@ -1,15 +1,15 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.avro.functions import from_avro
-from pyspark.sql.functions import window
+from pyspark.sql.functions import expr, col, to_json
+from pyspark.sql.types import StringType
 
-# `from_avro` requires Avro schema in JSON string format.
 jsonFormatSchema = """
 {
   "type": "record",
   "name": "Example",
   "fields": [
-    {"name": "key", "type": "string"},
-    {"name": "value", "type": "string"}
+    {"name": "name", "type": "string"},
+    {"name": "favorite_color", "type": "string"}
   ]
 }
 """
@@ -24,14 +24,15 @@ df = spark \
     .format("kafka")\
     .option("failOnDataLoss", "false")\
     .option("kafka.bootstrap.servers", "broker:29092")\
-    .option("subscribe", "topic-abc")\
+    .option("subscribe", "topic-example")\
     .load()
 
 output = df \
-    .select(
-        from_avro("value", jsonFormatSchema).alias("teste")) \
-    .select("teste.value").alias("timestamp")
-    # .groupBy(window("timestamp", "5 seconds"))
+    .withColumn('key', col("key").cast(StringType())) \
+    .withColumn('fixedValue', expr("substring(value, 6, length(value)-5)")) \
+    .select('topic', 'partition', 'offset', 'timestamp', 'timestampType', 'key', 'fixedValue') \
+    .withColumn('parsedValue', from_avro('fixedValue', jsonFormatSchema,  {"mode": "FAILFAST"})) \
+    .withColumn('value', to_json('parsedValue'))
 
 
 query = output\
