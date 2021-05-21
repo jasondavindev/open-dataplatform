@@ -4,10 +4,30 @@ DELAY=$2
 
 [ -z "$TOPIC" -o -z "$DELAY" ] && echo "Usage: spam_topic.sh topic-name delay-time" && exit 1
 
+VALUE_SCHEMA='{\"type\":\"record\",\"name\":\"user_events\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favorite_color\",\"type\":\"string\"},{\"name\":\"event_time\",\"type\":\"long\"}]}'
+KEY_SCHEMA='{\"type\": \"string\"}'
+COLORS=('blue' 'green' 'red')
+
 # Using Kafka REST Proxy API
 while true
 do
-    PAYLOAD="{ \"key_schema_id\": 2, \"value_schema_id\": \"1\", \"records\": [{\"key\":\"`uuidgen`\",\"value\":{\"name\":\"`uuidgen`\",\"favorite_color\":\"blue\"}}]}"
+    RANDOM_NUMBER=$((RANDOM % 3)) # between 0 and 2
+    NOW=$(date +%s)
+    PAYLOAD="{
+        \"key_schema\": \"$KEY_SCHEMA\",
+        \"value_schema\": \"$VALUE_SCHEMA\",
+        \"records\": [
+            {
+                \"key\": \"teste\",
+                \"value\": {
+                    \"name\": \"`uuidgen`\",
+                    \"favorite_color\": \"${COLORS[$RANDOM_NUMBER]}\",
+                    \"event_time\": $NOW
+                }
+            }
+        ]
+    }"
+
     curl -X POST -H "Content-Type: application/vnd.kafka.avro.v2+json" \
         -H "Accept: application/vnd.kafka.v2+json" \
         -w "\n" \
