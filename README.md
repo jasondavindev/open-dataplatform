@@ -8,25 +8,21 @@
 
 ## Problema
 
-- Grande volume de dados
-- Custos
+- Altos custos com serviços em nuvem
+- Integração limitada com serviços de outros provedores
+- Personalização das ferramentas de forma limitada
 
 ## Motivação
 
-- Aumento do fluxo e troca de informações
+- Trabalho com computação distribuída e tolerante a falhas
 - Grande volume de dados
-- Decisões de negócio
-- Experiência personalizada para cada usuário
-- Problemas de arquitetura no mundo de hoje
-- Análise de informações em tempo real
-- Plataformas de dados
-- Tecnologias modernas
-- Custos de plataformas robustas
-- Soluções open-source
+- Plataforma de dados centralizada
+- Solução com tecnologias open-source
+- Liberdade de personalização de ferramentas
 
 ## Solução
 
-Criar uma plataforma de dados com tecnologias preferencialmente open-source. Objetivo final é criar uma plataforma de dados capaz de suportar uma quantidade massiva de dados e ferramental para análises em tempo real e histórica.
+Criar uma plataforma de dados centralizada utilizando ferramentas open-source, capaz de prover a criação de pipelines ETL em batch e em tempo real e também ferramentas para análise dos dados armazenados no Data Lake.
 
 ## Arquitetura
 
