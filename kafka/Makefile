@@ -1,5 +1,9 @@
-.PHONY: consume_topic
 consume_topic:
+	docker run --rm -ti\
+		--network=open-dataplatform-network\
+		confluentinc/cp-kafkacat bash -c "kafkacat -C -t ${topic} -b broker:29092"
+
+consume_topic_avro:
 	docker run --rm -ti\
 		--network=open-dataplatform-network\
 		confluentinc/cp-kafkacat bash -c "kafkacat -C -t ${topic} -b broker:29092 -s avro -r schema-registry:8081"
