@@ -20,8 +20,8 @@
   - [2.15 Computação distribuída](#2-15-computação-distribuída)
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
-  - [3.2 Fluxo ETL - Batch](#3-2-pipelines-etl-em-lote)
-  - [3.3 Ingestão de dados em tempo real](#3-3-pipelines-etl-em-tempo-real)
+  - [3.2 Pipelines ETL em lote](#3-2-pipelines-etl-em-lote)
+  - [3.3 Pipelines ETL em tempo real](#3-3-pipelines-etl-em-tempo-real)
   - [3.4 Análise dos dados](#3-4-análise-dos-dados)
 
 ## 1 Introdução
