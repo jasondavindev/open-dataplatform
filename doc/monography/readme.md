@@ -20,8 +20,8 @@
   - [2.15 Computação distribuída](#2-15-computação-distribuída)
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
-  - [3.2 Fluxo ETL - Batch](#3-2-fluxo-etl---batch)
-  - [3.3 Ingestão de dados em tempo real](#3-3-ingestão-de-dados-em-tempo-real)
+  - [3.2 Fluxo ETL - Batch](#3-2-pipelines-etl-em-lote)
+  - [3.3 Ingestão de dados em tempo real](#3-3-pipelines-etl-em-tempo-real)
   - [3.4 Análise dos dados](#3-4-análise-dos-dados)
 
 ## 1 Introdução
@@ -35,7 +35,7 @@ O processamento de quantidades massivas de dados lida com alguns aspectos não t
 
 Hoje no mercado existem ferramentas e serviços disponíveis capazes de proporcionar ambientes auto-gerenciáveis que disponibilizam uma plataforma com alta disponibilidade, segura, normalmente tolerante a falhas entre outros aspectos. Porém, tais soluções envolvem altos custos de gerenciamento e suporte e, que também limitam a capacidade do usuário em extender ou personalizar uma solução, permitindo somente integrar ferramentas gerenciadas pela própria provedora do serviço ou plataforma.
 
-### 1-1  Objetivos do trabalho
+### 1-1 Objetivos do trabalho
 
 O objetivo geral deste trabalho é desenvolver uma plataforma capaz de extrair, transformar e armazenar dados.
 
@@ -225,6 +225,8 @@ Para fazer a conversão do dado no formato Apache Avro e realizar a verificaçã
 Com a consulta do schema realizada e todos os campos validados, envia-se o payload convertido no formato Apache Avro para tópicos no Apache Kafka. Com os eventos presentes no Apache Kafka, a transmissão de dados é realizada por meio de um componente a parte, nomeado como HDFS Sink Kafka Connector. 
 
 No Kafka Connector, criou-se tarefas com algumas definições como quais tópicos seriam persistidos, com qual frequência, em qual formato, em qual banco de dados entre outras configurações.
+
+Também foi criado em paralelo uma aplicação para processamento de dados em tempo real utilizando a ferramenta Spark Structured Streaming. A aplicação consiste em uma lógica de clickstream, ao qual todas as interações de um usário em uma página web é rastreada, como por exemplo, um click ou um submit em algum formulário HTML. A aplicação aplica um janelamento de N segundos e contabiliza a quantidade de tipos de eventos de um determinado usuário, em uma determinada página. A quantidade de eventos de cada usuário em cada página é enviada de volta para um tópico no Kafka.
 
 ### 3-4 Análise dos dados
 
