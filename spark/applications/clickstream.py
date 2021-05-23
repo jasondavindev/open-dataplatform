@@ -5,9 +5,13 @@ from pyspark.sql.functions import count, expr, col, struct, to_json, window
 
 parser = argparse.ArgumentParser(description='Arguments for clickstream application')
 parser.add_argument('--topic', default='clickstream')
+parser.add_argument('--event-window', default='5 seconds')
+parser.add_argument('--watermark', default='5 seconds')
 args = parser.parse_args()
 
 APPLICATION_TOPIC = args.topic
+event_window_time = args.event_window
+watermark_time = args.watermark
 
 jsonFormatSchema = """
 {
@@ -44,8 +48,8 @@ output = df \
     .withColumn('page', col('parsedValue.page')) \
     .withColumn('event_name', col('parsedValue.event_name')) \
     .select('event_time', 'event_name', 'username', 'page') \
-    .withWatermark('event_time', '5 seconds') \
-    .groupBy(window('event_time', '5 seconds'), 'event_name', 'page', 'username') \
+    .withWatermark('event_time', watermark_time) \
+    .groupBy(window('event_time', event_window_time), 'event_name', 'page', 'username') \
     .agg(count('window').alias('count')) \
     .select(to_json(struct(['window', 'username', 'page', 'event_name', 'count'])).alias("value"))
 
