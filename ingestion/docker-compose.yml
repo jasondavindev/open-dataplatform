@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  api:
+    image: node:14
+    container_name: ingestion
+    env_file: .env
+    volumes:
+      - $PWD:/app
+    working_dir: /app
+    ports:
+      - 3000:3000
+    command:
+        - npm
+        - run
+        - dev
+
+networks:
+  default:
+    external:
+      name: open-dataplatform-network
