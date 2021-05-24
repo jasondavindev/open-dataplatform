@@ -216,7 +216,7 @@ Para armazenar a estrutura dos dados, por exemplo, em qual base de dados e em qu
 
 ### 3-3 Pipelines ETL em tempo real
 
-Com o intuito de prover um pipeline ETL em tempo real, criou-se uma aplicação escrita em Go. Tal aplicação foi responsável por receber chamadas HTTP com o método POST, obedecendo-se alguns critérios na rota HTTP.
+Com o intuito de prover um pipeline ETL em tempo real, criou-se uma aplicação escrita em JavaScript com Node.js. Tal aplicação foi responsável por receber chamadas HTTP com o método POST, obedecendo-se alguns critérios na rota HTTP.
 
 Para tornar a ingestão de dados dinâmica, chamadas à api incluem o nome do tópico Kafka na rota, fazendo-se possível consultar o formato do payload enviado na request. Nesta etapa do fluxo converte-se o payload em um formato binário conhecido, Apache Avro.
 
