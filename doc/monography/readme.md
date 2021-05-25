@@ -18,6 +18,7 @@
   - [2.13 Apache Avro](#2-13-apache-avro)
   - [2.14 Confluent Schema Registry](#2-14-confluent-schema-registry)
   - [2.15 Computação distribuída](#2-15-computação-distribuída)
+  - [2.16 Spark Strucuted Streaming](#2-16-Spark-Structured-Streaming)
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
   - [3.2 Pipelines ETL em lote](#3-2-pipelines-etl-em-lote)
@@ -193,6 +194,14 @@ Computação distribuída é termo para referir-se a sistemas que possuem múlti
 Referências:
 
 - https://www.ibm.com/docs/ko/txseries/8.1.0?topic=overview-what-is-distributed-computing
+
+# 2-16 Spark Structured Streaming
+
+Spark Structured Streaming é um mecanismo de processamento em tempo real que utiliza Spark SQL para criar fluxos de processamento de dados da mesma maneira que fluxo de processamento em lote são criados. Spark Structured Streaming é responsável por adicionar todos os dados em um fluxo de streaming e adicionar ao final de uma DataFrame ou Dataset, que é componente do mecanismo Spark SQL.
+
+Referências:
+
+- https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html
 
 ## 3 Desenvolvimento
 
