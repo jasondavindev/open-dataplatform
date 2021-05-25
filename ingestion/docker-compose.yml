@@ -7,9 +7,11 @@ services:
     env_file: .env
     volumes:
       - $PWD:/app
+      - ./entrypoint.sh:/entrypoint.sh
     working_dir: /app
     ports:
       - 3000:3000
+    entrypoint: /entrypoint.sh
     command:
         - npm
         - run
