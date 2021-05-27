@@ -1,3 +1,4 @@
+const { v4 } = require('uuid');
 const dotenv = require('dotenv');
 const express = require('express');
 const KafkaAvro = require('kafka-avro');
@@ -12,7 +13,7 @@ const createProducer = async (kafkaBroker, schemaRegistry) => {
 
   await kafkaAvro.init();
 
-  return kafkaAvro.getProducer();
+  return kafkaAvro.getProducer({});
 };
 
 (async () => {
@@ -29,10 +30,12 @@ const createProducer = async (kafkaBroker, schemaRegistry) => {
     const body = req.body;
     const topic = req.params.topic;
     const response = { topic, body };
+    const key = v4();
 
-    producer.produce(topic, -1, body);
+    console.log(`Sending message key=${key} payload=${JSON.stringify(body)}`);
 
-    console.log(response);
+    producer.produce(topic, -1, body, key);
+
     return res.status(201).json(response);
   });
 

@@ -41,9 +41,6 @@ ADD entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 7077 6066
-
-# web ui for master and workers respectively
-EXPOSE 8080 8081
+EXPOSE 7077 4040
 
 ENTRYPOINT [ "/entrypoint.sh" ]

@@ -152,7 +152,7 @@ services:
   sqlpad:
     image: sqlpad/sqlpad:latest
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       SQLPAD_CONNECTIONS__datawarehouse__name: Data Warehouse
       SQLPAD_CONNECTIONS__datawarehouse__driver: trino
