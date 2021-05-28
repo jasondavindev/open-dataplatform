@@ -8,7 +8,7 @@ FIELDS='[{\"name\":\"username\",\"type\":\"string\"},{\"name\":\"page\",\"type\"
 VALUE_SCHEMA="{\\\"type\\\":\\\"record\\\",\\\"name\\\":\\\"user_event\\\",\\\"fields\\\":$FIELDS}"
 KEY_SCHEMA='{\"type\": \"string\"}'
 EVENT_TYPES=('click' 'submit' 'checkout')
-USER_NAMES=('John', 'Mary', 'Cris')
+USER_NAMES=('John' 'Mary' 'Cris')
 PAGES=('google.com/users' 'facebook.com/users' 'twitter.com/users')
 
 # Using Kafka REST Proxy API

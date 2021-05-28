@@ -1,38 +1,30 @@
 const dotenv = require('dotenv');
 const express = require('express');
-const KafkaAvro = require('kafka-avro');
+const { createRegistry } = require('./lib/schema_registry');
+const { createProducer } = require('./lib/producer');
 
 dotenv.config();
 
-const createProducer = async (kafkaBroker, schemaRegistry) => {
-  const kafkaAvro = new KafkaAvro({
-    kafkaBroker,
-    schemaRegistry,
-  });
-
-  await kafkaAvro.init();
-
-  return kafkaAvro.getProducer();
-};
-
 (async () => {
   const { PORT, SCHEMA_REGISTRY_URL, KAFKA_BROKER } = process.env;
+  const producer = await createProducer(KAFKA_BROKER);
+  const registry = createRegistry(SCHEMA_REGISTRY_URL);
 
   const app = express();
   app.use(express.json());
 
-  const producer = await createProducer(KAFKA_BROKER, SCHEMA_REGISTRY_URL);
-
   app.get('/status', (_, res) => res.json({ status: 'ok' }));
 
-  app.post('/event/:topic', (req, res) => {
+  app.post('/event/:topic', async (req, res) => {
     const body = req.body;
     const topic = req.params.topic;
     const response = { topic, body };
+    const payload = await registry.encodeMessage(topic, body);
 
-    producer.produce(topic, -1, body);
+    console.log(`Sending message payload=${JSON.stringify(body)}`);
 
-    console.log(response);
+    await producer.sendMessage(topic, payload);
+
     return res.status(201).json(response);
   });
 
