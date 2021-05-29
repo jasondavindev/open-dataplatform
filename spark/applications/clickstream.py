@@ -1,7 +1,7 @@
 import argparse
 from pyspark.sql import SparkSession
 from pyspark.sql.avro.functions import from_avro
-from pyspark.sql.functions import count, expr, col, struct, to_json, to_timestamp, window, unix_timestamp
+from pyspark.sql.functions import count, expr, col, struct, to_json, to_timestamp, window
 
 parser = argparse.ArgumentParser(
     description='Arguments for clickstream application')
