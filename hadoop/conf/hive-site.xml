@@ -29,4 +29,8 @@
         <name>javax.jdo.option.ConnectionUserName</name>
         <value>hive</value>
     </property>
+    <property>
+        <name>hive.server2.sleep.interval.between.start.attempts</name>
+        <value>1s</value>
+    </property>
 </configuration>
