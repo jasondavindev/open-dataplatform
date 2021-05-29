@@ -58,6 +58,19 @@ services:
     ports:
       - 9083:9083
 
+  hive-server:
+    hostname: hive-server
+    image: open-dataplatform-hadoop-hive:3.1.2
+    container_name: hive-server
+    depends_on:
+      - hive-metastore
+    volumes:
+      - ./hadoop/conf:/etc/hadoop
+      - ./hadoop/conf/hive-site.xml:/opt/hive/conf/hive-site.xml
+    command: "hiveserver2"
+    ports:
+      - 10002:10002
+
   # Airflow
   airflow-db:
     hostname: airflow-db
