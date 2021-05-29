@@ -4,19 +4,21 @@ TOPIC=$1
 [ -z "$TOPIC" ] && echo "Usage script.sh topic-name" && exit 1
 
 FIELDS='[
-    {"name":"name","type":"string"},
-    {"name":"favorite_color","type":"string"}
+    {"name":"username","type":"string"},
+    {"name":"page","type":"string"},
+    {"name":"event_name","type":"string"},
+    {"name":"event_time","type":"long"}
 ]'
 
 FIELDS_X=$(echo $FIELDS | xargs -0)
 
 SCHEMA='{
     "type":"record",
-    "name":"Clickstream",
+    "name":"TOPIC_NAME",
     "fields": SCHEMA_FIELDS
 }'
 
-SCHEMA_X=$(echo $SCHEMA | sed -e "s~SCHEMA_FIELDS~$FIELDS_X~g" -e 's~"~\\\"~g')
+SCHEMA_X=$(echo $SCHEMA | sed -e "s~SCHEMA_FIELDS~$FIELDS_X~g" -e 's~"~\\\"~g' -e "s~TOPIC_NAME~$TOPIC~g")
 
 PAYLOAD="{\"schema\":\"$SCHEMA_X\"}"
 
