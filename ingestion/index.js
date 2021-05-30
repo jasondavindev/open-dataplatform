@@ -21,7 +21,7 @@ dotenv.config();
     const response = { topic, body };
     const payload = await registry.encodeMessage(topic, body);
 
-    console.log(`Sending message payload=${JSON.stringify(body)}`);
+    console.log(`Sending key=${payload.key} message payload=${JSON.stringify(body)}`);
 
     await producer.sendMessage(topic, payload);
 

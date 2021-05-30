@@ -1,7 +1,7 @@
 import argparse
 from pyspark.sql import SparkSession
-from pyspark.sql.avro.functions import from_avro
-from pyspark.sql.functions import count, expr, col, struct, to_json, to_timestamp, window
+from pyspark.sql.avro.functions import from_avro, to_avro
+from pyspark.sql.functions import count, expr, col, lit, struct, to_json, to_timestamp, window
 
 parser = argparse.ArgumentParser(
     description='Arguments for clickstream application')
@@ -31,22 +31,15 @@ input_event_schema = """
 
 output_event_schema = """
 {
-  "type": "record",
-  "name": "output_event",
-  "fields": [
-    {"name": "start_date", "type": "string"},
-    {"name": "start_time", "type": "string"},
-    {"name": "username", "type": "string"},
-    {"name": "page", "type": "string"},
-    {"name": "event_name", "type": "string"},
-    {"name": "count", "type": "long"}
-  ]
+  "type": "string",
+  "name": "a6-key"
 }
 """
 
 spark = SparkSession \
     .builder \
     .appName("clickstream") \
+    .config('spark.sql.streaming.stateStore.stateSchemaCheck', False) \
     .getOrCreate()
 
 df = spark \
@@ -59,19 +52,18 @@ df = spark \
 
 output = df \
     .withColumn('fixedValue', expr("substring(value, 6, length(value)-5)")) \
-    .select('topic', 'fixedValue') \
+    .withColumn('fixedKey', expr('cast(unbase64(substring(key, 6, length(key)-5)) as string)')) \
+    .select('topic', 'fixedValue', 'fixedKey') \
     .withColumn('parsedValue', from_avro('fixedValue', input_event_schema,  {"mode": "FAILFAST"})) \
     .withColumn('event_time', to_timestamp(col('parsedValue.event_time'))) \
     .withColumn('username', col('parsedValue.username')) \
     .withColumn('page', col('parsedValue.page')) \
     .withColumn('event_name', col('parsedValue.event_name')) \
-    .select('event_time', 'event_name', 'username', 'page') \
-    .withWatermark('event_time', watermark_time) \
-    .groupBy(window('event_time', event_window_time), 'event_name', 'page', 'username') \
-    .agg(count('window').alias('count')) \
-    .withColumn('start_date', expr("substring(window.start, 0, 10)")) \
-    .withColumn('start_time', expr("substring(window.start, 12, 8)")) \
-    .select(to_json(struct(['start_date', 'start_time', 'username', 'page', 'event_name', 'count'])).alias("value"))
+    .select('event_time', 'event_name', 'username', 'page', 'fixedKey') \
+    .select(
+      to_avro(struct(['event_time', 'username', 'page', 'event_name']), input_event_schema).alias('value'),
+      to_avro(col('fixedKey'), output_event_schema).alias('key'))
+      # .select(to_avro(struct(['start_date', 'start_time', 'username', 'page', 'event_name', 'count'])).alias("value"))
 
 query = output\
     .writeStream\
