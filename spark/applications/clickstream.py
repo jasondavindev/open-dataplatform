@@ -47,7 +47,20 @@ output_event_schema = """
 spark = SparkSession \
     .builder \
     .appName("clickstream") \
+    .enableHiveSupport() \
     .getOrCreate()
+
+spark.sql("""
+  create table if not exists dumping.testando (
+    start_date string,
+    start_time string,
+    username string,
+    page string, count int
+  )
+  partitioned by (event_name string)
+  stored as parquet
+  location '/user/hive/warehouse/dumping/testando'
+  """)
 
 df = spark \
     .readStream\
@@ -71,14 +84,16 @@ output = df \
     .agg(count('window').alias('count')) \
     .withColumn('start_date', expr("substring(window.start, 0, 10)")) \
     .withColumn('start_time', expr("substring(window.start, 12, 8)")) \
-    .select(to_json(struct(['start_date', 'start_time', 'username', 'page', 'event_name', 'count'])).alias("value"))
+    .select('start_date', 'start_time', 'username', 'page', 'event_name', 'count') \
+    .repartition('event_name')
 
 query = output\
     .writeStream\
-    .format("kafka")\
-    .option("kafka.bootstrap.servers", "broker:29092")\
-    .option("topic", output_topic)\
+    .outputMode('append') \
+    .format('parquet') \
+    .option('path', '/user/hive/warehouse/dumping/testando') \
     .option("checkpointLocation", "/tmp/checkpoint")\
+    .partitionBy(['event_name']) \
     .start()
 
 query.awaitTermination()
