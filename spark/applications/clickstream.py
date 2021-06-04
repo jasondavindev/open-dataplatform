@@ -1,20 +1,20 @@
 import argparse
 from pyspark.sql import SparkSession
 from pyspark.sql.avro.functions import from_avro
-from pyspark.sql.functions import count, expr, col, struct, to_json, to_timestamp, window
+from pyspark.sql.functions import count, expr, col, to_timestamp, window
 
 parser = argparse.ArgumentParser(
     description='Arguments for clickstream application')
 parser.add_argument('--topic', default='clickstream')
 parser.add_argument('--event-window', default='5 seconds')
 parser.add_argument('--watermark', default='5 seconds')
-parser.add_argument('--output-topic', required=True)
+parser.add_argument('--table-path', required=True)
 args = parser.parse_args()
 
 APPLICATION_TOPIC = args.topic
 event_window_time = args.event_window
 watermark_time = args.watermark
-output_topic = args.output_topic
+table_path = args.table_path
 
 input_event_schema = """
 {
@@ -29,21 +29,6 @@ input_event_schema = """
 }
 """
 
-output_event_schema = """
-{
-  "type": "record",
-  "name": "output_event",
-  "fields": [
-    {"name": "start_date", "type": "string"},
-    {"name": "start_time", "type": "string"},
-    {"name": "username", "type": "string"},
-    {"name": "page", "type": "string"},
-    {"name": "event_name", "type": "string"},
-    {"name": "count", "type": "long"}
-  ]
-}
-"""
-
 spark = SparkSession \
     .builder \
     .appName("clickstream") \
@@ -51,7 +36,7 @@ spark = SparkSession \
     .getOrCreate()
 
 spark.sql("""
-  create table if not exists dumping.testando (
+  create external table if not exists dumping.clickstream (
     start_date string,
     start_time string,
     username string,
@@ -59,8 +44,8 @@ spark.sql("""
   )
   partitioned by (event_name string)
   stored as parquet
-  location '/user/hive/warehouse/dumping/testando'
-  """)
+  location '%s'
+  """ % table_path)
 
 df = spark \
     .readStream\
@@ -91,7 +76,7 @@ query = output\
     .writeStream\
     .outputMode('append') \
     .format('parquet') \
-    .option('path', '/user/hive/warehouse/dumping/testando') \
+    .option('path', table_path) \
     .option("checkpointLocation", "/tmp/checkpoint")\
     .partitionBy(['event_name']) \
     .start()
