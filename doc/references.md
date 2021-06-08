@@ -64,3 +64,7 @@ https://www.dezyre.com/article/apache-flink-vs-spark-will-one-overtake-the-other
 ## Apache Parquet
 
 https://stackoverflow.com/questions/36822224/what-are-the-pros-and-cons-of-parquet-format-compared-to-other-formats
+
+## When to use Cassandra, MongoDB, HBase, Accumulo and MySQL
+
+https://blog.ippon.tech/use-cassandra-mongodb-hbase-accumulo-mysql/
