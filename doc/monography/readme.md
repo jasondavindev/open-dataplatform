@@ -18,12 +18,13 @@
   - [2.13 Apache Avro](#2-13-apache-avro)
   - [2.14 Confluent Schema Registry](#2-14-confluent-schema-registry)
   - [2.15 Computação distribuída](#2-15-computação-distribuída)
-  - [2.16 Spark Strucuted Streaming](#2-16-Spark-Structured-Streaming)
+  - [2.16 Spark Structured Streaming](#2-16-Spark-Structured-Streaming)
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
   - [3.2 Pipelines ETL em lote](#3-2-pipelines-etl-em-lote)
   - [3.3 Pipelines ETL em tempo real](#3-3-pipelines-etl-em-tempo-real)
-  - [3.4 Análise dos dados](#3-4-análise-dos-dados)
+  - [3.4 Clickstream](#3-4-clickstream)
+  - [3.5 Análise dos dados](#3-5-análise-dos-dados)
 
 ## 1 Introdução
 
@@ -219,9 +220,7 @@ O pipeline de extração de dados foi criado a partir de scripts escritos na lin
 
 Na etapa de transformação os dados armazenados em uma camada intermediária são reutilizados por outro script, também escrito na linguagem Python porém utilizando-se a biblioteca PySpark, ao qual provê uma API que traduz o código Python em stages e tasks para o Spark executar. Estes scripts são as transformações aplicadas no dados da etapa anterior no fluxo ETL.
 
-Concluindo o processo ETL, o script da etapa de transformação armazena os dados em um formato válido e intuitivo para posterior análise.
-
-Para armazenar a estrutura dos dados, por exemplo, em qual base de dados e em qual tabela o dado será salvo, qual os campos ou colunas que esse dado possui, se é particionado e o local onde é armazenado, utilizou-se o formato Apache Parquet via metadados, que são gerenciados pelo componente Apache Hive Metastore.
+Concluindo o processo ETL, o script da etapa de transformação armazena os dados em um formato válido e intuitivo para posterior análise. Para armazenar a estrutura dos dados, por exemplo, em qual base de dados e em qual tabela o dado será salvo, qual os campos ou colunas que esse dado possui, se é particionado e o local onde é armazenado, utilizou-se o formato Apache Parquet via metadados, que são gerenciados pelo componente Apache Hive Metastore.
 
 ### 3-3 Pipelines ETL em tempo real
 
@@ -231,13 +230,19 @@ Para tornar a ingestão de dados dinâmica, chamadas à api incluem o nome do t�
 
 Para fazer a conversão do dado no formato Apache Avro e realizar a verificação do schema, foi-se necessário que o schema existisse em um repositório de schemas, o então Confluent Schema Registry.
 
-Com a consulta do schema realizada e todos os campos validados, envia-se o payload convertido no formato Apache Avro para tópicos no Apache Kafka. Com os eventos presentes no Apache Kafka, a transmissão de dados é realizada por meio de um componente a parte, nomeado como HDFS Sink Kafka Connector. 
+Com a consulta do schema realizada e todos os campos validados, envia-se o payload convertido no formato Apache Avro para tópicos no Apache Kafka. Com os eventos presentes no Apache Kafka, a persistência de tais no Data Lake para posterior análise é feito por meio de um componente a parte, nomeado como HDFS Sink Kafka Connector. 
 
-No Kafka Connector, criou-se tarefas com algumas definições como quais tópicos seriam persistidos, com qual frequência, em qual formato, em qual banco de dados entre outras configurações.
+Com Kafka Connector foi-se possível criar tarefas de definição incluindo algumas configurações de quais tópicos do Kafka seriam permitidos, em qual formato de dado, com qual frequência, como o dado seria particionado entre outras configurações.
 
-Também foi criado em paralelo uma aplicação para processamento de dados em tempo real utilizando a ferramenta Spark Structured Streaming. A aplicação consiste em uma lógica de clickstream, ao qual todas as interações de um usário em uma página web é rastreada, como por exemplo, um click ou um submit em algum formulário HTML. A aplicação aplica um janelamento de N segundos e contabiliza a quantidade de tipos de eventos de um determinado usuário, em uma determinada página. A quantidade de eventos de cada usuário em cada página é enviada de volta para um tópico no Kafka.
+### 3-4 Clickstream
 
-### 3-4 Análise dos dados
+Para satisfazer o requisito da criação de pipelines que efetivamente processam em tempo real, criou-se uma aplicação utilizando a tecnologia Spark Structured Streaming. A aplicação consiste em uma lógica de clickstream, ao qual todas as interações de um usário em uma página web é rastreada, como por exemplo, um click ou um submit em algum formulário HTML. A aplicação aplica um janelamento de N segundos contabilizando a quantidade de tipos de eventos de um determinado usuário em uma determinada página. Com os dados agrupados, por fim persiste-se os dados no Data Lake no formato Parquet.
+
+A figura Y mostra um trecho de código ao qual é demonstrado em qual local o dado de stream é persistido, o modo, o formato e como o dado é particionado.
+
+![Figura Y - Escrita de Streaming](../images/streaming_persistence.png)
+
+### 3-5 Análise dos dados
 
 Para tornar possível a consulta e análise dos dados armazenados na camada de armazenamento HDFS com instruções SQL, utilizou-se a ferramenta PrestoSQL também conhecida como Trino.
 
