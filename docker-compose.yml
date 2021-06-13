@@ -164,6 +164,7 @@ services:
 
   sqlpad:
     image: sqlpad/sqlpad:latest
+    container_name: sqlpad
     ports:
       - "3001:3000"
     environment:
@@ -176,8 +177,11 @@ services:
       SQLPAD_AUTH_DISABLED_DEFAULT_ROLE: "admin"
     volumes:
       - sqlpad:/etc/sqlpad/seed-data
-    depends_on:
-      - trino
+
+  clickhouse_server:
+    container_name: clickhouse_server
+    image: yandex/clickhouse-server:20.3.9.70
+    # image: yandex/clickhouse-server:21.6
 
 volumes:
   namenode:
