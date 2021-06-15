@@ -19,6 +19,7 @@
   - [2.14 Confluent Schema Registry](#2-14-confluent-schema-registry)
   - [2.15 Computação distribuída](#2-15-computação-distribuída)
   - [2.16 Spark Structured Streaming](#2-16-Spark-Structured-Streaming)
+  - [2.17 Clickhouse](#2-17-Clickhouse)
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
   - [3.2 Pipelines ETL em lote](#3-2-pipelines-etl-em-lote)
@@ -203,6 +204,10 @@ Spark Structured Streaming é um mecanismo de processamento em tempo real que ut
 Referências:
 
 - https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html
+
+# 2-17 Clickhouse
+
+TODO
 
 ## 3 Desenvolvimento
 

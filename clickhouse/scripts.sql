@@ -1,37 +1,28 @@
-CREATE TABLE queue (
-    timestamp UInt64,
-    level String,
-    message String
-) ENGINE = Kafka(
-    'broker:29092',
-    'topic-example',
-    'group1',
-    'JSONEachRow'
-);
+CREATE TABLE real_time (
+    event_time UInt64,
+    event_name String,
+    username String,
+    page String
+) ENGINE = Kafka() SETTINGS kafka_broker_list = 'broker:29092',
+kafka_topic_list = 'clickstream',
+kafka_group_name = 'group_clickstream',
+kafka_format = 'AvroConfluent',
+format_avro_schema_registry_url = 'http://schema-registry:8081';
 
-CREATE TABLE daily (
-    day DateTime,
-    level String,
-    total UInt64
-) ENGINE = MergeTree PARTITION BY toYYYYMM(day)
+CREATE TABLE clickstream (
+    event_time DateTime,
+    event_name String,
+    username String,
+    page String
+) ENGINE = MergeTree PARTITION BY toYYYYMM(event_time)
 ORDER BY
-    (day);
+    (event_time);
 
-CREATE MATERIALIZED VIEW consumer TO daily AS
+CREATE MATERIALIZED VIEW consumer_clickstream TO clickstream AS
 SELECT
-    toDateTime(timestamp) AS day,
-    level,
-    count() as total
+    toDateTime(event_time) AS event_time,
+    event_name,
+    username,
+    page
 FROM
-    queue
-GROUP BY
-    day,
-    level;
-
-SELECT
-    level,
-    sum(total)
-FROM
-    daily
-GROUP BY
-    level;
+    real_time;
