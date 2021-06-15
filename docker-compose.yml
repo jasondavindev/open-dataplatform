@@ -163,30 +163,38 @@ services:
       - ./trino/config/config.properties:/etc/trino/config.properties
 
   sqlpad:
-    image: sqlpad/sqlpad:latest
+    image: sqlpad
     container_name: sqlpad
     ports:
       - "3001:3000"
     environment:
-      SQLPAD_CONNECTIONS__datawarehouse__name: Data Warehouse
-      SQLPAD_CONNECTIONS__datawarehouse__driver: trino
-      SQLPAD_CONNECTIONS__datawarehouse__host: trino
-      SQLPAD_CONNECTIONS__datawarehouse__username: sqlpad
-      SQLPAD_CONNECTIONS__datawarehouse__catalog: hive
+      SQLPAD_CONNECTIONS__datalake__name: DataLake
+      SQLPAD_CONNECTIONS__datalake__driver: trino
+      SQLPAD_CONNECTIONS__datalake__host: trino
+      SQLPAD_CONNECTIONS__datalake__username: sqlpad
+      SQLPAD_CONNECTIONS__datalake__catalog: hive
+      SQLPAD_CONNECTIONS__clickhouse__name: Clickhouse
+      SQLPAD_CONNECTIONS__clickhouse__driver: clickhouse
+      SQLPAD_CONNECTIONS__clickhouse__host: clickhouse
+      SQLPAD_CONNECTIONS__clickhouse__username: sqlpad
+      SQLPAD_CONNECTIONS__clickhouse__password: sqlpad
       SQLPAD_AUTH_DISABLED: "true"
       SQLPAD_AUTH_DISABLED_DEFAULT_ROLE: "admin"
     volumes:
       - sqlpad:/etc/sqlpad/seed-data
 
-  clickhouse_server:
-    container_name: clickhouse_server
-    image: yandex/clickhouse-server:20.3.9.70
-    # image: yandex/clickhouse-server:21.6
+  clickhouse:
+    container_name: clickhouse
+    image: yandex/clickhouse-server:21.6.4.26
+    volumes:
+      - $PWD/clickhouse/config/users.xml:/etc/clickhouse-server/users.xml
+      - clickhouse:/var/lib/clickhouse/data
 
 volumes:
   namenode:
   datanode:
   sqlpad:
+  clickhouse:
 
 networks:
   default:
