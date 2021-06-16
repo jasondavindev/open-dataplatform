@@ -188,7 +188,7 @@ services:
     image: yandex/clickhouse-server:21.6.4.26
     volumes:
       - $PWD/clickhouse/config/users.xml:/etc/clickhouse-server/users.xml
-      - clickhouse:/var/lib/clickhouse/data
+      - clickhouse:/var/lib/clickhouse
 
 volumes:
   namenode:
