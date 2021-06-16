@@ -163,7 +163,7 @@ services:
       - ./trino/config/config.properties:/etc/trino/config.properties
 
   sqlpad:
-    image: sqlpad
+    image: sqlpad/sqlpad:6.7.1
     container_name: sqlpad
     ports:
       - "3001:3000"
