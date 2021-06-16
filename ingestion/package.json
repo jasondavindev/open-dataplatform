@@ -15,6 +15,7 @@
     "avro-schema-registry": "^2.1.4",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "faker": "^5.5.3",
     "kafkajs": "^1.15.0",
     "uuid": "^8.3.2"
   },
