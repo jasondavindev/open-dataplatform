@@ -35,7 +35,9 @@ with DAG(
             '--json-files-path', f"/user/hive/warehouse/raw/status_invest/stocks/dt={date}",
             '--database', 'status_invest',
             '--table', 'stocks',
-            '--hdfs-uri', HDFS_URI
+            '--hdfs-uri', HDFS_URI,
+            '--date', date,
+            '--partitions', 'date'
         ],
         executor_memory="4GB"
     )
@@ -82,7 +84,9 @@ with DAG(
             '--json-files-path', f"/user/hive/warehouse/raw/status_invest/fiis/dt={date}",
             '--database', 'status_invest',
             '--table', 'fiis',
-            '--hdfs-uri', HDFS_URI
+            '--hdfs-uri', HDFS_URI,
+            '--date', date,
+            '--partitions', 'date'
         ],
         executor_memory="4GB"
     )

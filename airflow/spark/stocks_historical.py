@@ -3,11 +3,8 @@ import requests
 from functools import reduce
 from time import sleep
 from pyspark.sql import SparkSession
-from datetime import date
-from pyspark.sql.functions import lit, col
+from pyspark.sql.functions import lit
 from datetime import datetime, date
-
-today = str(date.today())
 
 
 def get_stock_historical(ticker):
