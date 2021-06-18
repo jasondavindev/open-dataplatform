@@ -64,6 +64,6 @@ dfs \
     .saveAsTable(
         f"{historical_database}.{historical_table}",
         overwrite=True,
-        path=f"{hdfs_uri}/user/hive/warehouse/{historical_database}/{historical_table}")
+        path=f"{hdfs_uri}/user/hive/warehouse/refined/{historical_database}/{historical_table}")
 
 spark.stop()

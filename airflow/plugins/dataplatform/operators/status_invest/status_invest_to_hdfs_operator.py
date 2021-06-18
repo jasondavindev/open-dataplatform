@@ -6,6 +6,8 @@ from dataplatform.hooks.hdfs_hook import HDFSHook
 
 
 class StatusInvestToHDFSOperator(BaseOperator):
+    template_fields = ['dt']
+
     def __init__(
             self,
             dt=None,
@@ -32,6 +34,6 @@ class StatusInvestToHDFSOperator(BaseOperator):
     def execute(self, context):
         data = self.category_types[self.category_type]()
         return self.hdfs_hook.put(
-            path=f"/airflow/staging/status_invest/{self.category_type}/dt={self.dt}/result.json",
+            path=f"/user/hive/warehouse/raw/status_invest/{self.category_type}/dt={self.dt}/result.json",
             data=json.dumps(data),
             overwrite=True)
