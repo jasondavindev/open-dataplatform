@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta, date
 from airflow.models import DAG
 from airflow.hooks.base_hook import BaseHook
-from airflow.contrib.operators.spark_submit_operator import SparkSubmitOperator
 from dataplatform.operators.status_invest.status_invest_to_hdfs_operator import StatusInvestToHDFSOperator
 from dataplatform.operators.spark.docker_spark_submit_operator import DockerSparkSubmitOperator
+from dataplatform.utils.hdfs import get_hdfs_rpc_uri
 
 default_args = {
     "retries": 4,
@@ -12,19 +12,14 @@ default_args = {
     "retry_delay": timedelta(seconds=10),
 }
 
-
-def hdfs_uri():
-    hook = BaseHook().get_connection('hdfs')
-    return f"hdfs://{hook.host}:{hook.port}"
-
-
 with DAG(
     dag_id="status_invest",
     default_args=default_args,
     schedule_interval="0 4 * * *",
     catchup=False,
 ) as dag:
-    date = str(date.today())
+    HDFS_URI = get_hdfs_rpc_uri()
+    date = '{{ds}}'
 
     stocks = StatusInvestToHDFSOperator(
         task_id='stocks_to_hdfs',
@@ -37,10 +32,10 @@ with DAG(
         application="/scripts/spark/utils/json_to_parquet.py",
         conn_id='spark',
         application_args=[
-            '--json-files-path', f"/airflow/staging/status_invest/stocks/dt={date}",
+            '--json-files-path', f"/user/hive/warehouse/raw/status_invest/stocks/dt={date}",
             '--database', 'status_invest',
             '--table', 'stocks',
-            '--hdfs-uri', hdfs_uri()
+            '--hdfs-uri', HDFS_URI
         ],
         executor_memory="4GB"
     )
@@ -54,7 +49,7 @@ with DAG(
             '--from-table', 'stocks',
             '--to-database', 'status_invest',
             '--to-table', 'best_stocks',
-            '--hdfs-uri', hdfs_uri(),
+            '--hdfs-uri', HDFS_URI,
         ],
         executor_memory="4GB"
     )
@@ -68,7 +63,7 @@ with DAG(
             '--stocks-table', 'stocks',
             '--historical-database', 'status_invest',
             '--historical-table', 'stocks_historical',
-            '--hdfs-uri', hdfs_uri(),
+            '--hdfs-uri', HDFS_URI,
         ],
         executor_memory="4GB"
     )
@@ -84,10 +79,10 @@ with DAG(
         application="/scripts/spark/utils/json_to_parquet.py",
         conn_id='spark',
         application_args=[
-            '--json-files-path', f"/airflow/staging/status_invest/fiis/dt={date}",
+            '--json-files-path', f"/user/hive/warehouse/raw/status_invest/fiis/dt={date}",
             '--database', 'status_invest',
             '--table', 'fiis',
-            '--hdfs-uri', hdfs_uri()
+            '--hdfs-uri', HDFS_URI
         ],
         executor_memory="4GB"
     )

@@ -38,7 +38,7 @@ df \
     .partitionBy(['date']) \
     .saveAsTable(
         f"{database}.{table}",
-        path=f"{hdfs_uri}/user/hive/warehouse/{database}/{table}",
+        path=f"{hdfs_uri}/user/hive/warehouse/trusted/{database}/{table}",
         overwrite=True)
 
 spark.stop()
