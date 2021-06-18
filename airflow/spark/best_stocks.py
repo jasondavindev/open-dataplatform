@@ -1,9 +1,7 @@
 import argparse
 from pyspark.sql import SparkSession
-from datetime import date
-from pyspark.sql.functions import lit, col
+from pyspark.sql.functions import col
 
-today = str(date.today())
 parser = argparse.ArgumentParser(description="Filter best stocks")
 
 parser.add_argument('--from-database', required=True)
@@ -43,6 +41,7 @@ df = spark.table(f"{from_database}.{from_table}") \
         col('roe'),
         col('roic'),
         col('price').alias('preco'),
+        col('date')
 ) \
     .filter(col('dy') >= 5) \
     .filter(col('dividaliquidapatrimonioliquido') < 3) \
@@ -54,8 +53,7 @@ df = spark.table(f"{from_database}.{from_table}") \
         col('pl').asc(),
         col('dividaliquidaebit').asc(),
         col('margemliquida').desc(),
-        col('lucros_cagr5').desc()) \
-    .withColumn('date', lit(today))
+        col('lucros_cagr5').desc())
 
 df \
     .repartition('date') \
