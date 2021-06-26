@@ -21,6 +21,7 @@ RUN set -ex \
         libffi-dev \
         libpq-dev \
         git \
+        python3-dev \
     ' \
     apt update -yqq; \
     apt install -yqq \
@@ -35,7 +36,7 @@ RUN set -ex \
         netcat; \
     useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow; \
     ln -Ls $(which pip3) /usr/bin/pip; \
-    pip install apache-airflow[crypto,celery,postgres,jdbc,mysql${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION}; \
+    pip install psycopg2-binary==2.8.6 apache-airflow[crypto,celery,postgres,jdbc,mysql${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION}; \
     apt-get clean; \
     apt-get autoremove -yqq --purge; \
     rm -rf \
