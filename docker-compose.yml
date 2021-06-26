@@ -118,7 +118,7 @@ services:
       context: ./spark
       dockerfile: Dockerfile
     ports:
-      - 4043:4040
+      - 4040:4040
       - 4041:4041
     command:
       - master
