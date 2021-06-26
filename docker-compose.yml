@@ -93,7 +93,7 @@ services:
       context: ./airflow
       args:
         SPARK_IMAGE: open-dataplatform-spark
-      dockerfile: airflow/Dockerfile
+      dockerfile: Dockerfile
     image: open-dataplatform-airflow
     command: bash -c "airflow scheduler & airflow webserver -p 9090 --debug"
     depends_on:
@@ -115,8 +115,8 @@ services:
     container_name: spark-master
     image: open-dataplatform-spark:3.1.1
     build:
-      context: spark
-      dockerfile: spark/Dockerfile
+      context: ./spark
+      dockerfile: Dockerfile
     ports:
       - 4040:4040
       - 4041:4041
@@ -136,8 +136,8 @@ services:
     container_name: spark-worker
     image: open-dataplatform-spark:3.1.1
     build:
-      context: spark
-      dockerfile: spark/Dockerfile
+      context: ./spark
+      dockerfile: Dockerfile
     ports:
       - 4042:4040
     command:

@@ -1,19 +1,10 @@
-dk_prefix = docker exec namenode hdfs dfs
+# USE HADOOP 3.2.1 by default
 
-ls:
-	${dk_prefix} -ls ${dir}
+build_base:
+	docker build -f docker/base/Dockerfile -t open-dataplatform-hadoop-base:${version} --build-arg HADOOP_VERSION=${version} ./docker/base
 
-mkdir:
-	${dk_prefix} -mkdir ${flags} ${dir}
+build_hdfs: build_base
+	docker build -f docker/hdfs/Dockerfile -t open-dataplatform-hadoop-hdfs:${hdfs_version} --build-arg HADOOP_VERSION=${hdfs_version} ./docker/hdfs
 
-rm:
-	${dk_prefix} -rm ${dir}
-
-cat:
-	${dk_prefix} -cat ${dir}
-
-chown:
-	${dk_prefix} -chown ${flags} ${user} ${dir}
-
-cpFromLocal:
-	${dk_prefix} -copyFromLocal ${source} ${target}
+build_hive: build_base
+	docker build -f docker/hive/Dockerfile -t open-dataplatform-hadoop-hive:${hive_version} --build-arg HADOOP_VERSION=${hive_version} ./docker/hive

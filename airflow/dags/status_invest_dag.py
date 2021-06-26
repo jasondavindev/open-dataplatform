@@ -32,7 +32,7 @@ with DAG(
         application="/scripts/spark/utils/json_to_parquet.py",
         conn_id='spark',
         application_args=[
-            '--json-files-path', f"/user/hive/warehouse/raw/status_invest/stocks/dt={date}",
+            '--json-files-path', f"{HDFS_URI}/user/hive/warehouse/raw/status_invest/stocks/dt={date}",
             '--database', 'status_invest',
             '--table', 'stocks',
             '--hdfs-uri', HDFS_URI,
@@ -81,7 +81,7 @@ with DAG(
         application="/scripts/spark/utils/json_to_parquet.py",
         conn_id='spark',
         application_args=[
-            '--json-files-path', f"/user/hive/warehouse/raw/status_invest/fiis/dt={date}",
+            '--json-files-path', f"{HDFS_URI}/user/hive/warehouse/raw/status_invest/fiis/dt={date}",
             '--database', 'status_invest',
             '--table', 'fiis',
             '--hdfs-uri', HDFS_URI,
