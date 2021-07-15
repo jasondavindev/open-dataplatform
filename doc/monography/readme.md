@@ -197,7 +197,7 @@ Referências:
 
 - https://www.ibm.com/docs/ko/txseries/8.1.0?topic=overview-what-is-distributed-computing
 
-# 2-16 Spark Structured Streaming
+### 2-16 Spark Structured Streaming
 
 Spark Structured Streaming é um mecanismo de processamento em tempo real que utiliza Spark SQL para criar fluxos de processamento de dados da mesma maneira que fluxo de processamento em lote são criados. Spark Structured Streaming é responsável por adicionar todos os dados em um fluxo de streaming e adicionar ao final de uma DataFrame ou Dataset, que é componente do mecanismo Spark SQL.
 
@@ -205,9 +205,9 @@ Referências:
 
 - https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html
 
-# 2-17 Clickhouse
+### 2-17 Clickhouse
 
-TODO
+Clickhouse é uma ferramenta de gerenciamento de banco de dados colunar open-source capaz de realizar consultas SQL analíticas em tempo real. 
 
 ## 3 Desenvolvimento
 
