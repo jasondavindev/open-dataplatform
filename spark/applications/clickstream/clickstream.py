@@ -1,3 +1,9 @@
+"""
+ATTENTION!!!
+After the fully execution of this script or to preview
+the table in beeline/trino/hive-cli, runs "MSCK REPAIR TABLE dumping.clickstream"
+"""
+
 import argparse
 from pyspark.sql import SparkSession
 from pyspark.sql.avro.functions import from_avro
@@ -35,6 +41,7 @@ spark = SparkSession \
     .enableHiveSupport() \
     .getOrCreate()
 
+spark.sql('create database if not exists dumping')
 spark.sql("""
   create external table if not exists dumping.clickstream (
     start_date string,

@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  clickstream_app:
+    image: open-dataplatform-spark:3.1.1
+    container_name: clickstream_app
+    volumes:
+      - ./clickstream.py:/apps/clickstream.py
+      - ./clickstream.sh:/apps/clickstream.sh
+      - ../../../hadoop/conf:/opt/hadoop/conf
+      - ../../config/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+    ports:
+      - 4043:4040
+      - 4044:4041
+    entrypoint: /apps/clickstream.sh
+    environment:
+      SPARK_WORKER_WEBUI_PORT: 4040
+      SPARK_MASTER_URL: spark-master:7077
+
+networks:
+  default:
+    external:
+      name: open-dataplatform-network
