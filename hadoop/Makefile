@@ -1,4 +1,5 @@
 # USE HADOOP 3.2.1 by default
+# USE HIVE 3.1.2 by default
 
 build_base:
 	docker build -f docker/base/Dockerfile -t open-dataplatform-hadoop-base:${version} --build-arg HADOOP_VERSION=${version} ./docker/base

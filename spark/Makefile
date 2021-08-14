@@ -18,4 +18,4 @@ import_script: create_spark_scripts_path
 create_spark_scripts_path:
 	if [ ! -f "${file}" ];then /usr/bin/echo Script file not exist && exit 1;fi
 	@echo [Creating] Spark folder
-	$(MAKE) -C ../hdfs ls dir=${SCRIPTS_PATH} || $(MAKE) -C ../hdfs mkdir flags=-p dir=${SCRIPTS_PATH}
+	@docker exec namenode sh -c "hdfs dfs -ls ${SCRIPTS_PATH} || hdfs dfs -mkdir -p ${SCRIPTS_PATH}"

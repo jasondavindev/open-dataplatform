@@ -8,10 +8,9 @@ from datetime import datetime, date
 
 
 def get_stock_historical(ticker):
-    month_number = datetime.now().month
     return requests.post('https://statusinvest.com.br/acao/indicatorhistorical', {
         'ticker': ticker.upper(),
-        'time': month_number
+        'time': 5
     }).json()
 
 
