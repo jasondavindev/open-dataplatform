@@ -31,6 +31,7 @@ services:
     depends_on:
       - namenode
 
+  # hive
   hive-postgres:
     image: postgres:9.4
     container_name: hive-postgres
@@ -70,45 +71,6 @@ services:
     command: "hiveserver2"
     ports:
       - 10002:10002
-
-  # Airflow
-  airflow-db:
-    hostname: airflow-db
-    container_name: airflow_db
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: airflow
-      POSTGRES_USER: airflow
-      POSTGRES_DB: airflow
-    volumes:
-      - ./tmp/postgres-airflow:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-
-  airflow:
-    hostname: airflow
-    container_name: airflow
-    build:
-      context: ./airflow
-      args:
-        SPARK_IMAGE: open-dataplatform-spark
-      dockerfile: Dockerfile
-    image: open-dataplatform-airflow
-    command: bash -c "airflow scheduler & airflow webserver -p 9090 --debug"
-    depends_on:
-      - airflow-db
-    ports:
-      - "8793:8793"
-      - "9090:9090"
-    volumes:
-      - ./airflow/config/airflow.cfg:/opt/airflow/airflow.cfg
-      - ./airflow/dags:/opt/airflow/dags
-      - ./airflow/plugins:/opt/airflow/plugins
-      - ./airflow/spark:/scripts/spark
-    environment:
-      POSTGRES_HOST: airflow-db
-      POSTGRES_PORT: 5432
 
   # Spark
   spark-master:
@@ -150,6 +112,43 @@ services:
     volumes:
       - ./hadoop/conf:/opt/hadoop/conf
       - ./spark/config/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+
+    # Airflow
+  airflow-db:
+    hostname: airflow-db
+    container_name: airflow_db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_USER: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - ./tmp/postgres-airflow:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  airflow:
+    hostname: airflow
+    container_name: airflow
+    build:
+      context: ./airflow
+      dockerfile: Dockerfile
+    image: open-dataplatform-airflow
+    command: bash -c "airflow scheduler & airflow webserver -p 9090 --debug"
+    depends_on:
+      - airflow-db
+    ports:
+      - "8793:8793"
+      - "9090:9090"
+    volumes:
+      - ./airflow/config/airflow.cfg:/opt/airflow/airflow.cfg
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./airflow/spark:/scripts/spark
+    environment:
+      POSTGRES_HOST: airflow-db
+      POSTGRES_PORT: 5432
 
   # trino
   trino:
