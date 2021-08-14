@@ -25,35 +25,21 @@ spark = SparkSession \
 
 spark.sql(f"CREATE DATABASE IF NOT EXISTS {to_database}")
 
-df = spark.table(f"{from_database}.{from_table}") \
-    .select(
-        col('companyname').alias('nome'),
-        col('ticker'),
-        col('p_l').alias('pl'),
-        col('dy').alias('dividendo'),
-        col('p_vp').alias('pvp'),
-        col('lucros_cagr5'),
-        col('dividaliquidapatrimonioliquido').alias('div_pat_liq'),
-        col('dividaliquidaebit').alias('div_liq_ebit'),
-        col('margembruta').alias('marg_bruta'),
-        col('margemliquida').alias('marg_liq'),
-        col('margemebit').alias('marg_ebit'),
-        col('roe'),
-        col('roic'),
-        col('price').alias('preco'),
-        col('date')
-) \
-    .filter(col('dy') >= 5) \
-    .filter(col('dividaliquidapatrimonioliquido') < 3) \
-    .filter(col('p_l') < 20) \
-    .filter(col('lucros_cagr5') >= 5) \
-    .filter(col('liquidezmediadiaria') > 1000000) \
-    .orderBy(
-        col('dy').desc(),
-        col('pl').asc(),
-        col('dividaliquidaebit').asc(),
-        col('margemliquida').desc(),
-        col('lucros_cagr5').desc())
+df = spark.sql("""
+SELECT
+    companyname AS nome, ticker, p_l AS pl, dy AS dividendo, p_vp AS pvp, lucros_cagr5, dividaliquidapatrimonioliquido AS div_pat_liq,
+    dividaliquidaebit AS div_liq_ebit, margembruta AS marg_bruta, margemliquida AS marg_liq, roe, roic, price AS preco, date
+FROM
+    %s.%s
+WHERE
+    dy >= 5 AND
+    dividaliquidapatrimonioliquido < 3 AND
+    p_l < 20 AND
+    lucros_cagr5 >= 5 AND
+    liquidezmediadiaria > 1000000
+ORDER BY
+    dy DESC, pl, dividaliquidaebit, margemliquida DESC, lucros_cagr5 DESC
+""" % (from_database, from_table))
 
 df \
     .repartition('date') \

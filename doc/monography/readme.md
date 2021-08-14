@@ -22,10 +22,9 @@
   - [2.17 Clickhouse](#2-17-Clickhouse)
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
-  - [3.2 Pipelines ETL em lote](#3-2-pipelines-etl-em-lote)
-  - [3.3 Pipelines ETL em tempo real](#3-3-pipelines-etl-em-tempo-real)
-  - [3.4 Clickstream](#3-4-clickstream)
-  - [3.5 Análise dos dados](#3-5-análise-dos-dados)
+  - [3.2 Gerenciamento de pipelines com DAGs](#3-2-gerenciamento-de-pipelines-com-dags)
+  - [3.3 Armazenamento de dados](#3-3-armazenamento-de-dados)
+  - [3.4 Definição de metadados](#3-4-definição-de-metadados)
 
 ## 1 Introdução
 
@@ -213,19 +212,45 @@ Clickhouse é uma ferramenta de gerenciamento de banco de dados colunar open-sou
 
 ### 3-1 Arquitetura
 
-A figura X mostra a arquitetura ao qual a plataforma de dados foi implementada. Na arquitetura, foi-se possível criar 3 pontos de interação com a plataforma - Airflow para gerenciamento de pipelines ETL em lote, Trino para análise de dados e uma API HTTP, que é o ponto inicial para pipelines de transformação e carregamento em tempo real.
+A figura X mostra a arquitetura ao qual a plataforma de dados foi implementada. Na arquitetura, destaca-se 4 camadas - Airflow juntamente com Spark definindo a camada de processamento, ou seja, onde ocorre o gerenciamento de pipelines ETL em lote. Hadoop (HDFS) e Hive Metastore como camada de armazenamento, tanto os dados/informações em sí, como também o catalogo de dados. Trino e Clickhouse compõe a camada de análise, ao qual é possível executar instruções utilizando-se da síntaxe SQL para a exploração analítica dos dados. Por fim, a aplicação escrita em Javascript (Node.js), Apache Kafka e Spark Streaming compõem a camada de ingestão e processamento de dados em tempo real.
 
 ![Arquitetura](../images/architecture.jpeg)
 
-### 3-2 Pipelines ETL em lote
+### 3-2 Gerenciamento de pipelines com DAGs
 
-Com o intuito de prover uma plataforma de processamento de dados em lote, por exemplo, extrair dados de um banco de dados transacional relacional, aplicar lógicas de transformações e por fim persistir o resultado em uma camada de dados diferente, criou-se a interligação entre os componentes Apache Spark, Apache Airflow, Apache Hive Metastore e Apache HDFS.
+Para definir, executar e gerenciar tarefas previamente agendadas utilizou-se a ferramenta Apache Airflow. Tal ferramenta permite-nos escrever diferentes scripts na linguagem Python que denominam-se tarefas. Um conjunto de tarefas compõem o que chama-se na literatura de pipelines ETL, as DAGs. As DAGs permite-nos definir fluxos de execução complexos, não limitando-se apenas a execução de códigos locais, mas também a invocação de aplicação remotas e também a chamada de APIs externas entre outros tipos de soluções.
 
-O pipeline de extração de dados foi criado a partir de scripts escritos na linguagem Python e gerenciados pela ferramenta Airflow, que agrupa de uma forma lógica formando-se grafos acíclicos. Assim que os dados são extraídos da fonte terceira, o mesmo pode ser armazenado diretamente na camada de armazenamento, HDFS, para assim servir de entrada para o próximo passo do pipeline a ser executado. Assim, conclui-se a etapa de Extração do conceito ETL ou ELT.
+A figura X mostra a definição de uma DAG simples, ao qual a primeira tarefa é uma função Python que recebe dois números e retorna a soma deles. A segunda tarefa é outra função Python que apenas mostra o texto `ok` e retorna o mesmo.
 
-Na etapa de transformação os dados armazenados em uma camada intermediária são reutilizados por outro script, também escrito na linguagem Python porém utilizando-se a biblioteca PySpark, ao qual provê uma API que traduz o código Python em stages e tasks para o Spark executar. Estes scripts são as transformações aplicadas no dados da etapa anterior no fluxo ETL.
+![Definição de DAG](../images/simple_dag.png)
 
-Concluindo o processo ETL, o script da etapa de transformação armazena os dados em um formato válido e intuitivo para posterior análise. Para armazenar a estrutura dos dados, por exemplo, em qual base de dados e em qual tabela o dado será salvo, qual os campos ou colunas que esse dado possui, se é particionado e o local onde é armazenado, utilizou-se o formato Apache Parquet via metadados, que são gerenciados pelo componente Apache Hive Metastore.
+A figura X mostra de forma visual como as tarefas anteriormente definidas formam um grafo acíclico direcionado.
+
+![Definição visual de DAG](../images/simple_dag_visual.png)
+
+### 3-3 Armazenamento de dados
+
+Para compor e alimentar a camada de armazenamento de dados, utilizou-se a ferramenta Apache Hadoop (HDFS). Para a inserção de dados no HDFS via tarefas definidas no Airflow, fez-se necessário a criação de um Hook - um script personalizado que se comunica internamente com uma API do Namenode do HDFS. A figura X representa a definição do código Hook para a comunicação com a API do HDFS.
+
+![Definição do Hook HDFS](../images/hdfs_hook.png)
+
+Por fim, para inserir os dados no HDFS fez-se necessário apenas invocar o Hook e passar quais dados a serem inseridos. A figura X demonstra o exemplo da invocação do hook e a inserção de um dado no formato JSON e a figura X mostra o dado já persistido no HDFS.
+
+![Invocação do Hook HDFS](../images/hdfs_hook_invocation.png)
+
+![Dados persistido no HDFS](../images/persisted_data.png)
+
+### 3-4 Definição de metadados
+
+Para a estruturação e definição dos dados, ou seja, definição de databases, tabelas e suas respectivas colunas fez-se necessário a utilização da ferramenta Apache Hive juntamente com Apache Spark para a definição de scripts que recebem um caminho de arquivo em um formato conhecido, como por exemplo JSON, e o converte para outro formato conhecido, Apache Parquet, para posterior consulta via uma ferramenta de análise de dados.
+
+A figura X mostra um trecho de código que recebe o caminho de um arquivo no formato JSON e o persiste novamente em outro caminho no formato Parquet. O script não somente persiste o dado em outro formato, mas também cria os metadados de definição do dados, como por exemplo, a estrutura da tabela. A criação dos metadados é feita internamente pela API do Apache Spark. As figuras X e X mostram respectivamente o dado persistido no HDFS e a definição da tabela criada.
+
+![Persistência dos dados e metadados](../images/write_metadata.png)
+
+![Dado no formato parquet](../images/persisted_metadata.png)
+
+![Definição da tabela](../images/table_definition.png)
 
 ### 3-3 Pipelines ETL em tempo real
 

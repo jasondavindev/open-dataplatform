@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta, date
 from airflow.models import DAG
-from airflow.hooks.base_hook import BaseHook
 from dataplatform.operators.status_invest.status_invest_to_hdfs_operator import StatusInvestToHDFSOperator
 from dataplatform.operators.spark.docker_spark_submit_operator import DockerSparkSubmitOperator
 from dataplatform.utils.hdfs import get_hdfs_rpc_uri
