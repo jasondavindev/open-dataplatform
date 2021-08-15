@@ -19,12 +19,14 @@
   - [2.14 Confluent Schema Registry](#2-14-confluent-schema-registry)
   - [2.15 Computação distribuída](#2-15-computação-distribuída)
   - [2.16 Spark Structured Streaming](#2-16-Spark-Structured-Streaming)
+  - [2.17 Docker](#2-17-docker)
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
   - [3.2 Gerenciamento de pipelines com DAGs](#3-2-gerenciamento-de-pipelines-com-dags)
   - [3.3 Armazenamento de dados](#3-3-armazenamento-de-dados)
   - [3.4 Definição de metadados](#3-4-definição-de-metadados)
   - [3.5 Ingestão de dados em tempo real](#3-5-ingestão-de-dados-em-tempo-real)
+  - [3.6 Análise dos dados](#3-6-análise-dos-dados)
 
 ## 1 Introdução
 
@@ -204,6 +206,14 @@ Referências:
 
 - https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html
 
+### 2-17 Docker
+
+Docker é uma plataforma open-source que permite desenvolvedores virtualizar componentes e aplicações utilizando a técnica de containers e imagens. Docker permite empacotar diversas aplicações e suas respectivas configurações em um único artefato - a imagem, ao qual pode ser implantada e replicada diversas vezes minimizando o custo de manutenção.
+
+Referências:
+
+- https://docs.docker.com/get-started/overview/
+
 ## 3 Desenvolvimento
 
 ### 3-1 Arquitetura
@@ -226,7 +236,7 @@ A figura X mostra de forma visual como as tarefas anteriormente definidas formam
 
 ### 3-3 Armazenamento de dados
 
-Para compor e alimentar a camada de armazenamento de dados, utilizou-se a ferramenta Apache Hadoop (HDFS). Para a inserção de dados no HDFS via tarefas definidas no Airflow, fez-se necessário a criação de um Hook - um script personalizado que se comunica internamente com uma API do Namenode do HDFS. A figura X representa a definição do código Hook para a comunicação com a API do HDFS.
+Para compor e alimentar a camada de armazenamento de dados, utilizou-se a ferramenta Apache Hadoop (HDFS). Para a inserção de dados no HDFS via tarefas definidas no Airflow, fez-se necessário a criação de um Hook - um script personalizado que se comunica internamente com uma API do HDFS. A figura X representa a definição do código Hook para a comunicação com a API do HDFS.
 
 ![Definição do Hook HDFS](../images/hdfs_hook.png)
 
@@ -235,6 +245,14 @@ Por fim, para inserir os dados no HDFS fez-se necessário apenas invocar o Hook 
 ![Invocação do Hook HDFS](../images/hdfs_hook_invocation.png)
 
 ![Dados persistido no HDFS](../images/persisted_data.png)
+
+O pilar de distribuição de dados se dá pela forma ao qual o HDFS é implementado. A arquitetura é definida por dois componentes, sendo eles Namenode e Datanode.
+
+Namenode caracteriza-se pela interface com o cliente ao qual quer manipular os dados e comporta-se como um orquestrador. Tal componente responsabiliza-se por receber as chamadas de leitura e escrita de dados e decidir em qual nó (Datanode) o dado será persistido ou será consultado para disponibilização. Namenode armazena somente metadados, como por exemplo, nomo e caminho de arquivos, número de blocos escritos, número de réplicas e outras informações relacionadas aos Datanodes.
+
+Datanodes, como citado anteriormente, são orquestrados pelo Namenode, e sua função é persistir e disponibilizar bloco de dados ao qual é requisitado pelo Namenode. A figura X ilustra a arquitetura do HDFS.
+
+![Arquitetura HDFS - Referência https://amitray.com/hadoop-architecture-in-big-data-yarn-hdfs-and-mapreduce/](../images/hdfs_architecture.jpg)
 
 ### 3-4 Definição de metadados
 
@@ -256,34 +274,28 @@ A figura X apresenta a classe Javascript implementada para receber o titulo da m
 
 ![Definição classe postagem mensagens no Kafka](../images/send_message_class.png)
 
-### 3-3 Pipelines ETL em tempo real
+### 3-6 Análise dos dados
 
-Com o intuito de prover um pipeline ETL em tempo real, criou-se uma aplicação escrita em JavaScript com Node.js. Tal aplicação foi responsável por receber chamadas HTTP com o método POST, obedecendo-se alguns critérios na rota HTTP.
+Com o intuito de disponibilizar aos usuários a possibilidade de consultar os dados persistidos na camada de armazenamento usando uma síntaxe conhecida, como por exemplo SQL, usou-se o componente Trino.
 
-Para tornar a ingestão de dados dinâmica, chamadas à api incluem o nome do tópico Kafka na rota, fazendo-se possível consultar o formato do payload enviado na request. Nesta etapa do fluxo converte-se o payload em um formato binário conhecido, Apache Avro.
+Para disponibilizar o ambiente provido do componente Trino, usou-se a ferramenta Docker para subir um container com a imagem do Trino e um arquivo de configuração para expor os dados armazenados como um catálogo de dados. A figura X e X, respectivamente demonstram a configuração do ambiente com Trino e do catálogo de dados.
 
-Para fazer a conversão do dado no formato Apache Avro e realizar a verificação do schema, foi-se necessário que o schema existisse em um repositório de schemas, o então Confluent Schema Registry.
+![Container Trino](../images/trino_docker.png)
 
-Com a consulta do schema realizada e todos os campos validados, envia-se o payload convertido no formato Apache Avro para tópicos no Apache Kafka. Com os eventos presentes no Apache Kafka, a persistência de tais no Data Lake para posterior análise é feito por meio de um componente a parte, nomeado como HDFS Sink Kafka Connector. 
+![Catálogo de dados Trino](../images/trino_catalog.png)
 
-Com Kafka Connector foi-se possível criar tarefas de definição incluindo algumas configurações de quais tópicos do Kafka seriam permitidos, em qual formato de dado, com qual frequência, como o dado seria particionado entre outras configurações.
+Por fim, para disponibilizar uma interface intuitiva para o usuário realizar consultas SQL, usou-se o componente SQL Pad ao qual interage com o catálogo de dados definido no Trino.
 
-### 3-4 Clickstream
+Para disponibilizar o ambiente provido do componente SQL Pad, também usou-se a ferramenta Docker para subir um container com a imagem contendo o SQL Pad. A figura X e X mostram respectivamente a definição do container do SQL e por fim o uso para realizar consultas SQL.
 
-Para satisfazer o requisito da criação de pipelines que efetivamente processam em tempo real, criou-se uma aplicação utilizando a tecnologia Spark Structured Streaming. A aplicação consiste em uma lógica de clickstream, ao qual todas as interações de um usário em uma página web é rastreada, como por exemplo, um click ou um submit em algum formulário HTML. A aplicação aplica um janelamento de N segundos contabilizando a quantidade de tipos de eventos de um determinado usuário em uma determinada página. Com os dados agrupados, por fim persiste-se os dados no Data Lake no formato Parquet.
+![Container SQL Pad](../images/sqlpad_docker.png)
 
-A figura Y mostra um trecho de código ao qual é demonstrado em qual local o dado de stream é persistido, o modo, o formato e como o dado é particionado.
+![Interface SQL Pad](../images/sqlpad_query.png)
 
-![Figura Y - Escrita de Streaming](../images/streaming_persistence.png)
+## 4 Casos de uso
 
-### 3-5 Análise dos dados
+Neste capítulo serão apresentados os casos de uso utilizando-se a camada de processamento em lote, como também de processamento em tempo real.
 
-Para tornar possível a consulta e análise dos dados armazenados na camada de armazenamento HDFS com instruções SQL, utilizou-se a ferramenta PrestoSQL também conhecida como Trino.
+### 4-1 ETL API Status Invest
 
-No Trino, criou-se um catálogo de dados utilizando-se um conector disponibilizado pelo Trino que tornou capaz a comunicação entre o Trino e os metadados armazenados no Hive Metastore. Neste catálogo, criou-se de forma automática todo o mapeamento dos banco de dados, tabelas, partições e formato dos dados persistidos na camada de armazenamento.
-
-Com Trino, tornou-se possível criar uma arquitetura distribuída constituída de um coordinator e diversos workers, tal qual o coordinator responsabiliza-se pela recepção das instruções SQL , mapeamento e criação de tarefas de processamento e pela distribuição aos workers para realização do processamento dessas tarefas.
-
-Em conjunto com Trino, utilizou-se a ferramenta SQL Pad para disponibilizar uma interface intuitiva para a escrita das consultas SQL e pela disponibilização de gráficos analíticos.
-
-![Figura 1 - SQL Pad consultas](../images/figura_sqlpad.png)
+### 4-2 Clickstream
