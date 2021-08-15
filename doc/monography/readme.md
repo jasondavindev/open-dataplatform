@@ -25,6 +25,7 @@
   - [3.2 Gerenciamento de pipelines com DAGs](#3-2-gerenciamento-de-pipelines-com-dags)
   - [3.3 Armazenamento de dados](#3-3-armazenamento-de-dados)
   - [3.4 Definição de metadados](#3-4-definição-de-metadados)
+  - [3.5 Ingestão de dados em tempo real](#3-5-ingestão-de-dados-em-tempo-real)
 
 ## 1 Introdução
 
@@ -251,6 +252,14 @@ A figura X mostra um trecho de código que recebe o caminho de um arquivo no for
 ![Dado no formato parquet](../images/persisted_metadata.png)
 
 ![Definição da tabela](../images/table_definition.png)
+
+### 3-5 Ingestão de dados em tempo real
+
+Uma plataforma de dados ao qual se faz processamento de dados em tempo real necessita de uma ponta ou camada para ingestão de dados em tempo real. Para prover a capacidade de ingerir dados em tempo real, criou-se uma aplicação escrita em Javascript utilizando-se a plataforma Node.js para prover uma API HTTP ao qual se passa o titulo da mensagem e o dado da mensagem no corpo da requisição HTTP.
+
+A figura X apresenta a classe Javascript implementada para receber o titulo da mensagem, que condiz com o nome do tópico Kafka ao qual a mensagem será postada, e também o corpo da mensagem. É importante notar que, antes da postagem da mensagem no tópico Kafka é feito a codificação da mensagem para um formato conhecido, Apache Avro. Internamente, após a codificação da mensagem também é validado se o esquema da mensagem é um esquema válido registrado no repositório de esquemas, o então Confluent Schema Registry. Só então a mensagem é de fato postada no Kafka.
+
+![Definição classe postagem mensagens no Kafka](../images/send_message_class.png)
 
 ### 3-3 Pipelines ETL em tempo real
 
