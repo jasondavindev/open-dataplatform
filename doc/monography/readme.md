@@ -19,7 +19,6 @@
   - [2.14 Confluent Schema Registry](#2-14-confluent-schema-registry)
   - [2.15 Computação distribuída](#2-15-computação-distribuída)
   - [2.16 Spark Structured Streaming](#2-16-Spark-Structured-Streaming)
-  - [2.17 Clickhouse](#2-17-Clickhouse)
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
   - [3.2 Gerenciamento de pipelines com DAGs](#3-2-gerenciamento-de-pipelines-com-dags)
@@ -205,15 +204,11 @@ Referências:
 
 - https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html
 
-### 2-17 Clickhouse
-
-Clickhouse é uma ferramenta de gerenciamento de banco de dados colunar open-source capaz de realizar consultas SQL analíticas em tempo real. 
-
 ## 3 Desenvolvimento
 
 ### 3-1 Arquitetura
 
-A figura X mostra a arquitetura ao qual a plataforma de dados foi implementada. Na arquitetura, destaca-se 4 camadas - Airflow juntamente com Spark definindo a camada de processamento, ou seja, onde ocorre o gerenciamento de pipelines ETL em lote. Hadoop (HDFS) e Hive Metastore como camada de armazenamento, tanto os dados/informações em sí, como também o catalogo de dados. Trino e Clickhouse compõe a camada de análise, ao qual é possível executar instruções utilizando-se da síntaxe SQL para a exploração analítica dos dados. Por fim, a aplicação escrita em Javascript (Node.js), Apache Kafka e Spark Streaming compõem a camada de ingestão e processamento de dados em tempo real.
+A figura X mostra a arquitetura ao qual a plataforma de dados foi implementada. Na arquitetura, destaca-se 4 camadas - Airflow juntamente com Spark definindo a camada de processamento, ou seja, onde ocorre o gerenciamento de pipelines ETL em lote. Hadoop (HDFS) e Hive Metastore como camada de armazenamento, tanto os dados/informações em sí, como também o catalogo de dados. Trino compõe a camada de análise, ao qual é possível executar instruções utilizando-se da síntaxe SQL para a exploração analítica dos dados. Por fim, a aplicação escrita em Javascript (Node.js), Apache Kafka e Spark Streaming compõem a camada de ingestão e processamento de dados em tempo real.
 
 ![Arquitetura](../images/architecture.jpeg)
 
