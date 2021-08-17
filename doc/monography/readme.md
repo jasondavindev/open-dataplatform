@@ -20,6 +20,7 @@
   - [2.15 Computação distribuída](#2-15-computação-distribuída)
   - [2.16 Spark Structured Streaming](#2-16-Spark-Structured-Streaming)
   - [2.17 Docker](#2-17-docker)
+  - [2.18 Plataforma Clickstream](#2-18-plataforma-clickstream)
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
   - [3.2 Gerenciamento de pipelines com DAGs](#3-2-gerenciamento-de-pipelines-com-dags)
@@ -214,13 +215,21 @@ Referências:
 
 - https://docs.docker.com/get-started/overview/
 
+### 2-18 Plataforma Clickstream
+
+Plataforma Clickstream, ou software de Clickstream é um produto que coleta todo o fluxo da jornada online de usuários em uma plataforma ou websiite. Normalmente plataformas de Clickstream são focados em um único website e geralmente mostram o progresso dos usuários desde o momento em que ingressam no website até o momento que fecham a compra de um produto. Dados gerados por esse tipo de plataforma são comumente utilizados para análise do comportamento de usuários.
+
+Referências:
+
+- https://www.wordtracker.com/blog/keyword-research/what-is-clickstream-data
+
 ## 3 Desenvolvimento
 
 Este capítulo aborda o processo de construção e desenvolvimento da plataforma de dados, tanto quanto o de definição da arquitetura da plataforma.
 
 ### 3-1 Arquitetura
 
-A figura X mostra a arquitetura ao qual a plataforma de dados foi implementada. Na arquitetura, destaca-se 4 camadas - Airflow juntamente com Spark definindo a camada de processamento, ou seja, onde ocorre o gerenciamento de pipelines ETL em lote. Hadoop (HDFS) e Hive Metastore como camada de armazenamento, tanto os dados/informações em sí, como também o catalogo de dados. Trino compõe a camada de análise, ao qual é possível executar instruções utilizando-se da síntaxe SQL para a exploração analítica dos dados. Por fim, a aplicação escrita em Javascript (Node.js), Apache Kafka e Spark Streaming compõem a camada de ingestão e processamento de dados em tempo real.
+A figura X mostra a arquitetura ao qual a plataforma de dados foi implementada. Na arquitetura, destaca-se 4 camadas - Airflow juntamente com Spark definindo a camada de processamento, ou seja, onde ocorre o gerenciamento de pipelines ETL em lote. Hadoop (HDFS) e Hive Metastore como camada de armazenamento ou Data Lake, tanto os dados/informações em sí, como também o catalogo de dados. Trino compõe a camada de análise, ao qual é possível executar instruções utilizando-se da síntaxe SQL para a exploração analítica dos dados. Por fim, a aplicação escrita em Javascript (Node.js), Apache Kafka e Spark Streaming compõem a camada de ingestão e processamento de dados em tempo real.
 
 ![Arquitetura](../images/architecture.jpeg)
 
@@ -238,7 +247,7 @@ A figura X mostra de forma visual como as tarefas anteriormente definidas formam
 
 ### 3-3 Armazenamento de dados
 
-Para compor e alimentar a camada de armazenamento de dados, utilizou-se a ferramenta Apache Hadoop (HDFS). Para a inserção de dados no HDFS via tarefas definidas no Airflow, fez-se necessário a criação de um Hook - um script personalizado que se comunica internamente com uma API do HDFS. A figura X representa a definição do código Hook para a comunicação com a API do HDFS.
+Para compor e alimentar o Data Lake, utilizou-se a ferramenta Apache Hadoop (HDFS). Para a inserção de dados no HDFS via tarefas definidas no Airflow, fez-se necessário a criação de um Hook - um script personalizado que se comunica internamente com uma API do HDFS. A figura X representa a definição do código Hook para a comunicação com a API do HDFS.
 
 ![Definição do Hook HDFS](../images/hdfs_hook.png)
 
@@ -278,7 +287,7 @@ A figura X apresenta a classe Javascript implementada para receber o titulo da m
 
 ### 3-6 Análise dos dados
 
-Com o intuito de disponibilizar aos usuários a possibilidade de consultar os dados persistidos na camada de armazenamento usando uma síntaxe conhecida, como por exemplo SQL, usou-se o componente Trino.
+Com o intuito de disponibilizar aos usuários a possibilidade de consultar os dados persistidos no Data Lake usando uma síntaxe conhecida, como por exemplo SQL, usou-se o componente Trino.
 
 Para disponibilizar o ambiente provido do componente Trino, usou-se a ferramenta Docker para subir um container com a imagem do Trino e um arquivo de configuração para expor os dados armazenados como um catálogo de dados. A figura X e X, respectivamente demonstram a configuração do ambiente com Trino e do catálogo de dados.
 
@@ -294,9 +303,9 @@ Para disponibilizar o ambiente provido do componente SQL Pad, também usou-se a 
 
 ![Interface SQL Pad](../images/sqlpad_query.png)
 
-## 4 Casos de uso
+## 4 Resultados
 
-Neste capítulo serão apresentados os casos de uso utilizando-se a camada de processamento em lote, como também de processamento em tempo real.
+Neste capítulo serão apresentados os resultados a partir de estudo de casos que desmonstram a camada de processamento em lote, como também de processamento em tempo real.
 
 ### 4-1 ETL API Status Invest
 

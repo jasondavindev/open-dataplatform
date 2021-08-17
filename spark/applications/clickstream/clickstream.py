@@ -9,6 +9,9 @@ from pyspark.sql import SparkSession
 from pyspark.sql.avro.functions import from_avro
 from pyspark.sql.functions import count, expr, col, to_timestamp, window
 
+KAFKA_BROKER = 'broker:29092'
+AVRO_EXTRACT_EXPRESSION = 'substring(value, 6, length(value)-5)'
+
 parser = argparse.ArgumentParser(
     description='Arguments for clickstream application')
 parser.add_argument('--topic', default='clickstream')
@@ -41,29 +44,30 @@ spark = SparkSession \
     .enableHiveSupport() \
     .getOrCreate()
 
-spark.sql('create database if not exists dumping')
+spark.sql('CREATE DATABASE IF NOT EXISTS dumping')
 spark.sql("""
-  create external table if not exists dumping.clickstream (
-    start_date string,
-    start_time string,
-    username string,
-    page string, count int
+  CREATE EXTERNAL TABLE IF NOT EXISTS dumping.clickstream (
+    start_date STRING,
+    start_time STRING,
+    username STRING,
+    page STRING,
+    count INT
   )
-  partitioned by (event_name string)
-  stored as parquet
-  location '%s'
+  PARTITIONED BY (event_name STRING)
+  STORED AS parquet
+  LOCATION '%s'
   """ % table_path)
 
 df = spark \
     .readStream\
     .format("kafka")\
     .option("failOnDataLoss", "false")\
-    .option("kafka.bootstrap.servers", "broker:29092")\
+    .option("kafka.bootstrap.servers", KAFKA_BROKER)\
     .option("subscribe", APPLICATION_TOPIC)\
     .load()
 
 output = df \
-    .withColumn('fixedValue', expr("substring(value, 6, length(value)-5)")) \
+    .withColumn('fixedValue', expr(AVRO_EXTRACT_EXPRESSION)) \
     .select('topic', 'fixedValue') \
     .withColumn('parsedValue', from_avro('fixedValue', input_event_schema,  {"mode": "FAILFAST"})) \
     .withColumn('event_time', to_timestamp(col('parsedValue.event_time'))) \
