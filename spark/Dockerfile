@@ -35,7 +35,9 @@ RUN wget https://repo1.maven.org/maven2/org/apache/spark/spark-avro_2.12/3.1.1/s
     mv spark-sql-kafka-0-10_2.12-3.1.1.jar ${SPARK_HOME}/jars/spark-sql-kafka-0-10_2.12-3.1.1.jar; \
     mv kafka-clients-2.6.0.jar ${SPARK_HOME}/jars/kafka-clients-2.6.0.jar; \
     mv spark-token-provider-kafka-0-10_2.12-3.1.1.jar ${SPARK_HOME}/jars/spark-token-provider-kafka-0-10_2.12-3.1.1.jar; \
-    mv commons-pool2-2.6.2.jar ${SPARK_HOME}/jars/commons-pool2-2.6.2.jar
+    mv commons-pool2-2.6.2.jar ${SPARK_HOME}/jars/commons-pool2-2.6.2.jar; \
+    # Hudi 
+    wget https://repo1.maven.org/maven2/org/apache/hudi/hudi-spark-bundle_2.12/0.8.0/hudi-spark-bundle_2.12-0.8.0.jar -O ${SPARK_HOME}/jars/hudi-spark-bundle_2.12-0.8.0.jar
 
 ADD entrypoint.sh /entrypoint.sh
 
