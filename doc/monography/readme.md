@@ -42,7 +42,7 @@ Hoje no mercado existem ferramentas e serviços disponíveis capazes de proporci
 
 ### 1-1 Objetivos do trabalho
 
-O objetivo geral deste trabalho é desenvolver uma plataforma capaz de extrair, transformar e armazenar dados.
+O objetivo geral deste trabalho é desenvolver uma plataforma de dados que proporcione a escrita de scripts capazes de extrair, transformar e armazenar dados aproveitando de ferramentas open-source disponibilizadas pelo mercado de teconlogia.
 
 Para a realização deste trabalho foram estabelecidos alguns objetivos específicos que envolvem a criação de uma plataforma de dados:
 
@@ -50,11 +50,13 @@ Para a realização deste trabalho foram estabelecidos alguns objetivos específ
 - Focada na otimização de custos
 - Extensível e personalizável
 - Que proporcione ao usuário a construção de produtos de dados
-- Capaz de fazer análises históricas e em tempo real
+- Capaz de fazer análises históricas
 - Capaz de coletar dados em tempo real
-- Capaz de fazer processamentos de dados em lote e stream
+- Capaz de fazer processamentos de dados em lote e em tempo real
 
 ## 2 Fundamentação técnica
+
+Neste capítulo serão abordados os conceitos básicos que definem uma plataforma de dados e seus requisitos, e também algumas das tecnologias que compõe a plataforma contruída neste trabalho.
 
 ### 2-1 Plataforma de dados
 
