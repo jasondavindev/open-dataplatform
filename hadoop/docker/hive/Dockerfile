@@ -1,6 +1,8 @@
-FROM open-dataplatform-hadoop-base:3.2.1
+FROM open-dataplatform-hadoop-base
 
-ENV HIVE_VERSION 3.1.2
+ARG HIVE_VERSION=3.1.2
+
+ENV HIVE_VERSION ${HIVE_VERSION}
 ENV HIVE_HOME /opt/hive
 ENV HIVE_CONF_DIR ${HIVE_HOME}/conf
 ENV PATH "${PATH}:${HIVE_HOME}/bin"

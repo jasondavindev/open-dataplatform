@@ -1,4 +1,4 @@
-FROM open-dataplatform-hadoop-base:3.2.1
+FROM open-dataplatform-hadoop-base
 
 RUN mkdir -p /hadoop/dfs/namenode; \
     mkdir -p /hadoop/dfs/datanode

@@ -1,12 +1,11 @@
-FROM open-dataplatform-spark:3.1.1
+FROM open-dataplatform-spark
 
-ARG AIRFLOW_VERSION="2.0.1"
-ARG AIRFLOW_DEPS=""
-ARG EXECUTOR="LocalExecutor"
+ARG AIRFLOW_VERSION="2.1.2"
 
-ENV AIRFLOW_HOME="/opt/airflow"
-ENV AIRFLOW_VERSION=${AIRFLOW_VERSION}
-ENV EXECUTOR=${EXECUTOR}
+ENV AIRFLOW_HOME "/opt/airflow"
+ENV AIRFLOW_VERSION ${AIRFLOW_VERSION}
+ENV EXECUTOR "LocalExecutor"
+ENV PYTHON_VERSION "3.7"
 
 USER root
 
@@ -23,7 +22,7 @@ RUN set -ex \
     ' \
     apt update -yqq; \
     apt install -yqq \
-        $buildDeps \
+        ${buildDeps} \
         freetds-bin \
         build-essential \
         default-libmysqlclient-dev \
@@ -33,9 +32,15 @@ RUN set -ex \
         unzip \
         netcat; \
     useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow; \
-    ln -Ls $(which pip3) /usr/bin/pip; \
-    pip install psycopg2-binary==2.8.6 apache-airflow[crypto,celery,postgres,jdbc,mysql${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION}; \
-    apt-get clean; \
+    ln -Ls $(which pip3) /usr/bin/pip
+
+RUN pip install -U pip
+
+RUN pip install \
+    psycopg2-binary==2.8.6 \
+    apache-airflow[crypto,postgres,jdbc,mysql]==${AIRFLOW_VERSION}
+
+RUN apt-get clean; \
     apt-get autoremove -yqq --purge; \
     rm -rf \
         /tmp/* \
@@ -46,7 +51,7 @@ RUN set -ex \
 
 COPY requirements.txt ${AIRFLOW_HOME}
 
-RUN pip install -r ${AIRFLOW_HOME}/requirements.txt; \
+RUN pip install -r ${AIRFLOW_HOME}/requirements.txt -c https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt; \
     mkdir ${AIRFLOW_HOME}/plugins; \
     mkdir ${AIRFLOW_HOME}/logs; \
     mkdir ${AIRFLOW_HOME}/dags
@@ -64,6 +69,6 @@ USER airflow
 
 WORKDIR ${AIRFLOW_HOME}
 
-EXPOSE 8080 5555 8793
+EXPOSE 8080 8793
 
 ENTRYPOINT [ "/entrypoint.sh" ]

@@ -5,7 +5,7 @@ services:
   namenode:
     container_name: namenode
     hostname: namenode
-    image: open-dataplatform-hadoop-hdfs:3.2.1
+    image: open-dataplatform-hadoop-hdfs
     environment:
       NODE_TYPE: namenode
       HDFS_NAMENODE_USER: root
@@ -19,7 +19,7 @@ services:
   datanode:
     container_name: datanode
     hostname: datanode
-    image: open-dataplatform-hadoop-hdfs:3.2.1
+    image: open-dataplatform-hadoop-hdfs
     environment:
       NODE_TYPE: datanode
       HDFS_DATANODE_USER: root
@@ -47,7 +47,7 @@ services:
 
   hive-metastore:
     hostname: hive-metastore
-    image: open-dataplatform-hadoop-hive:3.1.2
+    image: open-dataplatform-hive
     container_name: hive-metastore
     depends_on:
       - hive-postgres
@@ -61,7 +61,7 @@ services:
 
   hive-server:
     hostname: hive-server
-    image: open-dataplatform-hadoop-hive:3.1.2
+    image: open-dataplatform-hive
     container_name: hive-server
     depends_on:
       - hive-metastore
@@ -75,10 +75,7 @@ services:
   # Spark
   spark-master:
     container_name: spark-master
-    image: open-dataplatform-spark:3.1.1
-    build:
-      context: ./spark
-      dockerfile: Dockerfile
+    image: open-dataplatform-spark
     ports:
       - 4040:4040
       - 4041:4041
@@ -96,10 +93,7 @@ services:
   spark-worker:
     hostname: spark-worker
     container_name: spark-worker
-    image: open-dataplatform-spark:3.1.1
-    build:
-      context: ./spark
-      dockerfile: Dockerfile
+    image: open-dataplatform-spark
     ports:
       - 4042:4040
     command:
@@ -131,9 +125,6 @@ services:
   airflow:
     hostname: airflow
     container_name: airflow
-    build:
-      context: ./airflow
-      dockerfile: Dockerfile
     image: open-dataplatform-airflow
     command: bash -c "airflow scheduler & airflow webserver -p 9090 --debug"
     depends_on:
