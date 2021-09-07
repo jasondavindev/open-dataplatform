@@ -16,7 +16,6 @@ class DockerSparkSubmitOperator(SparkSubmitOperator):
         self._hdfs_conn_id = hdfs_conn_id
         self._old_application = kwargs['application']
         self._application = self._get_application()
-        self._conf = self._get_conf()
 
     @property
     def _hdfs_conn_string(self):
@@ -27,11 +26,6 @@ class DockerSparkSubmitOperator(SparkSubmitOperator):
     def _new_application_path(self):
         basename = ntpath.basename(self._old_application)
         return f"/spark/scripts/{basename}"
-
-    def _get_conf(self):
-        return {
-            'spark.sql.warehouse.dir': 'hdfs://namenode:8020/user/hive/warehouse',
-        }
 
     def _get_application(self):
         return f"{self._hdfs_conn_string}/{self._new_application_path}"

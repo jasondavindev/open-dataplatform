@@ -137,6 +137,8 @@ services:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/plugins:/opt/airflow/plugins
       - ./airflow/spark:/scripts/spark
+      - ./hadoop/conf:/opt/hadoop/conf
+      - ./spark/config/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
     environment:
       POSTGRES_HOST: airflow-db
       POSTGRES_PORT: 5432

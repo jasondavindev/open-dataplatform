@@ -38,5 +38,5 @@ Primeiramente construa todas imagens docker, executando
 Suba todos os containers
 
 ```bash
-docker-compose -f docker-compose.yml -f kafka/docker-compose.yml up
+docker-compose -f docker-compose.yml -f kafka/docker-compose.yml -f ingestion/docker-compose.yml up
 ```

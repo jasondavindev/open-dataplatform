@@ -1,6 +1,5 @@
 import argparse
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col
 
 parser = argparse.ArgumentParser(description="Filter best stocks")
 
