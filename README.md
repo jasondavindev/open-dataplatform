@@ -4,7 +4,7 @@
 - [Motivação](#motivação)
 - [Arquitetura](#arquitetura)
 - [Solução](#solução)
-- [Documentação](./doc/monography/readme.md)
+- [Documentação](./doc/readme.md)
 
 ## Problema
 
