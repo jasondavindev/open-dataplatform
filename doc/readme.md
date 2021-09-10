@@ -30,6 +30,7 @@
   - [3.6 Análise dos dados](#3-6-análise-dos-dados)
   - [3.7 Estudo de casos](#3-7-estudo-de-casos)
   - [3.7.1 ETL em lote](#3-7-1-etl-em-lote)
+  - [3.7.2 ETL em tempo real](#3-7-2-etl-em-tempo-real)
 
 ## 1 Introdução
 
