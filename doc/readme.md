@@ -28,6 +28,8 @@
   - [3.4 Definição de metadados](#3-4-definição-de-metadados)
   - [3.5 Ingestão de dados em tempo real](#3-5-ingestão-de-dados-em-tempo-real)
   - [3.6 Análise dos dados](#3-6-análise-dos-dados)
+  - [3.7 Estudo de casos](#3-7-estudo-de-casos)
+  - [3.7.1 ETL em lote](#3-7-1-etl-em-lote)
 
 ## 1 Introdução
 
@@ -317,7 +319,7 @@ Com o objetivo de expor dados para extração, criou-se uma API ao qual gera um 
 
 ![API geradora de dados aleatórios](./images/api_random_data.png)
 
-A Figura X apresenta o código de implementação da API geradora de dados aleatórios, ao qual na chamada da API é passado o parâmetro nomeado como `date` e um limitador da quantidade de registros por chamada, nomeado como `count`. O código gera N registros, para qual cada registro contém os campos user_name, page, event_name e event_time. O campo event_name indica o nome do evento, limitado a um conjunto definido pelos valores click, page_view e submit que serviram como campo de agregação. O campo event_time recebe a data passada como parâmetro `date`, convertido para o formato de data `dia-mês-ano`.
+A Figura X apresenta o código de implementação da API geradora de dados aleatórios, ao qual na chamada da API é passado o parâmetro nomeado como `date` e um limitador da quantidade de registros por chamada, nomeado como `count`. O código gera N registros, para qual cada registro contém os campos user_name, page, event_name e event_time. O campo event_name indica o nome do evento, limitado a um conjunto definido pelos valores click, page_view e submit que serviram como campo de agregação. O campo event_time recebe a data passada como parâmetro `date`, convertido para o formato de data `2021-12-30`.
 
 A Figura X apresenta o script da DAG para extração, transformação e persistência dos dados fornecidos pela API.
 
@@ -337,16 +339,18 @@ A terceira e última tarefa, nomeada como group_insights é responsável por rea
 
 No script é aplicado uma transformação simples no dado, com intuito de simular a obtenção de alguma informação analítica do dado. O script aplica uma agregação dos dados de uma determinada data, especificada pelo cláusula `WHERE date = '%s'`. Agrupa pelo campo event_name e faz a contagem de cada tipo de evento. Por fim, o resultado da transformação é persistido no Data Lake, porém em outra camada - de dados analíticos.
 
-## 4 Resultados
+### 3-7-2 ETL em tempo real
 
-Neste capítulo serão apresentados os resultados a partir de estudo de casos que desmonstram a camada de processamento em lote, como também de processamento em tempo real.
+Como demonstração de um fluxo ETL em tempo real de ponta-a-ponta, implementou-se um fluxo de Clickstream utilizando a biblioteca PySpark. O objetivo do experimento foi enviar dados aleatórios para uma API HTTP, implementada na seção 3.5. A partir da API, os dados foram postados em um tópico Kafka ao qual, conectou-se uma aplicação Clickstream para receber os eventos e agrupa-los em uma janela de tempo definida de 5 segundos. A cada janela de tempo, os eventos são agrupados e por fim contabilizado a quantidade de eventos de cada um usuário na respectiva janela de tempo.
 
-### 4-1 ETL de dados em lote
+A Figura X apresenta o código da aplicação Clickstream implementado com a biblioteca PySpark e o framework Spark Structured Streaming. O código cria um ouvinte para o tópico Kafka alimentado pela API ao qual recebe os eventos, aplica o janelamento no período de 5 segundos e por fim faz a contagem da quantidade de eventos. O resultado de cada processamento é armazenado no Data Lake a partir da chamada `output.writeStream`.
 
-Nesta seção será apresentado um fluxo ETL de dados em lote, desde a implantação da API fornecedora dos dados até a exposição do dado no Data Lake.
+![Script clickstream](./images/clickstream.png)
 
-#### 4-1-1 API fornecedora de dados
+Como os eventos postados pela API citada na seção 3.5 eram postados em um formato binário, o Apache Avro, foi-se necessário criar um script para a criação da estrutura desse evento no repositório de schemas - o Schema Registry. O script criou a estrutura contendo os campos user_name, page, event_name e event_time. A Figura X apresenta o script de criação de schema.
 
+![Script de criação de schema](./images/schema_creator.png)
 
+Por fim, para simular as chamadas de postagem de eventos na API, criou-se um script para realizar tais postagens passando dados aleatórios. A Figura X apresenta a implementação do script respeitando a estrutura do dado definido no script da seção anterior.
 
-### 4-2 ETL dados em tempo real
+![Script de postagem de eventos na API](./images/spam_api_clickstream.png)
