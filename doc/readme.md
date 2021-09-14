@@ -320,25 +320,47 @@ Com o objetivo de expor dados para extração, criou-se uma API ao qual gera um 
 
 ![API geradora de dados aleatórios](./images/api_random_data.png)
 
-A Figura X apresenta o código de implementação da API geradora de dados aleatórios, ao qual na chamada da API é passado o parâmetro nomeado como `date` e um limitador da quantidade de registros por chamada, nomeado como `count`. O código gera N registros, para qual cada registro contém os campos user_name, page, event_name e event_time. O campo event_name indica o nome do evento, limitado a um conjunto definido pelos valores click, page_view e submit que serviram como campo de agregação. O campo event_time recebe a data passada como parâmetro `date`, convertido para o formato de data `2021-12-30`.
+A Figura X apresenta o código de implementação da API geradora de dados aleatórios, ao qual na chamada da API é passado o parâmetro nomeado como `date` e um limitador da quantidade de registros por chamada, nomeado como `count`.
 
-A Figura X apresenta o script da DAG para extração, transformação e persistência dos dados fornecidos pela API.
+Da linha 28 a 35 implementou-se o método responsável por gerar um objeto JavaScript contendo os campos username, page e event_name com valores aleatórios. O campo event_time é a conversão do parâmetro date para o formato de Timestamp.
 
-![DAG de ETL da API geradora de dados aleatórios](./images/study_case_dag.png)
+Da linha 19 a 26 foi implementado o método responsável por gerar N objetos JavaScript utilizando o método anteriormente citado, onde N corresponde ao parâmetro count. Por fim, o método envia uma resposta de volta ao cliente invocador da API HTTP.
 
-Na DAG criou-se 3 tarefas para definição do fluxo ETL. Na primeira tarefa nomeada como `insights_to_hdfs`, é utilizado um operador personalizado responsável por fazer uma chamada a API geradora de dados aleatórios e persistir a resposta da chamada no Data Lake. É importante ressaltar que os dados da resposta são persistidos em uma camada de dados brutos, sem nenhuma transformação. A Figura X apresenta a implementação do operador personalizado, nomeado como StudyCaseOperator.
+Para realizar a extração dos dados da API anteriormente citada, criou-se um script de DAG contendo 3 tarefas para definição do fluxo ETL. A Figura X apresenta a implementação do script.
 
-![Operador de extração de dados](./images/study_case_operator.png)
+![Script da DAG ETL](./images/study_case_dag.png)
 
-A segunda tarefa nomeada como insights_json_to_parquet, é responsável por transformar o dado bruto extraído da API no formato JSON para o formato colunar Parquet, como também a criação de uma tabela no catálogo de dados do Hive Metastore. Nessa tarefa é utilizada outro operador personalizado, responsável por submeter a execução de scripts para o cluster Spark. Na Figura X é apresentado o código de transformação utilizando a biblioteca PySpark.
+Da linha 7 a 11 é definida a primeira tarefa nomeada como `insights_to_hdfs`. Na primera tarefa é utilizado um operador personalizado - StudyCaseOperator, responsável por fazer uma chamada a API geradora de dados aleatórios e persistir a resposta da chamada no Data Lake. É importante ressaltar que os dados da resposta são persistidos em uma camada de dados brutos, sem nenhuma transformação.
 
-![Script de conversão de JSON para Parquet](./images/study_case_json_to_parquet.png)
+A segunda tarefa, implementada da linha 13 a 27 nomeada como insights_json_to_parquet, é responsável por transformar o dado bruto extraído da API no formato JSON para o formato colunar Parquet, como também a criação de uma tabela no catálogo de dados do Hive Metastore. Nessa tarefa é utilizada outro operador personalizado, responsável por submeter a execução de scripts para o cluster Spark.
 
-A terceira e última tarefa, nomeada como group_insights é responsável por realizar transformações no dado já catalogado, aplicando transformações com intuito de extrair informações analíticas. Essa tarefa também utiliza o mesmo operador da tarefa anterior, que faz submissão de scripts para o cluster Spark. Na Figura X é apresentado o scrpit de agregação do dado.
+A terceira e última tarefa, nomeada como group_insights definida da linha 29 a 41 é responsável por realizar transformações no dado já catalogado, aplicando transformações com intuito de extrair informações analíticas. Essa tarefa também utiliza o mesmo operador da tarefa anterior, que faz submissão de scripts para o cluster Spark. Na Figura X é apresentado a implementação do script de transformação.
 
 ![Script de agregação dos dados](./images/study_case_transform.png)
 
-No script é aplicado uma transformação simples no dado, com intuito de simular a obtenção de alguma informação analítica do dado. O script aplica uma agregação dos dados de uma determinada data, especificada pelo cláusula `WHERE date = '%s'`. Agrupa pelo campo event_name e faz a contagem de cada tipo de evento. Por fim, o resultado da transformação é persistido no Data Lake, porém em outra camada - de dados analíticos.
+Na linha 4 a 8 é implementado o código para receber como argumentos a data ao qual o script irá extrair os dados.
+
+Na linha 10 a 26 do script é iniciado uma instância da aplicação Spark como também a instrução SQL que aplica as transformações nos dados. Com intuito de simular a obtenção de alguma informação analítica do dado. O script aplica uma agregação dos dados de uma determinada data, especificada pelo cláusula `WHERE date = '%s'`. Agrupa pelo campo event_name e faz a contagem de cada tipo de evento.
+
+Por fim, na linha 28 a 36 a instrução é de fato executada, e o resultado da transformação é persistido no Data Lake, porém em outra camada - de dados analíticos.
+
+A Figura X apresenta a implementação da classe operador personalizado anteriormente citado, nomeado como StudyCaseOperator.
+
+![Operador de extração de dados](./images/study_case_operator.png)
+
+Na linha 4 a 16 é definido o construtor da classe operadora, ao qual são definidas variáveis iniciais contendo a data de execução do script, o contador de objetos e o endereço da API geradora de dados aleatórios.
+
+Na linha 18 a 22 é definido o conjunto de códigos que realiza a chamada HTTP à API geradora de dados, passando como parâmetro a data e o contador de objetos definidos no construtor da classe. É utilizado o pacote requests nativo do Python.
+
+Para a definição do código executor da classe operadora, na linha 24 a 31 é implementado o método execute que realiza a chamada HTTP a API e persiste o resultado da chamada no formato JSON na camada de dados brutos do HDFS.
+
+Na Figura X é apresentado o script de transformação de dados no formato JSON para o formato Parquet, citado anteriormente na definição da segunda tarefa ETL.
+
+![Script de conversão de JSON para Parquet](./images/json_to_parquet_operator.png)
+
+Na linha 1 a 17 são definidas as variáveis contendo o caminho do arquivo JSON, o nome do banco de dados e tabela onde o dado Parquet será persistido, a data de execução do script e a instância da aplicação Spark.
+
+Na linha 19 a 22 é iniciado a leitura do arquivo JSON, como também a adição de uma nova coluna contendo a data de execução do script, anteriormente definida. A partir da linha 23 a 30 é iniciado a persistência dos novos arquivos no formato Parquet, como também a especificação do nome do banco de dados, tabela e o caminho de onde os arquivos serão persistidos. Por fim, na linha 32 a aplicação Spark é finalizada.
 
 ### 3-7-2 ETL em tempo real
 
