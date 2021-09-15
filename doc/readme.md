@@ -391,3 +391,17 @@ Para fazer a postagem dos eventos na API HTTP citada na seção 3.5 utilizando o
 ![Script de postagem de eventos na API](./images/spam_api_clickstream.png)
 
 No trecho de código da linha 7 a 9 são definidos conjuntos de dados a serem sorteados por um número aleatório. Da linha 11 a 16 é definido o modelo do corpo da requisição a ser enviado a API citada na seção 3.5. Da linha 18 a 36 é definido um loop infinito, onde são sorteados aleatoriamente os dados anteriormente definidos. Com os dados sorteados, os campos do modelo do corpo da requisição são preenchidos e por fim, é feito a postagem da mensagem a API.
+
+## 5 Considerações finais
+
+### 5-1 Contribuições e Conclusões
+
+Citar contribuições de decisões técnicas aplicadas no time na atual empresa ao qual eu atuo
+
+### 5-2 Trabalhos futuros
+
+Este trabalho não encerra as pesquisas no desenvolvimento de uma plataforma para extração, transformação e disponibilização de dados em tempo real e lote, mas abre a oportunidade para os seguintes trabalhos futuros:
+
+- Aplicar práticas para atingir o estado-da-arte (camadas do data lake)
+- Utilizar ferramenta para gerenciamento de acessos - Apache Ranger
+- Utilizar ferramenta que atenda requisitos de latencia no processamento em tempo real - Apache Flink
