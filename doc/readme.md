@@ -364,16 +364,30 @@ Na linha 19 a 22 é iniciado a leitura do arquivo JSON, como também a adição 
 
 ### 3-7-2 ETL em tempo real
 
-Como demonstração de um fluxo ETL em tempo real de ponta-a-ponta, implementou-se um fluxo de Clickstream utilizando a biblioteca PySpark. O objetivo do experimento foi enviar dados aleatórios para uma API HTTP, implementada na seção 3.5. A partir da API, os dados foram postados em um tópico Kafka ao qual, conectou-se uma aplicação Clickstream para receber os eventos e agrupa-los em uma janela de tempo definida de 5 segundos. A cada janela de tempo, os eventos são agrupados e por fim contabilizado a quantidade de eventos de cada um usuário na respectiva janela de tempo.
+Como demonstração de um fluxo ETL em tempo real de ponta-a-ponta, implementou-se um fluxo de Clickstream utilizando a biblioteca PySpark. O objetivo do experimento foi enviar dados aleatórios para uma API HTTP, implementada na seção 3.5. A partir da API, os dados foram postados em um tópico Kafka ao qual, conectou-se uma aplicação Clickstream para receber os eventos e agrupa-los em uma janela de tempo definida de 5 segundos. A cada janela de tempo, os eventos foram agrupados e por fim contabilizado a quantidade de eventos de cada usuário na respectiva janela de tempo.
 
-A Figura X apresenta o código da aplicação Clickstream implementado com a biblioteca PySpark e o framework Spark Structured Streaming. O código cria um ouvinte para o tópico Kafka alimentado pela API ao qual recebe os eventos, aplica o janelamento no período de 5 segundos e por fim faz a contagem da quantidade de eventos. O resultado de cada processamento é armazenado no Data Lake a partir da chamada `output.writeStream`.
+A seguir as Figuras X e Y apresentam o código da aplicação Clickstream separado em duas partes. O código da aplicação foi implementado utilizando a biblioteca PySpark juntamente com o framework Spark Structured Streaming.
 
-![Script clickstream](./images/clickstream.png)
+![Script de iniciação da aplicação Clickstream](./images/clickstream_pt1.png)
 
-Como os eventos postados pela API citada na seção 3.5 eram postados em um formato binário, o Apache Avro, foi-se necessário criar um script para a criação da estrutura desse evento no repositório de schemas - o Schema Registry. O script criou a estrutura contendo os campos user_name, page, event_name e event_time. A Figura X apresenta o script de criação de schema.
+![Script de processamento da aplicação Clickstream](./images/clickstream_pt2.png)
+
+Na Figura X ao qual apresenta a primeira parte da aplicação, no trecho de código da linha 5 a 13 é definido a estrutura dos dados que são transmitidos no tópico Kafka utilizando a síntaxe de definição do formato Avro. Da linha 18 a 22 é instanciado a aplicação Spark que será executada. Da linha 24 a 30 é instanciado um objeto DataStreamReader ao qual são lidos e processados cada evento que é transmitido no tópico Kafka especificado na linha 29.
+
+Na Figura X, no trecho de código apresentado da linha 32 a 40 é aplicado algumas transformações no evento recebido pelo DataStreamReader. Na linha 33 é removido caracteres mágicos e extraído a mensagem Avro convertida para JSON. Da linha 35 a 40 cada campo do objeto JSON é anexado a sua respectiva coluna contendo o nome do campo.
+
+No trecho de código da linha 41 a 47 é aplicado a função de janelamento, onde cada janela contém eventos dentro de um período de 5 segundos. Tais eventos são agrupados pelas colunas event_name, page e username que por fim, é aplicado uma contagem da quantidade de eventos de cada grupo adicionando-se o campo start_date e start_time contendo respectivamente o ano-mês-dia e hora-minuto-segundo da janela.
+
+Por fim, da linha 49 a 56 é criado uma instância do objeto DataStreamWriter, ao qual os dados processados anteriormente são preparados para serem persistidos no Data Lake, no formato Parquet e no caminho de arquivo especificado na linha 53.
+
+Para a definição e criação da estrutura de dados dos eventos postados no tópico Kafka anteriormente citado, foi-se necessário criar um script capaz de criar a estrutura do dado no repositório de esquemas - Schema Registry. Na Figura X é apresentado o script de criação de esquemas no formato Avro.
 
 ![Script de criação de schema](./images/schema_creator.png)
 
-Por fim, para simular as chamadas de postagem de eventos na API, criou-se um script para realizar tais postagens passando dados aleatórios. A Figura X apresenta a implementação do script respeitando a estrutura do dado definido no script da seção anterior.
+No trecho de código da linha 5 a 23, é definido a estrutura do dado e o corpo da requisição de criação de esquema a ser enviado para a API do Schema Registry. Da linha 27 a 33 é realizado a chamada criação de esquema a API, passando como corpo da requisição a estrutura definida anteriormente.
+
+Para fazer a postagem dos eventos na API HTTP citada na seção 3.5 utilizando o formato do dado anteriormente definido, criou-se um script apresentado na Figura X.
 
 ![Script de postagem de eventos na API](./images/spam_api_clickstream.png)
+
+No trecho de código da linha 7 a 9 são definidos conjuntos de dados a serem sorteados por um número aleatório. Da linha 11 a 16 é definido o modelo do corpo da requisição a ser enviado a API citada na seção 3.5. Da linha 18 a 36 é definido um loop infinito, onde são sorteados aleatoriamente os dados anteriormente definidos. Com os dados sorteados, os campos do modelo do corpo da requisição são preenchidos e por fim, é feito a postagem da mensagem a API.
