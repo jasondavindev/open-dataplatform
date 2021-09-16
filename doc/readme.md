@@ -462,14 +462,22 @@ A Figura X e X apresentam respectivamente o dados processados e persistidos pela
 
 ## 5 Considerações finais
 
+Neste capítulo serão apresentadas as contribuições e conclusões deste trabalho,
+assim como os trabalhos futuros.
+
 ### 5-1 Contribuições e Conclusões
 
-Citar contribuições de decisões técnicas aplicadas no time na atual empresa ao qual eu atuo
+A plataforma de extração, transformação e disponibilização de dados em tempo real e lote apresentado neste trabalho cumpre com o objetivo de disponibilizar uma plataforma ao qual engenheiros de dados podem implementar scripts e aplicações para realizar extrações e transformações massivas em dados disponibilizados, por exemplo, por banco de dados, APIs HTTP, arquivos de texto etc.
+
+Com o uso restrito e total de apenas ferramentas de código aberto neste trabalho, foi possível construir uma plataforma com zero custo financeiro, como por exemplo, a não necessidade da compra de licenças de softwares. Além de que, com a utilização das ferramentas aplicadas neste trabalho permitiu a possibilidade da implementação de códigos personalizados nas próprias ferramentas, como também a contribuição de tais códigos para o projeto oficial finalizando como contribuição para a comunidade de código aberto.
+
+A fundamentação técnica e desenvolvimento apresentado neste trabalho contribuiu para decisões técnicas em um time de engenharia de dados, ao qual utilizou-se parte do conteúdo apresentado como base para a construção de uma plataforma de modelos de machine learning.
 
 ### 5-2 Trabalhos futuros
 
 Este trabalho não encerra as pesquisas no desenvolvimento de uma plataforma para extração, transformação e disponibilização de dados em tempo real e lote, mas abre a oportunidade para os seguintes trabalhos futuros:
 
-- Aplicar práticas para atingir o estado-da-arte (camadas do data lake)
-- Utilizar ferramenta para gerenciamento de acessos - Apache Ranger
-- Utilizar ferramenta que atenda requisitos de latencia no processamento em tempo real - Apache Flink
+- Aplicar práticas e técnicas para atingir a separação de contextos de dados utilizando-se camadas com escopos definidos dentro do Data Lake.
+- Utilizar ferramentas, como por exemplo Apache Ranger, para o gerenciamento de níveis de acessos aos dados persistidos no Data Lake.
+- Com relação à aplicações em tempo real que a latência e o tempo de processamento são requisitos críticos, a ferramenta Spark Strucuted Streaming pode se tornar um gargalo. Outra ferramenta especialista em processamento em tempo real, como por exemplo Apache Flink, pode ser uma candidata a substituição.
+- É interessante aplicar um novo formato de dados, como por exemplo Apache Hudi ou Delta Lake, para a possibilidade de operações atualização-inserção (upsert) e alteração (update), já que o formato Apache Parquet não atende à essas necessidades.
