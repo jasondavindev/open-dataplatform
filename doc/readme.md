@@ -31,6 +31,10 @@
   - [3.7 Estudo de casos](#3-7-estudo-de-casos)
   - [3.7.1 ETL em lote](#3-7-1-etl-em-lote)
   - [3.7.2 ETL em tempo real](#3-7-2-etl-em-tempo-real)
+- [4. Resultados](#4-resultados)
+- [5. Considerações finais](#5-considerações-finais)
+- [5.1. Contribuições e Conclusões](#5-1-contribuições-e-conclusões)
+- [5.2. Trabalhos futuros](#5-2-trabalhos-futuros)
 
 ## 1 Introdução
 
@@ -391,6 +395,42 @@ Para fazer a postagem dos eventos na API HTTP citada na seção 3.5 utilizando o
 ![Script de postagem de eventos na API](./images/spam_api_clickstream.png)
 
 No trecho de código da linha 7 a 9 são definidos conjuntos de dados a serem sorteados por um número aleatório. Da linha 11 a 16 é definido o modelo do corpo da requisição a ser enviado a API citada na seção 3.5. Da linha 18 a 36 é definido um loop infinito, onde são sorteados aleatoriamente os dados anteriormente definidos. Com os dados sorteados, os campos do modelo do corpo da requisição são preenchidos e por fim, é feito a postagem da mensagem a API.
+
+## 4 Resultados
+
+Neste capítulo serão apresentados os resultados do desenvolvimento de uma plataforma para extração, transformação e disponibilização de dados dos estudo de casos anteriormente apresentados.
+
+### 4-1 ETL em lote
+
+A Figura X apresenta uma chamada HTTP feita na API geradora de dados aleatórios através do navegador. Na chamada são passados os parâmetros de data (date) e quantidade de objetos (count). A resposta retorna os dados necessários para realizar as transformações posteriores.
+
+![Requisição HTTP na API geradora de dados](./images/api_random_data.png)
+
+Na Figura X é apresentado a representação gráfica da DAG implementada na seção 3.7.1. Na figura é possível visualizar a 3 tarefas que compõem o fluxo ETL e também que todas as tarefas foram executadas com sucesso, representado pela borda na cor verde como também o marcador success.
+
+![Representação gráfica da DAG ETL](./images/airflow_run_dags.png)
+
+Nas Figura X e X são apresentados os dados persistidos pela primeira tarefa da DAG - a tarefa de extração de dados. É possível observar que os dados são particionados pela data em que a tarefa foi executada.
+
+![Camada de dados brutos particionado pela data](./images/hdfs_raw_layer.png)
+
+![Dado bruto persistido na camada de dados brutos](./images/hdfs_partition_raw_layer.png)
+
+Na Figura X é apresentado os dados persistidos pela tarefa de transformação do dado bruto para o formato Parquet. É possível observar que os dados estão persistidos em outra camada, nomeada como trusted e também que o caminho do arquivo leva o nome da tabela Hive que foi criada.
+
+![Dado persistido no formato Apache Parquet](./images/hdfs_partition_trusted_layer.png)
+
+Na Figura X é apresentado os dados de resultado persistidos a partir da execução da terceira tarefa. Na figura é possível observar que os dados são persistidos na mesma camada trusted, porém em outro caminho de arquivo ao qual leva o nome da tabela Hive que foi criada.
+
+![Dado persistido no formato Apache Parquet](./images/hdfs_trusted_grouped_insights.png)
+
+Na Figura X e X são apresentados respectivamente instruções SQLs para consultar os dados persistidos nas tabelas criadas pela segunda e terceira tarefa. As tabelas levam o nome de insights e grouped_insights, ao qual a insights contém apenas os dados convertidos do formato JSON para Parquet. A tabela grouped_insights contém os dados agrupados pelos campos anteriormente citados na seção 3.7.1. As consultas foram feitas através da ferramenta SQL Pad.
+
+![Consulta SQL na tabela insights](./images/sql_pad_insights_table.png)
+
+![Consulta SQL na tabela grouped_insights](./images/sql_pad_insights_table.png)
+
+### 4-2 ETL em tempo real (Clickstream)
 
 ## 5 Considerações finais
 
