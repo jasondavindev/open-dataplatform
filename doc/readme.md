@@ -402,6 +402,8 @@ Neste capítulo serão apresentados os resultados do desenvolvimento de uma plat
 
 ### 4-1 ETL em lote
 
+Nesta seção serão apresentados os resultados obtidos a partir da criação de um fluxo ETL em lote implementado na seção 3.7.1.
+
 A Figura X apresenta uma chamada HTTP feita na API geradora de dados aleatórios através do navegador. Na chamada são passados os parâmetros de data (date) e quantidade de objetos (count). A resposta retorna os dados necessários para realizar as transformações posteriores.
 
 ![Requisição HTTP na API geradora de dados](./images/api_random_data.png)
@@ -435,6 +437,28 @@ Na Figura X e X são apresentados respectivamente instruções SQLs para consult
 ![Consulta SQL na tabela grouped_insights](./images/sql_pad_insights_table.png)
 
 ### 4-2 ETL em tempo real (Clickstream)
+
+Nesta seção serão apresentados os resultados obtidos a partir da criação de um fluxo ETL em tempo real implementado na seção 3.7.2, nomeada como Clickstream.
+
+Na Figura X é apresentado a execução do script para criação do esquema no formato Avro dos eventos que são postados na API apresentada anteriormente na seção 3.5. Na figura é possível observar que o corpo completo do esquema é mostrado como saída da execução do script como também os identificadores no repositório de esquemas. O esquema criado foi nomeado como appclickstream.
+
+![Resultado script de criação do esquema dos eventos Avro](./images/script_create_schema.png)
+
+Na Figura X é apresentado a execução do script que realiza chamadas HTTP na API anteriormente citada para a postagem dos eventos no respectivo tópico Kafka. O script foi invocado passando como parâmetro o nome do esquema criado anteriormente e, como segundo parâmetro um número indicando o tempo de espera entre cada chamada a API. O script realiza infinitas chamadas, mas para fins de testes a execução foi interrompida.
+
+![Resultado script de postagem de eventos na API](./images/script_spam_api.png)
+
+A partir das postagens realizadas na API HTTP consequentemente no tópico Kafka, a aplicação Spark Structured Streaming passa a realizar o processamento dos eventos que são entregues pelo tópico Kafka. A Figura X e X apresentam algumas métricas fornecidas pelo próprio Spark, como por exemplo, o número de eventos e linhas processadas, a duração de cada registro processado etc.
+
+![Métricas de execução da aplicação Clickstream - Parte 1](./images/app_clickstream_pt1.png)
+
+![Métricas de execução da aplicação Clickstream - Parte 2](./images/app_clickstream_pt2.png)
+
+A Figura X e X apresentam respectivamente o dados processados e persistidos pela aplicação Clickstream no Data Lake e a tabela Hive ao qual é possível consultar tais dados.
+
+![Dados processados pelo Clickstream persistidos no Data Lake](./images/clickstream_hdfs.png)
+
+![Tabela Hive contendo os dados persistidos pela aplicação Clickstream](./images/clickstream_table.png)
 
 ## 5 Considerações finais
 

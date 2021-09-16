@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   clickstream_app:
-    image: open-dataplatform-spark:3.1.1
+    image: open-dataplatform-spark
     container_name: clickstream_app
     volumes:
       - ./clickstream.py:/apps/clickstream.py

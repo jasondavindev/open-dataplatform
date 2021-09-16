@@ -8,6 +8,6 @@ spark-submit \
     spark://spark-master:7077 \
     /apps/clickstream.py \
     --topic \
-    topictest \
+    appclickstream \
     --table-path \
     /spark/clickstream
