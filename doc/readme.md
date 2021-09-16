@@ -406,9 +406,13 @@ A Figura X apresenta uma chamada HTTP feita na API geradora de dados aleatórios
 
 ![Requisição HTTP na API geradora de dados](./images/api_random_data.png)
 
-Na Figura X é apresentado a representação gráfica da DAG implementada na seção 3.7.1. Na figura é possível visualizar a 3 tarefas que compõem o fluxo ETL e também que todas as tarefas foram executadas com sucesso, representado pela borda na cor verde como também o marcador success.
+Na Figura X é apresentado a representação gráfica da DAG no Airflow implementada na seção 3.7.1. Na figura é possível visualizar a 3 tarefas que compõem o fluxo ETL e também que todas as tarefas foram executadas com sucesso, representado pela borda na cor verde como também o marcador success.
 
 ![Representação gráfica da DAG ETL](./images/airflow_run_dags.png)
+
+Na Figura X é apresentado a aplicação web do Spark, ao qual é possível visualizar o histórico de aplicações Spark executadas submetidas a partir das tarefas no Airflow.
+
+![Aplicação web do Spark e histórico de execuções](./images/spark_ui_jobs.png)
 
 Nas Figura X e X são apresentados os dados persistidos pela primeira tarefa da DAG - a tarefa de extração de dados. É possível observar que os dados são particionados pela data em que a tarefa foi executada.
 
