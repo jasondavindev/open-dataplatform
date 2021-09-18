@@ -412,21 +412,25 @@ Na Figura X é apresentado a representação gráfica da DAG no Airflow implemen
 
 ![Representação gráfica da DAG ETL](./images/airflow_run_dags.png)
 
-Na Figura X é apresentado a aplicação web do Spark, ao qual é possível visualizar o histórico de aplicações Spark executadas submetidas a partir das tarefas no Airflow.
+Navegando pelo painel de tarefas do Airflow, é possível visualizar os logs das execuções de tais tarefas. Na Figura X é apresentado os logs da primeira tarefa, ao qual é possível visualizar a resposta retornada da chamada a API de geração de dados como também uma mensagem mencionando onde o arquivo resultado será persistido no Data Lake.
+
+![Painel de logs do Airflow](./images/airflow_logs.png)
+
+Na página web contendo o painel do Spark, é possível visualizar o histórico das aplicações executadas como também suas respectivas métricas, as aplicações em execução e também as instâncias executoras do Spark, os Workers. Na Figura X é apresentado o histórico de aplicações executadas a partir das invocações feita pelo Airflow.
 
 ![Aplicação web do Spark e histórico de execuções](./images/spark_ui_jobs.png)
 
-Nas Figura X e X são apresentados os dados persistidos pela primeira tarefa da DAG - a tarefa de extração de dados. É possível observar que os dados são particionados pela data em que a tarefa foi executada.
+Como resultado da primeira tarefa, os dados extraídos da API são persistidos no Data Lake, na camada de dados brutos. Nas Figuras X e X são apresentados as partições, ou seja, os dados da execução de cada dia em específico, como também o arquivo result.json contendo os dados extraídos por uma execução.
 
 ![Camada de dados brutos particionado pela data](./images/hdfs_raw_layer.png)
 
 ![Dado bruto persistido na camada de dados brutos](./images/hdfs_partition_raw_layer.png)
 
-Na Figura X é apresentado os dados persistidos pela tarefa de transformação do dado bruto para o formato Parquet. É possível observar que os dados estão persistidos em outra camada, nomeada como trusted e também que o caminho do arquivo leva o nome da tabela Hive que foi criada.
+Na Figura X é apresentado os dados persistidos pela tarefa de transformação do dado bruto para o formato Parquet. É possível observar que os dados estão persistidos em outra camada, nomeada como trusted e também que o caminho do arquivo leva o nome da tabela Hive que foi criada "study_case.insights".
 
 ![Dado persistido no formato Apache Parquet](./images/hdfs_partition_trusted_layer.png)
 
-Na Figura X é apresentado os dados de resultado persistidos a partir da execução da terceira tarefa. Na figura é possível observar que os dados são persistidos na mesma camada trusted, porém em outro caminho de arquivo ao qual leva o nome da tabela Hive que foi criada.
+Como resultado da execução da terceira tarefa, a de agregação dos dados, um novo arquivo Parquet é persistido no Data Lake. Na Figura X é possível observar que os dados são persistidos na mesma camada trusted, porém em outro caminho de arquivo ao qual leva o nome da tabela Hive que foi criada "study_case.grouped_insights".
 
 ![Dado persistido no formato Apache Parquet](./images/hdfs_trusted_grouped_insights.png)
 
@@ -434,7 +438,7 @@ Na Figura X e X são apresentados respectivamente instruções SQLs para consult
 
 ![Consulta SQL na tabela insights](./images/sql_pad_insights_table.png)
 
-![Consulta SQL na tabela grouped_insights](./images/sql_pad_insights_table.png)
+![Consulta SQL na tabela grouped_insights](./images/sql_pad_grouped_insights_table.png)
 
 ### 4-2 ETL em tempo real (Clickstream)
 
@@ -454,7 +458,7 @@ A partir das postagens realizadas na API HTTP consequentemente no tópico Kafka,
 
 ![Métricas de execução da aplicação Clickstream - Parte 2](./images/app_clickstream_pt2.png)
 
-A Figura X e X apresentam respectivamente o dados processados e persistidos pela aplicação Clickstream no Data Lake e a tabela Hive ao qual é possível consultar tais dados.
+As Figuras X e X apresentam respectivamente os dados processados e persistidos pela aplicação Clickstream no Data Lake e a consulta efetuada para consultar os dados na tabela Hive criada, "dumping.clickstream". É possível observar que foi criada uma partição para cada tipo de evento, sendo eles click, scroll e submit.
 
 ![Dados processados pelo Clickstream persistidos no Data Lake](./images/clickstream_hdfs.png)
 
@@ -471,7 +475,7 @@ A plataforma de extração, transformação e disponibilização de dados em tem
 
 Com o uso restrito e total de apenas ferramentas de código aberto neste trabalho, foi possível construir uma plataforma com zero custo financeiro, como por exemplo, a não necessidade da compra de licenças de softwares. Além de que, com a utilização das ferramentas aplicadas neste trabalho permitiu a possibilidade da implementação de códigos personalizados nas próprias ferramentas, como também a contribuição de tais códigos para o projeto oficial finalizando como contribuição para a comunidade de código aberto.
 
-A fundamentação técnica e desenvolvimento apresentado neste trabalho contribuiu para decisões técnicas em um time de engenharia de dados, ao qual utilizou-se parte do conteúdo apresentado como base para a construção de uma plataforma de modelos de machine learning.
+A fundamentação técnica e desenvolvimento apresentado neste trabalho contribuiu para decisões técnicas aplicadas em um time de engenharia de dados, ao qual utilizou-se como base o conteúdo apresentado na seção 3.7.2 para a construção de uma aplicação Clickstream juntamente com o componente de persistência de dados e metadados apresentados nas seções 3.3 e 3.4. Como resultado, foi possível implementar uma ferramenta de captura de dados em tempo real indicando o comportamento de usuários suportando decisões de negócio por parte de times de análise de dados e marketing. Tal implementação também contribuiu para a redução do uso de ferramentas de rastreamento, como Google Analytics, que por fim resultou na redução de custos.
 
 ### 5-2 Trabalhos futuros
 
