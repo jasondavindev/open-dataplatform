@@ -322,7 +322,7 @@ Como demonstração de um fluxo ETL em lote de ponta-a-ponta, implementou-se um 
 
 Com o objetivo de expor dados para extração, criou-se uma API ao qual gera um conjunto de dados aleatórios simulando um evento de clique, visualização ou submissão de um formulário por parte de um usuário.
 
-![API geradora de dados aleatórios](./images/api_random_data.png)
+![API geradora de dados aleatórios](./images/api_random_data_code.png)
 
 A Figura X apresenta o código de implementação da API geradora de dados aleatórios, ao qual na chamada da API é passado o parâmetro nomeado como `date` e um limitador da quantidade de registros por chamada, nomeado como `count`.
 
