@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper
+  namespace: kafka
+spec:
+  selector:
+    matchLabels:
+      component: zookeeper
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: zookeeper
+    spec:
+      containers:
+        - name: zookeeper
+          image: confluentinc/cp-zookeeper:6.1.1
+          env:
+            - name: ZOOKEEPER_CLIENT_PORT
+              value: "2181"
+            - name: ZOOKEEPER_TICK_TIME
+              value: "2000"
+          ports:
+            - containerPort: 2181
+              name: zk
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-svc
+  namespace: kafka
+spec:
+  selector:
+    component: zookeeper
+  type: ClusterIP
+  ports:
+    - name: zk
+      protocol: TCP
+      port: 2181

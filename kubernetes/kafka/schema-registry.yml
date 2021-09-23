@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schema-registry
+  namespace: kafka
+spec:
+  selector:
+    matchLabels:
+      component: schema-registry
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: schema-registry
+    spec:
+      containers:
+        - name: schema-registry
+          image: confluentinc/cp-schema-registry:6.1.1
+          env:
+            - name: SCHEMA_REGISTRY_HOST_NAME
+              value: schema-registry
+            - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
+              value: "broker-svc.kafka.svc.cluster.local:29092"
+            - name: SCHEMA_REGISTRY_LISTENERS
+              value: http://0.0.0.0:8081
+          ports:
+            - containerPort: 8081
+              name: registry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: schema-registry-svc
+  namespace: kafka
+spec:
+  selector:
+    component: schema-registry
+  type: ClusterIP
+  ports:
+    - name: zk
+      protocol: TCP
+      port: 8081
