@@ -1,0 +1,43 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: hive-site
+  namespace: dataplatform
+data:
+  hive-site.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+    <configuration>
+        <property>
+            <name>hive.metastore.warehouse.dir</name>
+            <value>/user/hive/warehouse</value>
+        </property>
+        <property>
+            <name>hive.metastore.uris</name>
+            <value>thrift://hive-metastore-svc.dataplatform.svc.cluster.local:9083</value>
+        </property>
+        <property>
+            <name>datanucleus.autoCreateSchema</name>
+            <value>false</value>
+        </property>
+        <property>
+            <name>javax.jdo.option.ConnectionURL</name>
+            <value>jdbc:postgresql://hive-postgres-svc.dataplatform.svc.cluster.local/metastore</value>
+        </property>
+        <property>
+            <name>javax.jdo.option.ConnectionDriverName</name>
+            <value>org.postgresql.Driver</value>
+        </property>
+        <property>
+            <name>javax.jdo.option.ConnectionPassword</name>
+            <value>hive</value>
+        </property>
+        <property>
+            <name>javax.jdo.option.ConnectionUserName</name>
+            <value>hive</value>
+        </property>
+        <property>
+            <name>hive.server2.sleep.interval.between.start.attempts</name>
+            <value>1s</value>
+        </property>
+    </configuration>

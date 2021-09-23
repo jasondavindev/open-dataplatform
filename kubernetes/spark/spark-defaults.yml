@@ -1,0 +1,11 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: spark-defaults
+  namespace: dataplatform
+data:
+  spark-defaults.conf: |
+    spark.master                     spark://spark-master-svc.dataplatform.svc.cluster.local:7077
+    spark.sql.warehouse.dir          hdfs://namenode-svc.dataplatform.svc.cluster.local:8020/user/hive/warehouse
+    spark.ui.port                    4040
+    spark.sql.shuffle.partitions     50

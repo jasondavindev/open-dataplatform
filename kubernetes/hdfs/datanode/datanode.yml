@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: datanode
+  namespace: dataplatform
+spec:
+  selector:
+    matchLabels:
+      component: datanode
+  serviceName: "datanode"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: datanode
+        layer: storage
+    spec:
+      containers:
+        - name: datanode
+          image: jasoncarneiro/open-dataplatform-hadoop-hdfs:latest
+          ports:
+            - containerPort: 50075
+              name: web
+          volumeMounts:
+            - name: datalake
+              mountPath: /hadoop/dfs/datanode
+            - name: hdfs-site
+              mountPath: /etc/hadoop/hdfs-site.xml
+              subPath: hdfs-site.xml
+            - name: core-site
+              mountPath: /etc/hadoop/core-site.xml
+              subPath: core-site.xml
+          env:
+            - name: NODE_TYPE
+              value: datanode
+      volumes:
+        - name: hdfs-site
+          configMap:
+            name: hdfs-site-datanode
+        - name: core-site
+          configMap:
+            name: core-site-datanode
+  volumeClaimTemplates:
+    - metadata:
+        name: datalake
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: datanode-web-svc
+  namespace: dataplatform
+spec:
+  selector:
+    component: datanode
+  type: ClusterIP
+  ports:
+    - name: web
+      protocol: TCP
+      port: 50075

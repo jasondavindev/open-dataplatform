@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: namenode
+  namespace: dataplatform
+spec:
+  selector:
+    matchLabels:
+      component: namenode
+  serviceName: "namenode"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: namenode
+        layer: storage
+    spec:
+      containers:
+        - name: namenode
+          image: jasoncarneiro/open-dataplatform-hadoop-hdfs:latest
+          ports:
+            - containerPort: 50070
+              name: web
+            - containerPort: 8020
+              name: rpc
+          volumeMounts:
+            - name: datalake
+              mountPath: /hadoop/dfs/namenode
+            - name: hdfs-site
+              mountPath: /etc/hadoop/hdfs-site.xml
+              subPath: hdfs-site.xml
+            - name: core-site
+              mountPath: /etc/hadoop/core-site.xml
+              subPath: core-site.xml
+          env:
+            - name: NODE_TYPE
+              value: namenode
+            - name: HDFS_NAMENODE_USER
+              value: root
+            - name: CLUSTER_NAME
+              value: hadoop-cluster
+      volumes:
+        - name: hdfs-site
+          configMap:
+            name: hdfs-site-namenode
+        - name: core-site
+          configMap:
+            name: core-site-namenode
+  volumeClaimTemplates:
+    - metadata:
+        name: datalake
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: namenode-svc
+  namespace: dataplatform
+spec:
+  selector:
+    component: namenode
+  type: ClusterIP
+  ports:
+    - name: rpc
+      protocol: TCP
+      port: 8020
+    - name: web
+      protocol: TCP
+      port: 50070
