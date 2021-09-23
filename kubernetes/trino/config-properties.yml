@@ -1,0 +1,15 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: trino-properties
+  namespace: dataplatform
+data:
+  config.properties: |
+    coordinator=true
+    node-scheduler.include-coordinator=true
+    http-server.http.port=8080
+    discovery.uri=http://0.0.0.0:8080
+    query.max-memory=2GB
+    query.max-memory-per-node=2GB
+    query.max-total-memory-per-node=2GB
+    memory.heap-headroom-per-node=2GB

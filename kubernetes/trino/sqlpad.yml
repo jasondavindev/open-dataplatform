@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqlpad
+  namespace: dataplatform
+  labels:
+    component: sqlpad
+spec:
+  selector:
+    matchLabels:
+      component: sqlpad
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: sqlpad
+    spec:
+      containers:
+        - name: sqlpad
+          image: sqlpad/sqlpad:6.7.1
+          env:
+            - name: SQLPAD_CONNECTIONS__datalake__name
+              value: DataLake
+            - name: SQLPAD_CONNECTIONS__datalake__driver
+              value: trino
+            - name: SQLPAD_CONNECTIONS__datalake__host
+              value: trino-svc.dataplatform.svc.cluster.local
+            - name: SQLPAD_CONNECTIONS__datalake__username
+              value: sqlpad
+            - name: SQLPAD_CONNECTIONS__datalake__catalog
+              value: hive
+            - name: SQLPAD_AUTH_DISABLED
+              value: "true"
+            - name: SQLPAD_AUTH_DISABLED_DEFAULT_ROLE
+              value: "admin"
+          ports:
+            - containerPort: 3000
+              name: sqlpad
