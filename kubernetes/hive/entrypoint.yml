@@ -12,6 +12,10 @@ data:
       -e "s/HIVE_METASTORE_SVC_SERVICE_HOST/$HIVE_METASTORE_SVC_SERVICE_HOST/g" \
       /tmp/hive-site.xml > /opt/hive/conf/hive-site.xml
 
+    sed -e "s/NAMENODE_SVC_SERVICE_HOST/$NAMENODE_SVC_SERVICE_HOST/g" \
+        -e "s/NAMENODE_WEB_SVC_SERVICE_HOST/$NAMENODE_WEB_SVC_SERVICE_HOST/g" \
+        /tmp/hdfs-site.xml > /etc/hadoop/hdfs-site.xml
+
     schematool -dbType postgres -initSchema
 
     exec "$@"

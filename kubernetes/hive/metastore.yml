@@ -22,9 +22,9 @@ spec:
             - containerPort: 9083
               name: thift
           args:
-            - hive
-            - "--service"
-            - metastore
+            - "bash"
+            - "-c"
+            - "hive --service metastore & tail -F /tmp/root/hive.log"
           volumeMounts:
             - name: hive-site
               mountPath: /tmp/hive-site.xml
@@ -32,6 +32,9 @@ spec:
             - name: core-site
               mountPath: /tmp/core-site.xml
               subPath: core-site.xml
+            - name: hdfs-site
+              mountPath: /tmp/hdfs-site.xml
+              subPath: hdfs-site.xml
             - name: entrypoint
               mountPath: /entrypoint.sh
               subPath: entrypoint.sh
@@ -42,6 +45,9 @@ spec:
         - name: hive-site
           configMap:
             name: hive-site
+        - name: hdfs-site
+          configMap:
+            name: hdfs-site-datanode
         - name: entrypoint
           configMap:
             name: entrypoint-hive
@@ -59,4 +65,4 @@ spec:
   ports:
     - name: thrift
       protocol: TCP
-      port: 9043
+      port: 9083

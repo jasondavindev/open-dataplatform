@@ -22,14 +22,16 @@ spec:
             - containerPort: 10002
               name: hive
           args:
-            - hiveserver2
-            - "&"
-            - tail
-            - "/tmp/root/hive.log"
+            - "bash"
+            - "-c"
+            - "hiveserver2 & tail -F /tmp/root/hive.log"
           volumeMounts:
             - name: hive-site
               mountPath: /tmp/hive-site.xml
               subPath: hive-site.xml
+            - name: hdfs-site
+              mountPath: /tmp/hdfs-site.xml
+              subPath: hdfs-site.xml
             - name: core-site
               mountPath: /tmp/core-site.xml
               subPath: core-site.xml
@@ -40,6 +42,9 @@ spec:
         - name: core-site
           configMap:
             name: core-site-datanode
+        - name: hdfs-site
+          configMap:
+            name: hdfs-site-datanode
         - name: hive-site
           configMap:
             name: hive-site
