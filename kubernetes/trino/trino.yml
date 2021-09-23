@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: trino
-          image: trinodb/trino:362
+          image: trinodb/trino:353
           ports:
             - containerPort: 8080
               name: web

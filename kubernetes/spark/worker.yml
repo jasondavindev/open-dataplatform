@@ -26,16 +26,15 @@ spec:
           env:
             - name: SPARK_WORKER_WEBUI_PORT
               value: "4040"
+            - name: SPARK_MASTER_URL
+              value: spark-master-svc.dataplatform.svc.cluster.local:7077
           volumeMounts:
             - name: hive-site
-              mountPath: /tmp/hive-site.xml
+              mountPath: /opt/hadoop/conf/hive-site.xml
               subPath: hive-site.xml
             - name: spark-defaults
-              mountPath: /tmp/spark-defaults.conf
+              mountPath: /opt/spark/conf/spark-defaults.conf
               subPath: spark-defaults.conf
-            - name: entrypoint
-              mountPath: /entrypoint.sh
-              subPath: entrypoint.sh
       volumes:
         - name: hive-site
           configMap:
@@ -43,7 +42,3 @@ spec:
         - name: spark-defaults
           configMap:
             name: spark-defaults
-        - name: entrypoint
-          configMap:
-            name: entrypoint-spark
-            defaultMode: 0777
