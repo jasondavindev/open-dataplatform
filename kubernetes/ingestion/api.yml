@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingestion-api
+  namespace: dataplatform
+  labels:
+    component: ingestion-api
+spec:
+  selector:
+    matchLabels:
+      component: ingestion-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: ingestion-api
+    spec:
+      containers:
+        - name: ingestion-api
+          image: jasoncarneiro/open-dataplatform-ingestion-api:latest
+          env:
+            - name: PORT
+              value: "3000"
+            - name: SCHEMA_REGISTRY_URL
+              value: http://schema-registry-svc.kafka.svc.cluster.local:8081
+            - name: KAFKA_BROKER
+              value: broker-svc.kafka.svc.cluster.local:29092
+            - name: ENV
+              value: prod
+            - name: HAS_KAFKA
+              value: "1"
+          args:
+            - run
+            - dev
+          ports:
+            - containerPort: 3000
+              name: api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingestion-api
+  namespace: dataplatform
+spec:
+  selector:
+    component: ingestion-api
+  type: ClusterIP
+  ports:
+    - name: ingestion-api
+      protocol: TCP
+      port: 3000

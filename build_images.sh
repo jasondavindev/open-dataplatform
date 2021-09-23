@@ -53,9 +53,17 @@ function build_kafka_connect {
         $KAFKA_PATH
 }
 
+function build_ingestion_api {
+    API_PATH="$PWD/ingestion/"
+    docker build -f $API_PATH/Dockerfile \
+        -t "$IMAGES_PREFIX-ingestion-api" \
+        $API_PATH
+}
+
 build_hadoop
 build_hdfs
 build_hive
 build_spark
 build_airflow
 build_kafka_connect
+build_ingestion_api
