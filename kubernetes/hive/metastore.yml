@@ -27,17 +27,14 @@ spec:
             - "hive --service metastore & tail -F /tmp/root/hive.log"
           volumeMounts:
             - name: hive-site
-              mountPath: /tmp/hive-site.xml
+              mountPath: /opt/hive/conf/hive-site.xml
               subPath: hive-site.xml
             - name: core-site
-              mountPath: /tmp/core-site.xml
+              mountPath: /etc/hadoop/core-site.xml
               subPath: core-site.xml
             - name: hdfs-site
-              mountPath: /tmp/hdfs-site.xml
+              mountPath: /etc/hadoop/hdfs-site.xml
               subPath: hdfs-site.xml
-            - name: entrypoint
-              mountPath: /entrypoint.sh
-              subPath: entrypoint.sh
       volumes:
         - name: core-site
           configMap:
@@ -48,10 +45,6 @@ spec:
         - name: hdfs-site
           configMap:
             name: hdfs-site-datanode
-        - name: entrypoint
-          configMap:
-            name: entrypoint-hive
-            defaultMode: 0777
 ---
 apiVersion: v1
 kind: Service

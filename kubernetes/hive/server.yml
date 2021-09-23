@@ -27,17 +27,14 @@ spec:
             - "hiveserver2 & tail -F /tmp/root/hive.log"
           volumeMounts:
             - name: hive-site
-              mountPath: /tmp/hive-site.xml
+              mountPath: /opt/hive/conf/hive-site.xml
               subPath: hive-site.xml
-            - name: hdfs-site
-              mountPath: /tmp/hdfs-site.xml
-              subPath: hdfs-site.xml
             - name: core-site
-              mountPath: /tmp/core-site.xml
+              mountPath: /etc/hadoop/core-site.xml
               subPath: core-site.xml
-            - name: entrypoint
-              mountPath: /entrypoint.sh
-              subPath: entrypoint.sh
+            - name: hdfs-site
+              mountPath: /etc/hadoop/hdfs-site.xml
+              subPath: hdfs-site.xml
       volumes:
         - name: core-site
           configMap:
@@ -48,7 +45,3 @@ spec:
         - name: hive-site
           configMap:
             name: hive-site
-        - name: entrypoint
-          configMap:
-            name: entrypoint-hive
-            defaultMode: 0777

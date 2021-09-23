@@ -14,7 +14,7 @@ data:
         </property>
         <property>
             <name>hive.metastore.uris</name>
-            <value>thrift://HIVE_METASTORE_SVC_SERVICE_HOST:9083</value>
+            <value>thrift://hive-metastore-svc.dataplatform.svc.cluster.local:9083</value>
         </property>
         <property>
             <name>datanucleus.autoCreateSchema</name>
@@ -22,7 +22,7 @@ data:
         </property>
         <property>
             <name>javax.jdo.option.ConnectionURL</name>
-            <value>jdbc:postgresql://HIVE_POSTGRES_SVC_SERVICE_HOST/metastore</value>
+            <value>jdbc:postgresql://hive-postgres-svc.dataplatform.svc.cluster.local/metastore</value>
         </property>
         <property>
             <name>javax.jdo.option.ConnectionDriverName</name>
