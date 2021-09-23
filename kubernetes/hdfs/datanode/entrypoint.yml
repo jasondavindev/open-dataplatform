@@ -7,7 +7,6 @@ data:
   entrypoint.sh: |
     #!/bin/bash
     sed "s/NAMENODE_SVC_SERVICE_HOST/$NAMENODE_SVC_SERVICE_HOST/g" /tmp/core-site.xml > /etc/hadoop/core-site.xml
-    sed -e "s/NAMENODE_SVC_SERVICE_HOST/$NAMENODE_SVC_SERVICE_HOST/g" \
-        -e "s/NAMENODE_WEB_SVC_SERVICE_HOST/$NAMENODE_WEB_SVC_SERVICE_HOST/g" \
+    sed "s/NAMENODE_SVC_SERVICE_HOST/$NAMENODE_SVC_SERVICE_HOST/g" \
         /tmp/hdfs-site.xml > /etc/hadoop/hdfs-site.xml
     $HADOOP_HOME/bin/hdfs --loglevel INFO,WARN,ERROR,Console --config $HADOOP_CONF_DIR datanode

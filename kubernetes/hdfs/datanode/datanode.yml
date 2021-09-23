@@ -25,14 +25,14 @@ spec:
             - name: datalake
               mountPath: /hadoop/dfs/datanode
             - name: hdfs-site
-              mountPath: /tmp/hdfs-site.xml
+              mountPath: /etc/hadoop/hdfs-site.xml
               subPath: hdfs-site.xml
             - name: core-site
-              mountPath: /tmp/core-site.xml
+              mountPath: /etc/hadoop/core-site.xml
               subPath: core-site.xml
-            - name: entrypoint
-              mountPath: /entrypoint.sh
-              subPath: entrypoint.sh
+          env:
+            - name: NODE_TYPE
+              value: datanode
       volumes:
         - name: hdfs-site
           configMap:
@@ -40,10 +40,6 @@ spec:
         - name: core-site
           configMap:
             name: core-site-datanode
-        - name: entrypoint
-          configMap:
-            name: entrypoint-datanode
-            defaultMode: 0777
   volumeClaimTemplates:
     - metadata:
         name: datalake

@@ -18,11 +18,11 @@ data:
         </property>
         <property>
             <name>dfs.namenode.rpc-address</name>
-            <value>NAMENODE_SVC_SERVICE_HOST:8020</value>
+            <value>namenode-svc.dataplatform.svc.cluster.local:8020</value>
         </property>
         <property>
             <name>dfs.namenode.http-address</name>
-            <value>NAMENODE_WEB_SVC_SERVICE_HOST:50070</value>
+            <value>namenode-svc.dataplatform.svc.cluster.local:50070</value>
         </property>
         <property>
             <name>dfs.datanode.http.address</name>
