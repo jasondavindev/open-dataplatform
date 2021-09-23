@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hive-server
+  namespace: dataplatform
+  labels:
+    component: hive-server
+spec:
+  selector:
+    matchLabels:
+      component: hive-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: hive-server
+    spec:
+      containers:
+        - name: hive-server
+          image: jasoncarneiro/open-dataplatform-hive:latest
+          ports:
+            - containerPort: 10002
+              name: hive
+          args:
+            - hiveserver2
+            - "&"
+            - tail
+            - "/tmp/root/hive.log"
+          volumeMounts:
+            - name: hive-site
+              mountPath: /tmp/hive-site.xml
+              subPath: hive-site.xml
+            - name: core-site
+              mountPath: /tmp/core-site.xml
+              subPath: core-site.xml
+            - name: entrypoint
+              mountPath: /entrypoint.sh
+              subPath: entrypoint.sh
+      volumes:
+        - name: core-site
+          configMap:
+            name: core-site-datanode
+        - name: hive-site
+          configMap:
+            name: hive-site
+        - name: entrypoint
+          configMap:
+            name: entrypoint-hive
+            defaultMode: 0777

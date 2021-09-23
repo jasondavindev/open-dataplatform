@@ -1,0 +1,17 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: entrypoint-hive
+  namespace: dataplatform
+data:
+  entrypoint.sh: |
+    #!/bin/bash
+    sed "s/NAMENODE_SVC_SERVICE_HOST/$NAMENODE_SVC_SERVICE_HOST/g" /tmp/core-site.xml > /etc/hadoop/core-site.xml
+    sed \
+      -e "s/HIVE_POSTGRES_SVC_SERVICE_HOST/$HIVE_POSTGRES_SVC_SERVICE_HOST/g" \
+      -e "s/HIVE_METASTORE_SVC_SERVICE_HOST/$HIVE_METASTORE_SVC_SERVICE_HOST/g" \
+      /tmp/hive-site.xml > /opt/hive/conf/hive-site.xml
+
+    schematool -dbType postgres -initSchema
+
+    exec "$@"

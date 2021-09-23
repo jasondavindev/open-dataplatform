@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hive-metastore
+  namespace: dataplatform
+  labels:
+    component: hive-metastore
+spec:
+  selector:
+    matchLabels:
+      component: hive-metastore
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: hive-metastore
+    spec:
+      containers:
+        - name: hive-metastore
+          image: jasoncarneiro/open-dataplatform-hive:latest
+          ports:
+            - containerPort: 9083
+              name: thift
+          args:
+            - hive
+            - "--service"
+            - metastore
+          volumeMounts:
+            - name: hive-site
+              mountPath: /tmp/hive-site.xml
+              subPath: hive-site.xml
+            - name: core-site
+              mountPath: /tmp/core-site.xml
+              subPath: core-site.xml
+            - name: entrypoint
+              mountPath: /entrypoint.sh
+              subPath: entrypoint.sh
+      volumes:
+        - name: core-site
+          configMap:
+            name: core-site-datanode
+        - name: hive-site
+          configMap:
+            name: hive-site
+        - name: entrypoint
+          configMap:
+            name: entrypoint-hive
+            defaultMode: 0777
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hive-metastore-svc
+  namespace: dataplatform
+spec:
+  selector:
+    component: hive-metastore
+  type: ClusterIP
+  ports:
+    - name: thrift
+      protocol: TCP
+      port: 9043

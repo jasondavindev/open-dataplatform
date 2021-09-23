@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hive-postgres
+  namespace: dataplatform
+spec:
+  selector:
+    matchLabels:
+      component: hive-postgres
+  serviceName: "hive-postgres"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: hive-postgres
+    spec:
+      containers:
+        - name: hive-postgres
+          image: postgres:9.4
+          ports:
+            - containerPort: 5432
+              name: db
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+          env:
+            - name: POSTGRES_PASSWORD
+              value: hive
+            - name: POSTGRES_USER
+              value: hive
+            - name: POSTGRES_DB
+              value: metastore
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hive-postgres-svc
+  namespace: dataplatform
+spec:
+  selector:
+    component: hive-postgres
+  type: ClusterIP
+  ports:
+    - name: db
+      protocol: TCP
+      port: 5432
