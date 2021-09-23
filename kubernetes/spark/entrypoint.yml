@@ -1,0 +1,38 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: entrypoint-spark
+  namespace: dataplatform
+data:
+  entrypoint.sh: |
+    #!/bin/bash
+    sed -e "s/NAMENODE_SVC_SERVICE_HOST/$NAMENODE_SVC_SERVICE_HOST/g" \
+        -e "s/SPARK_MASTER_SVC_SERVICE_HOST/$SPARK_MASTER_SVC_SERVICE_HOST/g" \
+        /tmp/spark-defaults.conf > /opt/spark/conf/spark-defaults.conf
+
+    mkdir -p /opt/hadoop/conf
+
+    sed \
+      -e "s/HIVE_POSTGRES_SVC_SERVICE_HOST/$HIVE_POSTGRES_SVC_SERVICE_HOST/g" \
+      -e "s/HIVE_METASTORE_SVC_SERVICE_HOST/$HIVE_METASTORE_SVC_SERVICE_HOST/g" \
+      /tmp/hive-site.xml > /opt/hadoop/conf/hive-site.xml
+
+    SPARK_COMMAND="$1"
+
+    case "$SPARK_COMMAND" in
+        master)
+            $SPARK_HOME/bin/spark-class org.apache.spark.deploy.master.Master \
+                -h 0.0.0.0 \
+                -p $SPARK_MASTER_PORT \
+                --webui-port $SPARK_MASTER_WEBUI_PORT
+            ;;
+        worker)
+            $SPARK_HOME/bin/spark-class org.apache.spark.deploy.worker.Worker \
+                --webui-port $SPARK_WORKER_WEBUI_PORT \
+                spark-master-svc.dataplatform.svc.cluster.local:7077
+            ;;
+        *)
+            echo "Unkown command"
+            exit 1
+            ;;
+    esac

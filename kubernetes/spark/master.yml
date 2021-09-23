@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-master
+  namespace: dataplatform
+  labels:
+    component: spark-master
+spec:
+  selector:
+    matchLabels:
+      component: spark-master
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: spark-master
+    spec:
+      containers:
+        - name: spark-master
+          image: jasoncarneiro/open-dataplatform-spark:latest
+          ports:
+            - containerPort: 7077
+              name: master
+            - containerPort: 4040
+              name: webui
+          args:
+            - master
+          env:
+            - name: SPARK_MASTER_PORT
+              value: "7077"
+            - name: SPARK_MASTER_WEBUI_PORT
+              value: "4041"
+          volumeMounts:
+            - name: hive-site
+              mountPath: /tmp/hive-site.xml
+              subPath: hive-site.xml
+            - name: spark-defaults
+              mountPath: /tmp/spark-defaults.conf
+              subPath: spark-defaults.conf
+            - name: entrypoint
+              mountPath: /entrypoint.sh
+              subPath: entrypoint.sh
+      volumes:
+        - name: hive-site
+          configMap:
+            name: hive-site
+        - name: spark-defaults
+          configMap:
+            name: spark-defaults
+        - name: entrypoint
+          configMap:
+            name: entrypoint-spark
+            defaultMode: 0777
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-master-svc
+  namespace: dataplatform
+spec:
+  selector:
+    component: spark-master
+  type: ClusterIP
+  ports:
+    - name: master
+      protocol: TCP
+      port: 7077
+    - name: webui
+      protocol: TCP
+      port: 4040

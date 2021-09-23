@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-worker
+  namespace: dataplatform
+  labels:
+    component: spark-worker
+spec:
+  selector:
+    matchLabels:
+      component: spark-worker
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: spark-worker
+    spec:
+      containers:
+        - name: spark-worker
+          image: jasoncarneiro/open-dataplatform-spark:latest
+          ports:
+            - containerPort: 4040
+              name: webui
+          args:
+            - worker
+          env:
+            - name: SPARK_WORKER_WEBUI_PORT
+              value: "4040"
+          volumeMounts:
+            - name: hive-site
+              mountPath: /tmp/hive-site.xml
+              subPath: hive-site.xml
+            - name: spark-defaults
+              mountPath: /tmp/spark-defaults.conf
+              subPath: spark-defaults.conf
+            - name: entrypoint
+              mountPath: /entrypoint.sh
+              subPath: entrypoint.sh
+      volumes:
+        - name: hive-site
+          configMap:
+            name: hive-site
+        - name: spark-defaults
+          configMap:
+            name: spark-defaults
+        - name: entrypoint
+          configMap:
+            name: entrypoint-spark
+            defaultMode: 0777
