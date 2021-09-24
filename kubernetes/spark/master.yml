@@ -15,9 +15,11 @@ spec:
       labels:
         component: spark-master
     spec:
+      serviceAccountName: spark
       containers:
         - name: spark-master
-          image: jasoncarneiro/open-dataplatform-spark:latest
+          imagePullPolicy: IfNotPresent
+          image: open-dataplatform-spark:3.1.2
           ports:
             - containerPort: 7077
               name: master
