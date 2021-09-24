@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM openjdk:11-jre-slim
 
 ARG SPARK_VERSION=3.1.2
 
@@ -39,10 +39,8 @@ RUN wget https://repo1.maven.org/maven2/org/apache/spark/spark-avro_2.12/3.1.1/s
     mv spark-token-provider-kafka-0-10_2.12-3.1.1.jar ${SPARK_HOME}/jars/spark-token-provider-kafka-0-10_2.12-3.1.1.jar; \
     mv commons-pool2-2.6.2.jar ${SPARK_HOME}/jars/commons-pool2-2.6.2.jar
 
-ADD entrypoint.sh /entrypoint.sh
+ADD cluster-entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
-
-EXPOSE 7077 4040
 
 ENTRYPOINT [ "/entrypoint.sh" ]

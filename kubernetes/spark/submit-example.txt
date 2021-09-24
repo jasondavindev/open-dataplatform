@@ -1,0 +1,9 @@
+spark-submit \
+    --master k8s://https://172.21.0.3:6443 \
+    --deploy-mode cluster \
+    --name spark-pi \
+    --conf spark.executor.instances=1 \
+    --conf spark.kubernetes.container.image=spark-test:v1.0 \
+    --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
+    --conf spark.kubernetes.namespace=dataplatform \
+    hdfs://namenode-svc.dataplatform.svc.cluster.local/tmp/test.py
