@@ -1,4 +1,4 @@
-FROM open-dataplatform-spark
+FROM open-dataplatform-spark:3.1.2
 
 ARG AIRFLOW_VERSION="2.1.2"
 
@@ -32,7 +32,7 @@ RUN set -ex \
         unzip \
         netcat; \
     useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow; \
-    ln -Ls $(which pip3) /usr/bin/pip
+    ln -Lsf $(which pip3) /usr/bin/pip
 
 RUN pip install -U pip
 

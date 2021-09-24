@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airflow-webserver
+  namespace: airflow
+  labels:
+    app: airflow-webserver
+spec:
+  selector:
+    matchLabels:
+      app: airflow-webserver
+  template:
+    metadata:
+      labels:
+        app: airflow-webserver
+    spec:
+      containers:
+        - name: airflow-webserver
+          image: open-dataplatform-airflow:v1.0
+          env:
+            - name: POSTGRES_HOST
+              value: airflow-postgres-svc.airflow.svc.cluster.local
+            - name: POSTGRES_PORT
+              value: 5432
+            - name: EXECUTOR
+              value: KubernetesExecutor
+          ports:
+            - containerPort: 8080
+              name: airflow-webserver
+          command:
+            - /bin/bash
+            - "-c"
+          args:
+            - airflow
+            - webserver
+          volumeMounts:
+            - name: config
+              mountPath: /opt/airflow/airflow.cfg
+              subPath: airflow.cfg
+      volumes:
+        - name: config
+          configMap:
+            name: airflow-config
+      # restartPolicy: Always
