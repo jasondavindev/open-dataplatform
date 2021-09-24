@@ -4,7 +4,7 @@ spark = SparkSession \
     .builder \
     .getOrCreate()
 
-data = [('jason', 1)]
+data = [('random name', 1)]
 columns = ['name', 'random_number']
 
 df = spark.createDataFrame(data, columns)
