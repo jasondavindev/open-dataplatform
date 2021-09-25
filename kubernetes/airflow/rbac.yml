@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: airflow
+  namespace: airflow
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  namespace: airflow
+  name: airflow-role
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "services", "configmaps", "pods/log"]
+    verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  namespace: airflow
+  name: airflow-role-binding
+subjects:
+  - kind: ServiceAccount
+    name: airflow
+    namespace: airflow
+roleRef:
+  kind: ClusterRole
+  name: airflow-role
+  apiGroup: rbac.authorization.k8s.io

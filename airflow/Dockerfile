@@ -32,7 +32,7 @@ RUN set -ex \
         unzip \
         netcat; \
     useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow; \
-    ln -Ls $(which pip3) /usr/bin/pip
+    ln -Lsf $(which pip3) /usr/bin/pip
 
 RUN pip install -U pip
 
@@ -61,6 +61,8 @@ COPY entrypoint.sh /entrypoint.sh
 COPY config/airflow.cfg ${AIRFLOW_HOME}
 
 COPY bootstrap ${AIRFLOW_HOME}/bootstrap
+
+COPY plugins ${AIRFLOW_HOME}/plugins
 
 RUN chown -RL airflow: ${AIRFLOW_HOME}; \
     chmod +x /entrypoint.sh

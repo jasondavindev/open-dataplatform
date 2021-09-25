@@ -3,3 +3,4 @@ apache-airflow-providers-apache-hdfs
 hdfs
 SQLAlchemy
 apache-airflow-providers-http
+kubernetes
