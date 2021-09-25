@@ -1,4 +1,4 @@
-FROM open-dataplatform-spark:3.1.2
+FROM open-dataplatform-spark
 
 ARG AIRFLOW_VERSION="2.1.2"
 
