@@ -7,9 +7,10 @@ data:
   airflow.cfg: |
     # ----------------------- TEMPLATE BEGINS HERE -----------------------
     [core]
+    hide_sensitive_var_conn_fields = False
     # The folder where your airflow pipelines live, most likely a
     # subfolder in a code repository. This path must be absolute.
-    dags_folder = /opt/airflow/dags
+    dags_folder = /opt/airflow/dags/repo/airflow/dags
 
     # Hostname by providing a path to a callable, which will resolve the hostname.
     # The format is "package.function".
@@ -34,7 +35,7 @@ data:
     # The SqlAlchemy connection string to the metadata database.
     # SqlAlchemy supports many different database engine, more information
     # their website
-    sql_alchemy_conn = postgresql+psycopg2://airflow:airflow@airflow-db:5432/airflow
+    sql_alchemy_conn = postgresql+psycopg2://airflow:airflow@$POSTGRES_HOST:$POSTGRES_PORT/airflow
 
     # The encoding for the databases
     sql_engine_encoding = utf-8
@@ -108,7 +109,7 @@ data:
     # Whether to load the default connections that ship with Airflow. It's good to
     # get started, but you probably want to set this to ``False`` in a production
     # environment
-    load_default_connections = True
+    load_default_connections = False
 
     # Path to the folder containing Airflow plugins
     plugins_folder = /opt/airflow/plugins
@@ -421,6 +422,8 @@ data:
     default_ram = 512
     default_disk = 512
     default_gpus = 0
+
+    default_queue = default
 
     # Is allowed to pass additional/unused arguments (args, kwargs) to the BaseOperator operator.
     # If set to False, an exception will be thrown, otherwise only the console message will be displayed.
@@ -735,7 +738,7 @@ data:
     flower_basic_auth =
 
     # Default queue that tasks get assigned to and that worker listen on.
-    default_queue = default
+    #default_queue = default
 
     # How many processes CeleryExecutor uses to sync task state.
     # 0 means to use max(1, number of cores - 1) processes.
@@ -955,7 +958,7 @@ data:
 
     [kubernetes]
     # Path to the YAML pod file. If set, all other kubernetes-related fields are ignored.
-    pod_template_file =
+    pod_template_file = /opt/airflow/pod-template.yml
 
     # The repository of the Kubernetes Image for the Worker to Run
     worker_container_repository = open-dataplatform-airflow
@@ -967,7 +970,7 @@ data:
     namespace = airflow
 
     # If True, all worker pods will be deleted upon termination
-    delete_worker_pods = True
+    delete_worker_pods = False
 
     # If False (and delete_worker_pods is True),
     # failed worker pods will not be deleted so users can investigate them.

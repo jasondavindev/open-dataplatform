@@ -62,6 +62,8 @@ COPY config/airflow.cfg ${AIRFLOW_HOME}
 
 COPY bootstrap ${AIRFLOW_HOME}/bootstrap
 
+COPY plugins ${AIRFLOW_HOME}/plugins
+
 RUN chown -RL airflow: ${AIRFLOW_HOME}; \
     chmod +x /entrypoint.sh
 

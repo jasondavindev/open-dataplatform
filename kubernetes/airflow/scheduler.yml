@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webserver
+  name: scheduler
   namespace: airflow
   labels:
-    app: webserver
+    app: scheduler
 spec:
   selector:
     matchLabels:
-      app: webserver
+      app: scheduler
   template:
     metadata:
       labels:
-        app: webserver
+        app: scheduler
     spec:
       serviceAccountName: airflow
       containers:
-        - name: webserver
+        - name: scheduler
           image: open-dataplatform-airflow:v1.0
           env:
             - name: POSTGRES_HOST
@@ -25,14 +25,14 @@ spec:
               value: "5432"
             - name: EXECUTOR
               value: KubernetesExecutor
-          ports:
-            - containerPort: 8080
-              name: web
-          args: ["webserver", "-p", "8080"]
+          args: ["scheduler"]
           volumeMounts:
             - name: config
               mountPath: /opt/airflow/airflow.cfg
               subPath: airflow.cfg
+            - name: pod-template
+              mountPath: /opt/airflow/pod-template.yml
+              subPath: pod-template.yml
             - name: dags
               mountPath: /opt/airflow/dags
         - name: sync
@@ -70,5 +70,8 @@ spec:
         - name: config
           configMap:
             name: airflow-config
+        - name: pod-template
+          configMap:
+            name: airflow-pod-template
         - name: dags
           emptyDir: {}

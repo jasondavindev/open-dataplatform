@@ -1,40 +1,17 @@
-apiVersion: apps/v1
-kind: Deployment
+kind: ConfigMap
+apiVersion: v1
 metadata:
-  name: webserver
+  name: airflow-pod-template
   namespace: airflow
-  labels:
-    app: webserver
-spec:
-  selector:
-    matchLabels:
-      app: webserver
-  template:
+data:
+  pod-template.yml: |
+    apiVersion: v1
+    kind: Pod
     metadata:
-      labels:
-        app: webserver
+      name: airflow-pod
     spec:
       serviceAccountName: airflow
-      containers:
-        - name: webserver
-          image: open-dataplatform-airflow:v1.0
-          env:
-            - name: POSTGRES_HOST
-              value: airflow-postgres-svc.airflow.svc.cluster.local
-            - name: POSTGRES_PORT
-              value: "5432"
-            - name: EXECUTOR
-              value: KubernetesExecutor
-          ports:
-            - containerPort: 8080
-              name: web
-          args: ["webserver", "-p", "8080"]
-          volumeMounts:
-            - name: config
-              mountPath: /opt/airflow/airflow.cfg
-              subPath: airflow.cfg
-            - name: dags
-              mountPath: /opt/airflow/dags
+      initContainers:
         - name: sync
           image: k8s.gcr.io/git-sync/git-sync:v3.3.4
           imagePullPolicy: IfNotPresent
@@ -63,12 +40,40 @@ spec:
               value: "0"
             - name: GIT_KNOWN_HOSTS
               value: "false"
+            - name: GIT_SYNC_ONE_TIME
+              value: "true"
           volumeMounts:
             - name: dags
               mountPath: /git
+      containers:
+        - name: airflow-webserver
+          image: open-dataplatform-airflow:v1.0
+          args: []
+          command: []
+          env:
+            - name: POSTGRES_HOST
+              value: airflow-postgres-svc.airflow.svc.cluster.local
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: EXECUTOR
+              value: KubernetesExecutor
+          volumeMounts:
+            - name: config
+              mountPath: /opt/airflow/airflow.cfg
+              subPath: airflow.cfg
+            - name: dags
+              mountPath: /opt/airflow/dags
+            - name: airflow-logs
+              mountPath: "/opt/airflow/logs"
+      restartPolicy: Never
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
       volumes:
         - name: config
           configMap:
             name: airflow-config
         - name: dags
+          emptyDir: {}
+        - name: airflow-logs
           emptyDir: {}

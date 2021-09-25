@@ -1,5 +1,21 @@
 version: "3.8"
 
+x-airflow-common:
+  &airflow-common
+  image: open-dataplatform-airflow
+  volumes:
+    - ./airflow/config/airflow.cfg:/opt/airflow/airflow.cfg
+    - ./airflow/dags:/opt/airflow/dags
+    - ./airflow/plugins:/opt/airflow/plugins
+    - ./airflow/spark:/scripts/spark
+    - ./hadoop/conf:/opt/hadoop/conf
+    - ./spark/config/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+  environment:
+    POSTGRES_HOST: airflow-db
+    POSTGRES_PORT: 5432
+  depends_on:
+    - airflow-db
+
 services:
   # Hadoop
   namenode:
@@ -122,26 +138,20 @@ services:
     ports:
       - 5432:5432
 
-  airflow:
-    hostname: airflow
-    container_name: airflow
-    image: open-dataplatform-airflow
-    command: bash -c "airflow scheduler & airflow webserver -p 9090 --debug"
-    depends_on:
-      - airflow-db
+  airflow-webserver:
+    hostname: airflow-webserver
+    container_name: airflow_webserver
+    <<: *airflow-common
+    command: "webserver -p 9090"
     ports:
       - "8793:8793"
       - "9090:9090"
-    volumes:
-      - ./airflow/config/airflow.cfg:/opt/airflow/airflow.cfg
-      - ./airflow/dags:/opt/airflow/dags
-      - ./airflow/plugins:/opt/airflow/plugins
-      - ./airflow/spark:/scripts/spark
-      - ./hadoop/conf:/opt/hadoop/conf
-      - ./spark/config/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
-    environment:
-      POSTGRES_HOST: airflow-db
-      POSTGRES_PORT: 5432
+  
+  airflow-scheduler:
+    hostname: airflow-scheduler
+    container_name: airflow_scheduler
+    <<: *airflow-common
+    command: "scheduler"
 
   # trino
   trino:
