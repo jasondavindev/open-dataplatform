@@ -2,7 +2,7 @@ import json
 import requests
 
 from airflow.models.baseoperator import BaseOperator
-from dataplatform.hooks.hdfs_hook import HDFSHook
+from airflow.hooks.webhdfs_hook import WebHDFSHook
 
 
 class StudyCaseOperator(BaseOperator):
@@ -15,10 +15,10 @@ class StudyCaseOperator(BaseOperator):
             hdfs_conn_id='hdfs_http',
             *args,
             **kwargs):
-        self.hdfs_hook = HDFSHook(hdfs_conn_id, 'airflow')
+        self.hdfs_hook = WebHDFSHook(hdfs_conn_id, 'airflow')
         self.dt = dt
         self.count = count
-        self.ingestion_api_url = 'http://api:3000'
+        self.ingestion_api_url = 'http://ingestion-api.dataplatform.svc.cluster.local:3000'
 
         super().__init__(*args, **kwargs)
 
@@ -32,7 +32,10 @@ class StudyCaseOperator(BaseOperator):
         data = self._get_insights()
         print(data)
 
-        return self.hdfs_hook.put(
-            path=f"/user/hive/warehouse/raw/study_case/insights/dt={self.dt}/result.json",
-            data=json.dumps(data),
-            overwrite=True)
+        with open('/tmp/result.json', 'w') as outfile:
+            json.dump(data, outfile)
+
+        return self.hdfs_hook.load_file(
+            "/tmp/result.json",
+            f"/user/hive/warehouse/raw/study_case/insights/dt={self.dt}/result.json",
+            True)

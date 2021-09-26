@@ -4,3 +4,4 @@ hdfs
 SQLAlchemy
 apache-airflow-providers-http
 kubernetes
+apache-airflow-providers-elasticsearch

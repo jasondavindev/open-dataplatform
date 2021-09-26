@@ -1,8 +1,8 @@
+import os
 from datetime import datetime, timedelta, date
 from airflow.models import DAG
 from dataplatform.operators.status_invest.status_invest_to_hdfs_operator import StatusInvestToHDFSOperator
 from dataplatform.operators.spark.docker_spark_submit_operator import DockerSparkSubmitOperator
-from dataplatform.utils.hdfs import get_hdfs_rpc_uri
 
 default_args = {
     "retries": 4,
@@ -17,7 +17,7 @@ with DAG(
     schedule_interval="0 4 * * *",
     catchup=False,
 ) as dag:
-    HDFS_URI = get_hdfs_rpc_uri()
+    HDFS_URI = os.getenv('HDFS_HOST')
     date = '{{ds}}'
 
     stocks = StatusInvestToHDFSOperator(

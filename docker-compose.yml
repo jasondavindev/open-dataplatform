@@ -1,7 +1,6 @@
 version: "3.8"
 
-x-airflow-common:
-  &airflow-common
+x-airflow-common: &airflow-common
   image: open-dataplatform-airflow
   volumes:
     - ./airflow/config/airflow.cfg:/opt/airflow/airflow.cfg
@@ -13,6 +12,7 @@ x-airflow-common:
   environment:
     POSTGRES_HOST: airflow-db
     POSTGRES_PORT: 5432
+    HDFS_HOST: hdfs://namenode:8020
   depends_on:
     - airflow-db
 
@@ -146,7 +146,7 @@ services:
     ports:
       - "8793:8793"
       - "9090:9090"
-  
+
   airflow-scheduler:
     hostname: airflow-scheduler
     container_name: airflow_scheduler

@@ -1,7 +1,7 @@
+import os
 from datetime import datetime, timedelta, date
 from airflow.models import DAG
 from dataplatform.operators.spark.docker_spark_submit_operator import DockerSparkSubmitOperator
-from dataplatform.utils.hdfs import get_hdfs_rpc_uri
 from dataplatform.operators.study_case.study_case_operator import StudyCaseOperator
 
 default_args = {
@@ -17,7 +17,7 @@ with DAG(
     schedule_interval="0 18 * * *",
     catchup=False,
 ) as dag:
-    HDFS_URI = get_hdfs_rpc_uri()
+    HDFS_URI = HDFS_URI = os.getenv('HDFS_HOST')
     date = '{{ds}}'
 
     insights = StudyCaseOperator(

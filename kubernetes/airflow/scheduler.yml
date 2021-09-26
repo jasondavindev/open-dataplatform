@@ -25,6 +25,8 @@ spec:
               value: "5432"
             - name: EXECUTOR
               value: KubernetesExecutor
+            - name: HDFS_HOST
+              value: hdfs://namenode-svc.dataplatform.svc.cluster.local:8020
           args: ["scheduler"]
           volumeMounts:
             - name: config
@@ -48,13 +50,13 @@ spec:
             - name: GIT_SYNC_REPO
               value: https://github.com/jasondavindev/open-dataplatform.git
             - name: GIT_SYNC_BRANCH
-              value: main
+              value: fix/airflow-dags
             - name: GIT_SYNC_REV
               value: HEAD
             - name: GIT_SYNC_DEPTH
               value: "0"
             - name: GIT_SYNC_WAIT
-              value: "60"
+              value: "20"
             - name: GIT_SYNC_TIMEOUT
               value: "120"
             - name: GIT_SYNC_ADD_USER

@@ -18,7 +18,7 @@ RUN set -ex \
         libffi-dev \
         libpq-dev \
         git \
-        python3-dev \
+        python3.7-dev \
     ' \
     apt update -yqq; \
     apt install -yqq \
