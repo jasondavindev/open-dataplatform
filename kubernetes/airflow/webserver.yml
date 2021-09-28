@@ -25,6 +25,8 @@ spec:
               value: "5432"
             - name: EXECUTOR
               value: KubernetesExecutor
+            - name: HDFS_HOST
+              value: hdfs://namenode-svc.dataplatform.svc.cluster.local:8020
           ports:
             - containerPort: 8080
               name: web

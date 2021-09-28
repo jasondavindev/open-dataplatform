@@ -2,7 +2,7 @@ import json
 
 from airflow.models.baseoperator import BaseOperator
 from dataplatform.hooks.status_invest_hook import StatusInvestHook
-from dataplatform.hooks.hdfs_hook import HDFSHook
+from airflow.hooks.webhdfs_hook import WebHDFSHook
 
 
 class StatusInvestToHDFSOperator(BaseOperator):
@@ -18,7 +18,8 @@ class StatusInvestToHDFSOperator(BaseOperator):
             **kwargs):
         self.status_invest_client = StatusInvestHook(
             conn_id=status_invest_conn_id)
-        self.hdfs_hook = HDFSHook(hdfs_conn_id, 'airflow')
+        self.hdfs_hook = WebHDFSHook(
+            webhdfs_conn_id=hdfs_conn_id, proxy_user='airflow')
         self.dt = dt
         self.category_type = category_type
         self.define_map_category_type()
@@ -33,7 +34,7 @@ class StatusInvestToHDFSOperator(BaseOperator):
 
     def execute(self, context):
         data = self.category_types[self.category_type]()
-        return self.hdfs_hook.put(
+        return self.hdfs_hook.load_file(
             path=f"/user/hive/warehouse/raw/status_invest/{self.category_type}/dt={self.dt}/result.json",
             data=json.dumps(data),
             overwrite=True)

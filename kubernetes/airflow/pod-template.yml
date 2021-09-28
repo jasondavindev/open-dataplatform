@@ -9,6 +9,7 @@ data:
     kind: Pod
     metadata:
       name: airflow-pod
+      namespace: airflow
     spec:
       serviceAccountName: airflow
       initContainers:
@@ -25,7 +26,7 @@ data:
             - name: GIT_SYNC_REPO
               value: https://github.com/jasondavindev/open-dataplatform.git
             - name: GIT_SYNC_BRANCH
-              value: main
+              value: fix/airflow-dags
             - name: GIT_SYNC_REV
               value: HEAD
             - name: GIT_SYNC_DEPTH
@@ -46,7 +47,7 @@ data:
             - name: dags
               mountPath: /git
       containers:
-        - name: airflow-webserver
+        - name: airflow-task-runner
           image: open-dataplatform-airflow:v1.0
           args: []
           command: []
@@ -57,6 +58,8 @@ data:
               value: "5432"
             - name: EXECUTOR
               value: KubernetesExecutor
+            - name: HDFS_HOST
+              value: hdfs://namenode-svc.dataplatform.svc.cluster.local:8020
           volumeMounts:
             - name: config
               mountPath: /opt/airflow/airflow.cfg
