@@ -60,8 +60,6 @@ data:
               value: KubernetesExecutor
             - name: HDFS_HOST
               value: hdfs://namenode-svc.dataplatform.svc.cluster.local:8020
-            - name: PYTHONUNBUFFERED
-              value: '1'
           volumeMounts:
             - name: config
               mountPath: /opt/airflow/airflow.cfg
