@@ -1,5 +1,6 @@
 import json
 import requests
+import os
 
 from airflow.models.baseoperator import BaseOperator
 from airflow.hooks.webhdfs_hook import WebHDFSHook
@@ -18,7 +19,7 @@ class StudyCaseOperator(BaseOperator):
         self.hdfs_hook = WebHDFSHook(hdfs_conn_id, 'airflow')
         self.dt = dt
         self.count = count
-        self.ingestion_api_url = 'http://api:3000'
+        self.ingestion_api_url = os.getenv('INGESTION_API_URL')
 
         super().__init__(*args, **kwargs)
 

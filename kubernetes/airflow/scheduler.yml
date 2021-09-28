@@ -27,6 +27,8 @@ spec:
               value: KubernetesExecutor
             - name: HDFS_HOST
               value: hdfs://namenode-svc.dataplatform.svc.cluster.local:8020
+            - name: INGESTION_API_URL
+              value: http://ingestion-api-svc.dataplatform.svc.cluster.local:3000
           args: ["scheduler"]
           volumeMounts:
             - name: config

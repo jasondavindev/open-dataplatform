@@ -13,6 +13,7 @@ x-airflow-common: &airflow-common
     POSTGRES_HOST: airflow-db
     POSTGRES_PORT: 5432
     HDFS_HOST: hdfs://namenode:8020
+    INGESTION_API_URL: "http://api:3000"
   depends_on:
     - airflow-db
 
