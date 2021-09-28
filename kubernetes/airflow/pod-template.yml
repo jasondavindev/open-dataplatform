@@ -79,4 +79,5 @@ data:
         - name: dags
           emptyDir: {}
         - name: airflow-logs
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: airflow-logs

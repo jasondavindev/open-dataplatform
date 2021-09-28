@@ -37,6 +37,8 @@ spec:
               subPath: airflow.cfg
             - name: dags
               mountPath: /opt/airflow/dags
+            - name: airflow-logs
+              mountPath: "/opt/airflow/logs"
         - name: sync
           image: k8s.gcr.io/git-sync/git-sync:v3.3.4
           imagePullPolicy: IfNotPresent
@@ -74,3 +76,6 @@ spec:
             name: airflow-config
         - name: dags
           emptyDir: {}
+        - name: airflow-logs
+          persistentVolumeClaim:
+            claimName: airflow-logs
