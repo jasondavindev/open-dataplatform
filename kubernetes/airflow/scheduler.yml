@@ -27,6 +27,8 @@ spec:
               value: KubernetesExecutor
             - name: HDFS_HOST
               value: hdfs://namenode-svc.dataplatform.svc.cluster.local:8020
+            - name: INGESTION_API_URL
+              value: http://ingestion-api-svc.dataplatform.svc.cluster.local:3000
           args: ["scheduler"]
           volumeMounts:
             - name: config
@@ -37,6 +39,8 @@ spec:
               subPath: pod-template.yml
             - name: dags
               mountPath: /opt/airflow/dags
+            - name: airflow-logs
+              mountPath: "/opt/airflow/logs"
         - name: sync
           image: k8s.gcr.io/git-sync/git-sync:v3.3.4
           imagePullPolicy: IfNotPresent
@@ -50,7 +54,7 @@ spec:
             - name: GIT_SYNC_REPO
               value: https://github.com/jasondavindev/open-dataplatform.git
             - name: GIT_SYNC_BRANCH
-              value: main
+              value: remote-logging
             - name: GIT_SYNC_REV
               value: HEAD
             - name: GIT_SYNC_DEPTH
@@ -77,3 +81,6 @@ spec:
             name: airflow-pod-template
         - name: dags
           emptyDir: {}
+        - name: airflow-logs
+          persistentVolumeClaim:
+            claimName: airflow-logs
