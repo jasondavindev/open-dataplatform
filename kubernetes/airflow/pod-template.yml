@@ -66,6 +66,10 @@ data:
               value: /opt/airflow/dags/repo/airflow/spark/
             - name: SPARK_DEPLOY_MODE
               value: cluster
+            - name: METASTORE_URI
+              value: "thrift://hive-metastore-svc.dataplatform.svc.cluster.local:9083"
+            - name: SPARK_IMAGE
+              value: "open-dataplatform-spark:3.1.2"
           volumeMounts:
             - name: config
               mountPath: /opt/airflow/airflow.cfg
