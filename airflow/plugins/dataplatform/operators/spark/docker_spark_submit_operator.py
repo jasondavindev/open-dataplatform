@@ -12,9 +12,9 @@ class DockerSparkSubmitOperator(SparkSubmitOperator):
                  conn_id='spark',
                  *args,
                  **kwargs):
-        kwargs['conn_id'] = 'spark-cluster' if os.getenv(
-            'SPARK_DEPLOY_MODE') == 'cluster' else conn_id
         super().__init__(*args, **kwargs)
+        self._deploy_mode = os.getenv('SPARK_DEPLOY_MODE')
+        self.define_connection(conn_id)
         self._hdfs_hook = WebHDFSHook(hdfs_http_conn_id)
         self._hdfs_http_conn_id = hdfs_http_conn_id
         self._hdfs_conn_id = hdfs_conn_id
@@ -44,7 +44,7 @@ class DockerSparkSubmitOperator(SparkSubmitOperator):
             overwrite=True)
 
     def define_default_confs(self):
-        if os.getenv('SPARK_DEPLOY_MODE') != 'cluster':
+        if self._deploy_mode != 'cluster':
             return self._conf
 
         self._conf = {
@@ -57,6 +57,9 @@ class DockerSparkSubmitOperator(SparkSubmitOperator):
             }}
 
         return self._conf
+
+    def define_connection(self, conn):
+        self._conn_id = 'spark-cluster' if self._deploy_mode == 'cluster' else conn
 
     def execute(self, context):
         self.define_default_confs()
