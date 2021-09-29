@@ -19,12 +19,18 @@ wait_for_port "Postgres" ${POSTGRES_HOST} ${POSTGRES_PORT}
 airflow db init
 
 # connections
-airflow connections add spark --conn-type=spark --conn-host=spark://spark-master:7077 --conn-extra='{"queue": "root.default","master":"spark://spark-master:7077","spark_binary": "spark-submit"}' &
-airflow connections add hdfs_http --conn-type=http --conn-host=namenode --conn-port=50070 &
-airflow connections add hdfs --conn-type=hdfs --conn-host=namenode --conn-port=8020 &
+airflow connections delete spark
+airflow connections delete hdfs_http
+airflow connections delete hdfs
+airflow connections delete status_invest_conn
+airflow connections delete spark-cluster
+
+airflow connections add spark --conn-type=spark --conn-host=spark://spark-master:7077 --conn-extra='{"queue": "root.default","spark_binary": "spark-submit"}' &
+airflow connections add hdfs_http --conn-type=http --conn-host=$HDFS_HOST --conn-port=50070 &
+airflow connections add hdfs --conn-type=hdfs --conn-host=$HDFS_HOST --conn-port=8020 &
 airflow connections add status_invest_conn --conn-type=http --conn-host=https://statusinvest.com.br &
-airflow users create --username admin --firstname Open --lastname Dataplatform --role Admin --password admin --email admin@example.org
 airflow connections add spark-cluster --conn-type=spark --conn-host=k8s://https://$CONTROL_PLANE_IP:6443 --conn-extra='{"queue": "root.default","spark_binary": "spark-submit","deploy-mode":"cluster"}' &
+airflow users create --username admin --firstname Open --lastname Dataplatform --role Admin --password admin --email admin@example.org
 wait
 
 airflow db upgrade
