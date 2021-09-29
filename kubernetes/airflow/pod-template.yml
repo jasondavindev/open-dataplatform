@@ -26,7 +26,7 @@ data:
             - name: GIT_SYNC_REPO
               value: https://github.com/jasondavindev/open-dataplatform.git
             - name: GIT_SYNC_BRANCH
-              value: airflow-dags-test
+              value: main
             - name: GIT_SYNC_REV
               value: HEAD
             - name: GIT_SYNC_DEPTH
