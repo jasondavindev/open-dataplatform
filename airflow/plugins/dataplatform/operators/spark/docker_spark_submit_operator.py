@@ -59,7 +59,6 @@ class DockerSparkSubmitOperator(SparkSubmitOperator):
         return self._conf
 
     def execute(self, context):
-        print(f"A connection {self._conn_id}")
         self.define_default_confs()
         self.load_script()
         super().execute(context)
