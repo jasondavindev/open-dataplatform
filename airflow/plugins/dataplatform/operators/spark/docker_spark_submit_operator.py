@@ -50,10 +50,10 @@ class DockerSparkSubmitOperator(SparkSubmitOperator):
         self._conf = {
             **(self._conf or {}),
             **{
-                'spark.kubernetes.container.image': os.getenv('SPARK_IMAGES'),
+                'spark.kubernetes.container.image': os.getenv('SPARK_IMAGE'),
                 'spark.kubernetes.authenticate.driver.serviceAccountName': 'spark',
                 'spark.kubernetes.namespace': 'dataplatform',
-                'spark.hadoop.hive.metastore.uris': 'thrift://hive-metastore-svc.dataplatform.svc.cluster.local:9083'
+                'spark.hadoop.hive.metastore.uris': os.getenv('METASTORE_URI')
             }}
 
         return self._conf
