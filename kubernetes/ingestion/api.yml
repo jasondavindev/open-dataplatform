@@ -28,7 +28,7 @@ spec:
             - name: ENV
               value: prod
             - name: HAS_KAFKA
-              value: "1"
+              value: ""
           args:
             - run
             - dev

@@ -71,3 +71,17 @@ spec:
     - name: web
       protocol: TCP
       port: 50070
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: namenode
+  namespace: dataplatform
+spec:
+  selector:
+    component: namenode
+  clusterIP: None
+  ports:
+    - protocol: TCP
+      port: 50070
+      targetPort: 50070

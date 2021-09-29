@@ -28,8 +28,7 @@ with DAG(
 
     insights_json_to_parquet = DockerSparkSubmitOperator(
         task_id='insights_json_to_parquet',
-        application="/scripts/spark/utils/json_to_parquet.py",
-        conn_id='spark',
+        application="/utils/json_to_parquet.py",
         application_args=[
             '--json-files-path', f"{HDFS_URI}/user/hive/warehouse/raw/study_case/insights/dt={date}",
             '--database', 'study_case',
@@ -39,13 +38,12 @@ with DAG(
             '--partitions', 'date'
         ],
         executor_memory="4GB",
-        executor_cores="2"
+        executor_cores="2",
     )
 
     group_insights = DockerSparkSubmitOperator(
         task_id='group_insights',
-        application="/scripts/spark/study_case_transform.py",
-        conn_id='spark',
+        application="/study_case_transform.py",
         application_args=[
             '--db', 'study_case',
             '--table', 'grouped_insights',

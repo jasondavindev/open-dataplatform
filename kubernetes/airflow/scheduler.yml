@@ -29,6 +29,12 @@ spec:
               value: hdfs://namenode-svc.dataplatform.svc.cluster.local:8020
             - name: INGESTION_API_URL
               value: http://ingestion-api-svc.dataplatform.svc.cluster.local:3000
+            - name: SCRIPTS_PATH_PREFIX
+              value: /opt/airflow/dags/repo/airflow/spark/
+            - name: METASTORE_URI
+              value: thrift://hive-metastore-svc.dataplatform.svc.cluster.local:9083
+            - name: SPARK_IMAGE
+              value: open-dataplatform-spark:3.1.2
           args: ["scheduler"]
           volumeMounts:
             - name: config
@@ -54,7 +60,7 @@ spec:
             - name: GIT_SYNC_REPO
               value: https://github.com/jasondavindev/open-dataplatform.git
             - name: GIT_SYNC_BRANCH
-              value: main
+              value: airflow-dags-test
             - name: GIT_SYNC_REV
               value: HEAD
             - name: GIT_SYNC_DEPTH

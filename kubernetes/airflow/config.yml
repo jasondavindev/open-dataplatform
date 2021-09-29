@@ -112,7 +112,7 @@ data:
     load_default_connections = False
 
     # Path to the folder containing Airflow plugins
-    plugins_folder = /opt/airflow/plugins
+    plugins_folder = /opt/airflow/dags/repo/airflow/plugins
 
     # Should tasks be executed via forking of the parent process ("False",
     # the speedier option) or by spawning a new python process ("True" slow,

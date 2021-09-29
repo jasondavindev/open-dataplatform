@@ -28,8 +28,7 @@ with DAG(
 
     stocks_json_to_parquet = DockerSparkSubmitOperator(
         task_id='stocks_json_to_parquet',
-        application="/scripts/spark/utils/json_to_parquet.py",
-        conn_id='spark',
+        application="/utils/json_to_parquet.py",
         application_args=[
             '--json-files-path', f"{HDFS_URI}/user/hive/warehouse/raw/status_invest/stocks/dt={date}",
             '--database', 'status_invest',
@@ -43,8 +42,7 @@ with DAG(
 
     best_stocks = DockerSparkSubmitOperator(
         task_id="best_stocks",
-        application="/scripts/spark/best_stocks.py",
-        conn_id='spark',
+        application="/best_stocks.py",
         application_args=[
             '--from-database', 'status_invest',
             '--from-table', 'stocks',
@@ -57,8 +55,7 @@ with DAG(
 
     stocks_historical = DockerSparkSubmitOperator(
         task_id="stocks_historical",
-        application="/scripts/spark/stocks_historical.py",
-        conn_id='spark',
+        application="/stocks_historical.py",
         application_args=[
             '--stocks-database', 'status_invest',
             '--stocks-table', 'stocks',
@@ -77,8 +74,7 @@ with DAG(
 
     fiis_json_to_parquet = DockerSparkSubmitOperator(
         task_id='fiis_json_to_parquet',
-        application="/scripts/spark/utils/json_to_parquet.py",
-        conn_id='spark',
+        application="/utils/json_to_parquet.py",
         application_args=[
             '--json-files-path', f"{HDFS_URI}/user/hive/warehouse/raw/status_invest/fiis/dt={date}",
             '--database', 'status_invest',

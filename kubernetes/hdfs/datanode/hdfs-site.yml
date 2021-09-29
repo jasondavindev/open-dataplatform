@@ -26,7 +26,7 @@ data:
         </property>
         <property>
             <name>dfs.datanode.http.address</name>
-            <value>0.0.0.0:50075</value>
+            <value>datanode-0.datanode.dataplatform.svc.cluster.local:50075</value>
         </property>
         <property>
             <name>dfs.permissions.enabled</name>
