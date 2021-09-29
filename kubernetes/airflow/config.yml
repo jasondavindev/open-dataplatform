@@ -970,7 +970,7 @@ data:
     namespace = airflow
 
     # If True, all worker pods will be deleted upon termination
-    delete_worker_pods = False
+    delete_worker_pods = True
 
     # If False (and delete_worker_pods is True),
     # failed worker pods will not be deleted so users can investigate them.

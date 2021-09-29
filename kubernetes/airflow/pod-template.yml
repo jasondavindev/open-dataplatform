@@ -60,6 +60,12 @@ data:
               value: KubernetesExecutor
             - name: HDFS_HOST
               value: hdfs://namenode-svc.dataplatform.svc.cluster.local:8020
+            - name: INGESTION_API_URL
+              value: http://ingestion-api-svc.dataplatform.svc.cluster.local:3000
+            - name: SCRIPTS_PATH_PREFIX
+              value: /opt/airflow/dags/repo/airflow/spark/
+            - name: SPARK_DEPLOY_MODE
+              value: cluster
           volumeMounts:
             - name: config
               mountPath: /opt/airflow/airflow.cfg

@@ -29,6 +29,10 @@ spec:
               value: hdfs://namenode-svc.dataplatform.svc.cluster.local:8020
             - name: INGESTION_API_URL
               value: http://ingestion-api-svc.dataplatform.svc.cluster.local:3000
+            - name: SCRIPTS_PATH_PREFIX
+              value: /opt/airflow/dags/repo/airflow/spark/
+            - name: CONTROL_PLANE_IP
+              value: $CONTROL_PLANE_IP
           ports:
             - containerPort: 8080
               name: web
@@ -41,6 +45,15 @@ spec:
               mountPath: /opt/airflow/dags
             - name: airflow-logs
               mountPath: "/opt/airflow/logs"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 10
         - name: sync
           image: k8s.gcr.io/git-sync/git-sync:v3.3.4
           imagePullPolicy: IfNotPresent
