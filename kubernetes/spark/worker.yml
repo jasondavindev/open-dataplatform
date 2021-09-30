@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
         - name: spark-worker
-          image: jasoncarneiro/open-dataplatform-spark:latest
+          imagePullPolicy: IfNotPresent
+          image: open-dataplatform-spark:3.1.2
           ports:
             - containerPort: 4040
               name: webui
