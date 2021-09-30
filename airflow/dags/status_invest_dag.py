@@ -17,7 +17,7 @@ with DAG(
     schedule_interval="0 4 * * *",
     catchup=False,
 ) as dag:
-    HDFS_URI = os.getenv('HDFS_HOST')
+    HDFS_URI = 'hdfs://' + os.getenv('HDFS_HOST')
     date = '{{ds}}'
 
     stocks = StatusInvestToHDFSOperator(
