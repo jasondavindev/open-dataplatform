@@ -7,7 +7,7 @@ spark-submit \
     --master \
     spark://spark-master:7077 \
     /apps/clickstream.py \
-    --topic \
-    appclickstream \
-    --table-path \
-    /spark/clickstream
+    --topic appclickstream \
+    --table-path /spark/clickstream \
+    --broker broker:29092 \
+    --hdfs hdfs://namenode:8020

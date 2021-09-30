@@ -9,7 +9,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql.avro.functions import from_avro
 from pyspark.sql.functions import count, expr, col, to_timestamp, window
 
-KAFKA_BROKER = 'broker:29092'
 AVRO_EXTRACT_EXPRESSION = 'substring(value, 6, length(value)-5)'
 
 parser = argparse.ArgumentParser(
@@ -18,9 +17,13 @@ parser.add_argument('--topic', default='clickstream')
 parser.add_argument('--event-window', default='5 seconds')
 parser.add_argument('--watermark', default='5 seconds')
 parser.add_argument('--table-path', required=True)
+parser.add_argument('--broker', required=True)
+parser.add_argument('--hdfs', required=True)
 args = parser.parse_args()
 
+KAFKA_BROKER = args.broker
 APPLICATION_TOPIC = args.topic
+HDFS_HOST = args.hdfs
 event_window_time = args.event_window
 watermark_time = args.watermark
 table_path = args.table_path
@@ -87,7 +90,7 @@ query = output\
     .writeStream\
     .outputMode('append') \
     .format('parquet') \
-    .option('path', table_path) \
+    .option('path', HDFS_HOST + table_path) \
     .option("checkpointLocation", "/tmp/checkpoint")\
     .partitionBy(['event_name']) \
     .start()
