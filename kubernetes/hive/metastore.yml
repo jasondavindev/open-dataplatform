@@ -21,6 +21,9 @@ spec:
           ports:
             - containerPort: 9083
               name: thift
+          env:
+            - name: NODE_TYPE
+              value: metastore
           args:
             - "bash"
             - "-c"
