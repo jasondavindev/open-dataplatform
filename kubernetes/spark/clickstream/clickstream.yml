@@ -19,7 +19,7 @@ spec:
       containers:
         - name: clickstream
           imagePullPolicy: IfNotPresent
-          image: open-dataplatform-spark:3.1.2
+          image: jasoncarneiro/open-dataplatform-spark
           command:
             - /opt/spark/bin/spark-submit
           args:
@@ -30,7 +30,7 @@ spec:
             - --conf
             - "spark.executor.instances=1"
             - --conf
-            - "spark.kubernetes.container.image=open-dataplatform-spark:3.1.2"
+            - "spark.kubernetes.container.image=jasoncarneiro/open-dataplatform-spark"
             - --conf
             - "spark.kubernetes.authenticate.driver.serviceAccountName=spark"
             - --conf

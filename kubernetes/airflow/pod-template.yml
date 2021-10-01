@@ -48,7 +48,8 @@ data:
               mountPath: /git
       containers:
         - name: airflow-task-runner
-          image: open-dataplatform-airflow:v1.0
+          image: jasoncarneiro/open-dataplatform-airflow
+          imagePullPolicy: IfNotPresent
           args: []
           command: []
           env:
@@ -69,7 +70,7 @@ data:
             - name: METASTORE_URI
               value: "thrift://hive-metastore-svc.dataplatform.svc.cluster.local:9083"
             - name: SPARK_IMAGE
-              value: "open-dataplatform-spark:3.1.2"
+              value: "jasoncarneiro/open-dataplatform-spark"
           volumeMounts:
             - name: config
               mountPath: /opt/airflow/airflow.cfg
