@@ -19,7 +19,7 @@ spec:
       containers:
         - name: spark-master
           imagePullPolicy: IfNotPresent
-          image: open-dataplatform-spark:3.1.2
+          image: jasoncarneiro/open-dataplatform-spark
           ports:
             - containerPort: 7077
               name: master

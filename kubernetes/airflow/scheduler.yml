@@ -17,7 +17,8 @@ spec:
       serviceAccountName: airflow
       containers:
         - name: scheduler
-          image: open-dataplatform-airflow:v1.0
+          image: jasoncarneiro/open-dataplatform-airflow
+          imagePullPolicy: IfNotPresent
           env:
             - name: POSTGRES_HOST
               value: airflow-postgres-svc.airflow.svc.cluster.local

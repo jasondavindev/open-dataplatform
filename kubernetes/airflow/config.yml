@@ -961,10 +961,10 @@ data:
     pod_template_file = /opt/airflow/pod-template.yml
 
     # The repository of the Kubernetes Image for the Worker to Run
-    worker_container_repository = open-dataplatform-airflow
+    worker_container_repository = jasoncarneiro/open-dataplatform-airflow
 
     # The tag of the Kubernetes Image for the Worker to Run
-    worker_container_tag = v1.0
+    worker_container_tag = latest
 
     # The Kubernetes namespace where airflow workers should be created. Defaults to ``default``
     namespace = airflow
