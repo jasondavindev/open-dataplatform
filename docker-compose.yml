@@ -74,6 +74,8 @@ services:
       - ./hadoop/conf:/etc/hadoop
       - ./hadoop/conf/hive-site.xml:/opt/hive/conf/hive-site.xml
     command: "hive --service metastore"
+    environment:
+      NODE_TYPE: metastore
     ports:
       - 9083:9083
 
