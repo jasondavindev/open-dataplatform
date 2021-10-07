@@ -240,7 +240,7 @@ Este capítulo aborda o processo de construção e desenvolvimento da plataforma
 
 A figura X mostra a arquitetura ao qual a plataforma de dados foi implementada. Na arquitetura, destaca-se 4 camadas - Airflow juntamente com Spark definindo a camada de processamento, ou seja, onde ocorre o gerenciamento de pipelines ETL em lote. Hadoop (HDFS) e Hive Metastore como camada de armazenamento ou Data Lake, tanto os dados/informações em sí, como também o catalogo de dados. Trino compõe a camada de análise, ao qual é possível executar instruções utilizando-se da síntaxe SQL para a exploração analítica dos dados. Por fim, a aplicação escrita em Javascript (Node.js), Apache Kafka e Spark Streaming compõem a camada de ingestão e processamento de dados em tempo real.
 
-![Arquitetura](./images/architecture.jpeg)
+![Arquitetura](./images/architecture.jpg)
 
 ### 3-2 Gerenciamento de pipelines com DAGs
 
