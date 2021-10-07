@@ -25,7 +25,7 @@ Criar uma plataforma de dados centralizada utilizando ferramentas open-source, c
 
 ## Arquitetura
 
-![Initial archtecture](./doc/images/architecture.jpeg)
+![Initial archtecture](./doc/images/architecture.jpg)
 
 ## Como executar este projeto
 
