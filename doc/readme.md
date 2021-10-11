@@ -21,6 +21,7 @@
   - [2.16 Spark Structured Streaming](#2-16-Spark-Structured-Streaming)
   - [2.17 Docker](#2-17-docker)
   - [2.18 Plataforma Clickstream](#2-18-plataforma-clickstream)
+  - [2.19 Kubernetes](#2-19-kubernetes)
 - [3. Desenvolvimento](#3-desenvolvimento)
   - [3.1 Arquitetura](#3-1-arquitetura)
   - [3.2 Gerenciamento de pipelines com DAGs](#3-2-gerenciamento-de-pipelines-com-dags)
@@ -232,6 +233,14 @@ Referências:
 
 - https://www.wordtracker.com/blog/keyword-research/what-is-clickstream-data
 
+### 2-19 Kubernetes
+
+Kubernetes é um sistema de código aberto para orquestração de containers na nuvem, da qual disponibiliza diversas funcionalidades para automatização de atividades envolvendo gerenciamento da infraestrutura de containers, como por exemplo, escalabilidade horizontal de recursos, orquestração de componentes de persistência de dados, balanceamento de carga, gerenciamento de segredos etc. Kubernetes baseia-se em 15 anos de experiência do Google gerenciando e executando aplicações em produção combinado com as melhores práticas do mercado.
+
+Referências:
+
+- https://kubernetes.io/
+
 ## 3 Desenvolvimento
 
 Este capítulo aborda o processo de construção e desenvolvimento da plataforma de dados, tanto quanto o de definição da arquitetura da plataforma.
@@ -366,6 +375,10 @@ Na linha 1 a 17 são definidas as variáveis contendo o caminho do arquivo JSON,
 
 Na linha 19 a 22 é iniciado a leitura do arquivo JSON, como também a adição de uma nova coluna contendo a data de execução do script, anteriormente definida. A partir da linha 23 a 30 é iniciado a persistência dos novos arquivos no formato Parquet, como também a especificação do nome do banco de dados, tabela e o caminho de onde os arquivos serão persistidos. Por fim, na linha 32 a aplicação Spark é finalizada.
 
+Com o intuito de disponibilizar uma plataforma cloud native (nativa em nuvem) e atingir algumas das boas práticas de orquestração de containers do mercado, todos os componentes da arquitetura deste trabalho foram implantados utilizando a ferramenta Kubernetes. A Figura X apresenta o arquivo manifesto para fazer a implantação de um StatefulSet do componente Namenode HDFS.
+
+![Arquivo manifesto do StatefulSet do componente Namenode HDFS](./images/namenode_statefulset.png)
+
 ### 3-7-2 ETL em tempo real
 
 Como demonstração de um fluxo ETL em tempo real de ponta-a-ponta, implementou-se um fluxo de Clickstream utilizando a biblioteca PySpark. O objetivo do experimento foi enviar dados aleatórios para uma API HTTP, implementada na seção 3.5. A partir da API, os dados foram postados em um tópico Kafka ao qual, conectou-se uma aplicação Clickstream para receber os eventos e agrupa-los em uma janela de tempo definida de 5 segundos. A cada janela de tempo, os eventos foram agrupados e por fim contabilizado a quantidade de eventos de cada usuário na respectiva janela de tempo.
@@ -473,7 +486,7 @@ assim como os trabalhos futuros.
 
 A plataforma de extração, transformação e disponibilização de dados em tempo real e lote apresentado neste trabalho cumpre com o objetivo de disponibilizar uma plataforma ao qual engenheiros de dados podem implementar scripts e aplicações para realizar extrações e transformações massivas em dados disponibilizados, por exemplo, por banco de dados, APIs HTTP, arquivos de texto etc.
 
-Com o uso restrito e total de apenas ferramentas de código aberto neste trabalho, foi possível construir uma plataforma com zero custo financeiro, como por exemplo, a não necessidade da compra de licenças de softwares. Além de que, com a utilização das ferramentas aplicadas neste trabalho permitiu a possibilidade da implementação de códigos personalizados nas próprias ferramentas, como também a contribuição de tais códigos para o projeto oficial finalizando como contribuição para a comunidade de código aberto.
+Com o uso restrito e total de apenas ferramentas de código aberto neste trabalho, foi possível construir uma plataforma com zero custo financeiro, como por exemplo, a não necessidade da compra de licenças de softwares. Além de que, com a utilização das ferramentas aplicadas neste trabalho permitiu a possibilidade da implementação de códigos personalizados nas próprias ferramentas, como também a contribuição de tais códigos para o projeto oficial finalizando como contribuição para a comunidade de código aberto. Neste trabalho também foi possível implementar uma plataforma cloud native e pronta para ser portada para um ambiente produtivo com a ferramenta Kubernetes, aproveitando-se dos principais benefícios de portabilidade e gerenciamento de aplicações na nuvem que esta ferramenta provê.
 
 A fundamentação técnica e desenvolvimento apresentado neste trabalho contribuiu para decisões técnicas aplicadas em um time de engenharia de dados, ao qual utilizou-se como base o conteúdo apresentado na seção 3.7.2 para a construção de uma aplicação Clickstream juntamente com o componente de persistência de dados e metadados apresentados nas seções 3.3 e 3.4. Como resultado, foi possível implementar uma ferramenta de captura de dados em tempo real indicando o comportamento de usuários suportando decisões de negócio por parte de times de análise de dados e marketing. Tal implementação também contribuiu para a redução do uso de ferramentas de rastreamento, como Google Analytics, que por fim resultou na redução de custos.
 
