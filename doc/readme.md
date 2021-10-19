@@ -33,6 +33,8 @@
   - [3.7.1 ETL em lote](#3-7-1-etl-em-lote)
   - [3.7.2 ETL em tempo real](#3-7-2-etl-em-tempo-real)
 - [4. Resultados](#4-resultados)
+  - [4.1. ETL em lote](#4-1-etl-em-lote)
+  - [4.2. ETL em tempo real (Clickstream)](#4-2-etl-em-tempo-real-clickstream)
 - [5. Considerações finais](#5-considerações-finais)
 - [5.1. Contribuições e Conclusões](#5-1-contribuições-e-conclusões)
 - [5.2. Trabalhos futuros](#5-2-trabalhos-futuros)
@@ -471,11 +473,19 @@ A partir das postagens realizadas na API HTTP consequentemente no tópico Kafka,
 
 ![Métricas de execução da aplicação Clickstream - Parte 2](./images/app_clickstream_pt2.png)
 
-As Figuras X e X apresentam respectivamente os dados processados e persistidos pela aplicação Clickstream no Data Lake e a consulta efetuada para consultar os dados na tabela Hive criada, "dumping.clickstream". É possível observar que foi criada uma partição para cada tipo de evento, sendo eles click, scroll e submit.
+A Figura X apresenta os dados processados e persistidos pela aplicação Clickstream no Data Lake. Os dados foram particionados por tipo de evento e armazenado em sub-pastas individuais. As partições levam o prefixo event_name= e por fim o nome do evento, click, scroll ou submit.
 
 ![Dados processados pelo Clickstream persistidos no Data Lake](./images/clickstream_hdfs.png)
 
+A Figura X apresenta os dados da Figura X em um formato consultável e acessível via uma tabela Hive - tabela dumping.clickstream. Na figura é apresentado a consulta SQL ao qual retorna os dados agrupados pelas colunas username, page, event_name juntamente com a quantidade de eventos respectivos a cada agrupamento, apresentado na coluna count.
+
 ![Tabela Hive contendo os dados persistidos pela aplicação Clickstream](./images/clickstream_table.png)
+
+### 4-3 Painel Kubernetes
+
+Na Figura X é ilustrado um painel que apresenta os componentes (pods e containers) implantados no cluster Kubernetes. O painel apresenta uma tabela contendo o nome do pod e algumas métricas, como por exemplo, a utilização média e máxima de CPU de cada pod. Com este painel tornou-se possível visualizar métricas de consumo de hardware e logs gerado pelas aplicações do ecossistema da plataforma.
+
+![Painel de métricas do Kubernetes](./images/kubernetes_panel.png)
 
 ## 5 Considerações finais
 
