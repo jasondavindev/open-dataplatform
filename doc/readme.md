@@ -35,6 +35,7 @@
 - [4. Resultados](#4-resultados)
   - [4.1. ETL em lote](#4-1-etl-em-lote)
   - [4.2. ETL em tempo real (Clickstream)](#4-2-etl-em-tempo-real-clickstream)
+  - [4.3. Painel Kubernetes](#4-3-painel-kubernetes)
 - [5. Considerações finais](#5-considerações-finais)
 - [5.1. Contribuições e Conclusões](#5-1-contribuições-e-conclusões)
 - [5.2. Trabalhos futuros](#5-2-trabalhos-futuros)
