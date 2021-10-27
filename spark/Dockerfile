@@ -11,15 +11,15 @@ ENV HADOOP_HOME /opt/hadoop
 ENV HADOOP_CONF_DIR ${HADOOP_HOME}/conf
 
 RUN apt update; \
-    apt install -y python3 \
+    apt upgrade -y; \
+    apt install -y \
     python3-pip \
     wget \
     procps \
-    curl; \
-    # download spark
-    wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${TAR_FILE}; \
-    ln -sL $(which python3) /usr/bin/python; \
-    python3 -m pip install requests
+    curl
+
+# download spark
+RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${TAR_FILE}
 
 RUN tar -xzvf ${TAR_FILE} -C /opt; \
     ln -sL /opt/${TAR_FILE%.tgz} ${SPARK_HOME}; \
