@@ -12,7 +12,8 @@ x-airflow-common: &airflow-common
   environment:
     POSTGRES_HOST: airflow-db
     POSTGRES_PORT: 5432
-    HDFS_HOST: namenode:8020
+    HDFS_HOST: namenode
+    HDFS_PORT: "8020"
     INGESTION_API_URL: "http://api:3000"
     SCRIPTS_PATH_PREFIX: /scripts/spark/
   depends_on:

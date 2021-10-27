@@ -60,7 +60,9 @@ data:
             - name: EXECUTOR
               value: KubernetesExecutor
             - name: HDFS_HOST
-              value: namenode-svc.dataplatform.svc.cluster.local:8020
+              value: namenode-svc.dataplatform.svc.cluster.local
+            - name: HDFS_PORT
+              value: "8020"
             - name: INGESTION_API_URL
               value: http://ingestion-api-svc.dataplatform.svc.cluster.local:3000
             - name: SCRIPTS_PATH_PREFIX

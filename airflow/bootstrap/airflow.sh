@@ -27,7 +27,7 @@ airflow connections delete spark-cluster
 
 airflow connections add spark --conn-type=spark --conn-host=spark://spark-master:7077 --conn-extra='{"queue": "root.default","spark_binary": "spark-submit"}' &
 airflow connections add hdfs_http --conn-type=http --conn-host=$HDFS_HOST --conn-port=50070 &
-airflow connections add hdfs --conn-type=hdfs --conn-host=$HDFS_HOST --conn-port=8020 &
+airflow connections add hdfs --conn-type=hdfs --conn-host=$HDFS_HOST --conn-port=$HDFS_PORT &
 airflow connections add status_invest_conn --conn-type=http --conn-host=https://statusinvest.com.br &
 airflow connections add spark-cluster --conn-type=spark --conn-host=k8s://https://$CONTROL_PLANE_IP:6443 --conn-extra='{"queue": "root.default","spark_binary": "spark-submit","deploy-mode":"cluster"}' &
 airflow users create --username admin --firstname Open --lastname Dataplatform --role Admin --password admin --email admin@example.org &
