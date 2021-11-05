@@ -39,6 +39,7 @@
 - [5. Considerações finais](#5-considerações-finais)
 - [5.1. Contribuições e Conclusões](#5-1-contribuições-e-conclusões)
 - [5.2. Trabalhos futuros](#5-2-trabalhos-futuros)
+- [Referências](#referências)
 
 ## 1 Introdução
 
@@ -509,3 +510,51 @@ Este trabalho não encerra as pesquisas no desenvolvimento de uma plataforma par
 - Utilizar ferramentas, como por exemplo Apache Ranger, para o gerenciamento de níveis de acessos aos dados persistidos no Data Lake.
 - Com relação à aplicações em tempo real que a latência e o tempo de processamento são requisitos críticos, a ferramenta Spark Strucuted Streaming pode se tornar um gargalo. Outra ferramenta especialista em processamento em tempo real, como por exemplo Apache Flink, pode ser uma candidata a substituição.
 - É interessante aplicar um novo formato de dados, como por exemplo Apache Hudi ou Delta Lake, para a possibilidade de operações atualização-inserção (upsert) e alteração (update), já que o formato Apache Parquet não atende à essas necessidades.
+
+## Referências
+
+DIGITAL, Tail. **O que é Customer Data Platform (CDP) e porque você precisa de uma**. Disponível em: https://blog.tail.digital/o-que-e-customer-data-platform-e-porque-voce-precisa-de-um Acesso em: 30/03/2021.
+
+REDHAT. **What is a data lake?**. Disponível em: https://www.redhat.com/en/topics/data-storage/what-is-a-data-lake Acesso em: 30/03/2021.
+
+REDHAT. **Understanding big data**. Disponível em: https://www.redhat.com/en/topics/big-data Acesso em: 30/03/2021.
+
+IBM. **What is ETL (Extract, Transform, Load)?**. Disponível em: https://www.ibm.com/cloud/learn/etl Acesso em: 06/04/2021.
+
+AIRFLOW, Apache. **Apache Airflow Documentation**. Disponível em: https://airflow.apache.org/docs/apache-airflow/stable/index.html Acesso em: 06/04/2021.
+
+SPARK, Apache. **Apache Spark™ - Unified Engine for large-scale data analytics**. Disponível em: http://spark.apache.org/ Acesso em: 06/04/2021.
+
+HIVE, Apache. **Apache Hive - Apache Software Foundation**. Disponível em: https://cwiki.apache.org/confluence/display/Hive/Home Acesso em: 06/04/2021.
+
+KAFKA, Apache. **Apache Kafka Documentation**. Disponível em: https://kafka.apache.org/documentation/ Acesso em: 06/04/2021.
+
+KAFKA, Apache. **Apache Kafka**. Disponível em: https://kafka.apache.org/ Acesso em: 06/04/2021.
+
+TRINO. **Overview - Trino Documentation**. Disponível em: https://trino.io/docs/current/overview.html Acesso em: 06/04/2021.
+
+TRINO. **Use Cases - Trino Documentation**. Disponível em: https://trino.io/docs/current/overview/use-cases.html Acesso em: 06/04/2021.
+
+IBM. **What is HDFS?**. Disponível em: https://www.ibm.com/analytics/hadoop/hdfs Acesso em: 12/04/2021.
+
+PARQUET, Apache. **Apache Parquet**. Disponível em: https://parquet.apache.org/ Acesso em: 13/04/2021.
+
+SPICIER, Thomas. **Apache Parquet: How to be a hero with the open-source columnar data format**. Disponível em: https://blog.openbridge.com/how-to-be-a-hero-with-powerful-parquet-google-and-amazon-f2ae0f35ee04 Acesso em: 13/04/2021.
+
+IBM. **What is Avro?**. Disponível em: https://www.ibm.com/analytics/hadoop/avro Acesso em: 13/04/2021.
+
+SHEN, Catherine. **Why you should use Avro and schema registry for your streaming application**. Disponível em: https://catherine-shen.medium.com/why-you-should-use-avro-and-schema-registry-for-your-streaming-application-2f24dcf017c8 Acesso em: 13/04/2021.
+
+CONFLUENT. **Schema Registry Overview**. Disponível em: https://docs.confluent.io/platform/current/schema-registry/index.html Acesso em: 08/05/2021.
+
+IBM. **What is distributed computing**. Disponível em: https://www.ibm.com/docs/ko/txseries/8.1.0?topic=overview-what-is-distributed-computing Acesso em: 08/05/2021.
+
+POWIS, Owen. **What is Clickstream data?**. Disponível em: https://www.wordtracker.com/blog/keyword-research/what-is-clickstream-data Acesso em: 22/05/2021.
+
+SPARK, Apache. **Structured Streaming Programming Guide**. Disponível em: https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html Acesso em: 25/05/2021.
+
+RAY, Amit. **Hadoop architecture in big data Yarn HDFS and MapReduce**. Disponível em: https://amitray.com/hadoop-architecture-in-big-data-yarn-hdfs-and-mapreduce/ Acesso em: 15/08/2021.
+
+DOCKER. **Docker overview**. Disponível em: https://docs.docker.com/get-started/overview/ Acesso em: 04/10/2021.
+
+KUBERNETES. **Kubernetes Overview**. Disponível em: https://kubernetes.io/ Acesso em: 11/10/2021.
