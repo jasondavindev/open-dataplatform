@@ -1,4 +1,8 @@
-# Plataforma de Dados
+# Plataforma para extração, transformação e disponibilização de dados em tempo real e lote
+
+## Resumo
+
+A cada ano que passa o avanço e alcance das tecnologias proporcionam a empresas e instituições uma capacidade maior de geração e processamento de dados. De acordo com a Statista a quantidade de dados gerados e consumidos desde 2010 vem crescendo exponencialmente, dando uma estimativa de que em 2025 haverá cerca de 181 Zetabytes de dados gerados e consumidos em todo o mundo. Em paralelo a este avanço, tecnologias que lidam com essa demanda também vem sendo aprimoradas cada vez mais, surgindo um campo de estudo específico, engenharia de dados, onde novas técnicas e ferramentas para lidar com a coleta, armazenamento, processamento e disponibilização de dados vem sendo implementadas. Além de novas ferramentas e técnicas, há o surgimento de serviços em nuvem não gratuitos que oferecem um ferramental conjunto com propósito de gerenciar dados, e além disso, oferecer feedbacks de qualidade entre outras características de tais dados. Desta forma, o objetivo deste trabalho é construir uma plataforma capaz de armazenar, processar e disponibilizar dados utilizando apenas ferramentas de código aberto e nativa em nuvem, tendendo ao custo zero na implantação. Com o uso da plataforma construída, foram implementados estudo de casos utilizando soluções reais e conhecidas no mercado, como por exemplo, aplicação Clickstream.
 
 - [1. Introdução](#1-introdução)
 - [1.1. Objetivos do trabalho](#1-1-objetivos-do-trabalho)
@@ -558,3 +562,5 @@ RAY, Amit. **Hadoop architecture in big data Yarn HDFS and MapReduce**. Disponí
 DOCKER. **Docker overview**. Disponível em: https://docs.docker.com/get-started/overview/ Acesso em: 04/10/2021.
 
 KUBERNETES. **Kubernetes Overview**. Disponível em: https://kubernetes.io/ Acesso em: 11/10/2021.
+
+STATISTA. **Volume of data/information created, captured, copied, and consumed worldwide from 2010 to 2025**. Disponível em: https://www.statista.com/statistics/871513/worldwide-data-created/ Acesso em: 05/11/2021.
