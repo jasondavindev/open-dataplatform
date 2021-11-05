@@ -515,11 +515,11 @@ Este trabalho não encerra as pesquisas no desenvolvimento de uma plataforma par
 
 DIGITAL, Tail. **O que é Customer Data Platform (CDP) e porque você precisa de uma**. Disponível em: https://blog.tail.digital/o-que-e-customer-data-platform-e-porque-voce-precisa-de-um Acesso em: 30/03/2021.
 
-REDHAT. **What is a data lake?**. Disponível em: https://www.redhat.com/en/topics/data-storage/what-is-a-data-lake Acesso em: 30/03/2021.
+REDHAT. **What is a data lake?** Disponível em: https://www.redhat.com/en/topics/data-storage/what-is-a-data-lake Acesso em: 30/03/2021.
 
 REDHAT. **Understanding big data**. Disponível em: https://www.redhat.com/en/topics/big-data Acesso em: 30/03/2021.
 
-IBM. **What is ETL (Extract, Transform, Load)?**. Disponível em: https://www.ibm.com/cloud/learn/etl Acesso em: 06/04/2021.
+IBM. **What is ETL (Extract, Transform, Load)?** Disponível em: https://www.ibm.com/cloud/learn/etl Acesso em: 06/04/2021.
 
 AIRFLOW, Apache. **Apache Airflow Documentation**. Disponível em: https://airflow.apache.org/docs/apache-airflow/stable/index.html Acesso em: 06/04/2021.
 
@@ -535,13 +535,13 @@ TRINO. **Overview - Trino Documentation**. Disponível em: https://trino.io/docs
 
 TRINO. **Use Cases - Trino Documentation**. Disponível em: https://trino.io/docs/current/overview/use-cases.html Acesso em: 06/04/2021.
 
-IBM. **What is HDFS?**. Disponível em: https://www.ibm.com/analytics/hadoop/hdfs Acesso em: 12/04/2021.
+IBM. **What is HDFS?** Disponível em: https://www.ibm.com/analytics/hadoop/hdfs Acesso em: 12/04/2021.
 
 PARQUET, Apache. **Apache Parquet**. Disponível em: https://parquet.apache.org/ Acesso em: 13/04/2021.
 
 SPICIER, Thomas. **Apache Parquet: How to be a hero with the open-source columnar data format**. Disponível em: https://blog.openbridge.com/how-to-be-a-hero-with-powerful-parquet-google-and-amazon-f2ae0f35ee04 Acesso em: 13/04/2021.
 
-IBM. **What is Avro?**. Disponível em: https://www.ibm.com/analytics/hadoop/avro Acesso em: 13/04/2021.
+IBM. **What is Avro?** Disponível em: https://www.ibm.com/analytics/hadoop/avro Acesso em: 13/04/2021.
 
 SHEN, Catherine. **Why you should use Avro and schema registry for your streaming application**. Disponível em: https://catherine-shen.medium.com/why-you-should-use-avro-and-schema-registry-for-your-streaming-application-2f24dcf017c8 Acesso em: 13/04/2021.
 
@@ -549,7 +549,7 @@ CONFLUENT. **Schema Registry Overview**. Disponível em: https://docs.confluent.
 
 IBM. **What is distributed computing**. Disponível em: https://www.ibm.com/docs/ko/txseries/8.1.0?topic=overview-what-is-distributed-computing Acesso em: 08/05/2021.
 
-POWIS, Owen. **What is Clickstream data?**. Disponível em: https://www.wordtracker.com/blog/keyword-research/what-is-clickstream-data Acesso em: 22/05/2021.
+POWIS, Owen. **What is Clickstream data?** Disponível em: https://www.wordtracker.com/blog/keyword-research/what-is-clickstream-data Acesso em: 22/05/2021.
 
 SPARK, Apache. **Structured Streaming Programming Guide**. Disponível em: https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html Acesso em: 25/05/2021.
 
