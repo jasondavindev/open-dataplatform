@@ -16,6 +16,7 @@ x-airflow-common: &airflow-common
     HDFS_PORT: "8020"
     INGESTION_API_URL: "http://api:3000"
     SCRIPTS_PATH_PREFIX: /scripts/spark/
+    SERVICE_PRECONDITION: airflow-db:5432
   depends_on:
     - airflow-db
 
@@ -77,6 +78,7 @@ services:
     command: "hive --service metastore"
     environment:
       NODE_TYPE: metastore
+      SERVICE_PRECONDITION: hive-postgres:5432 namenode:50070
     ports:
       - 9083:9083
 

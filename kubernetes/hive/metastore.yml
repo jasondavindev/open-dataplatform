@@ -24,6 +24,8 @@ spec:
           env:
             - name: NODE_TYPE
               value: metastore
+            - name: SERVICE_PRECONDITION
+              value: hive-postgres-svc.dataplatform.svc.cluster.local:5432 namenode-svc.dataplatform.svc.cluster.local:50070
           args:
             - "bash"
             - "-c"

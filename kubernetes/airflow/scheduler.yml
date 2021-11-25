@@ -24,6 +24,8 @@ spec:
               value: airflow-postgres-svc.airflow.svc.cluster.local
             - name: POSTGRES_PORT
               value: "5432"
+            - name: SERVICE_PRECONDITION
+              value: airflow-postgres-svc.airflow.svc.cluster.local:5432
             - name: EXECUTOR
               value: KubernetesExecutor
             - name: HDFS_HOST
